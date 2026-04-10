@@ -23,8 +23,17 @@ class MenuHelper
                     ['name' => 'Customer List', 'path' => '/customerlist', 'pro' => false],
                 ],
             ],
+
             [
-                'icon' => 'forms',
+                'icon' => 'tailor',
+                'name' => 'Tailors',
+                'subItems' => [
+                    /* ['name' => 'Ecommerce', 'path' => '/'], */
+                    ['name' => 'Tailor List', 'path' => '/tailorlist', 'pro' => false],
+                ],
+            ],
+            [
+                'icon' => 'order',
                 'name' => 'Orders',
                 'subItems' => [
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
@@ -43,7 +52,7 @@ class MenuHelper
                 ],
             ],
             [
-                'icon' => 'forms',
+                'icon' => 'report',
                 'name' => 'Reports',
                 'subItems' => [
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
@@ -101,10 +110,25 @@ class MenuHelper
                   /*   ['name' => 'Line Chart', 'path' => '/line-chart', 'pro' => false],
                     ['name' => 'Bar Chart', 'path' => '/bar-chart', 'pro' => false] */
                      ['name' => 'Orders', 'path' => '/analyticsorder', 'pro' => false],
-                      ['name' => 'Work Balance', 'path' => '/analyticsorder', 'pro' => false],
+                      ['name' => 'Work Balance', 'path' => '/workbalanceanalytics', 'pro' => false],
 
                 ],
             ],
+
+ [
+                'icon' => 'settings',
+                'name' => 'Settings',
+                'subItems' => [
+                  /*   ['name' => 'Line Chart', 'path' => '/line-chart', 'pro' => false],
+                    ['name' => 'Bar Chart', 'path' => '/bar-chart', 'pro' => false] */
+                     ['name' => 'Types', 'path' => '/types', 'pro' => false],
+                      ['name' => 'Work Flow', 'path' => '/workflow', 'pro' => false],
+
+                ],
+            ],
+
+
+
            /*  [
                 'icon' => 'ui-elements',
                 'name' => 'UI Elements',
@@ -185,6 +209,42 @@ class MenuHelper
 <circle cx="7.5" cy="19" r="1.5" stroke="currentColor" stroke-width="1.5"/>
 <circle cx="16.5" cy="19" r="1.5" stroke="currentColor" stroke-width="1.5"/>
 </svg>',
+
+/* ================= DASHBOARD ================= */
+
+
+/* ================= CUSTOMER ================= */
+'customer' => '<svg width="24" height="24" fill="none"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M4 20C4 16.6863 7.13401 14 12 14C16.866 14 20 16.6863 20 20" stroke="currentColor" stroke-width="1.5"/></svg>',
+
+/* ================= ORDER ================= */
+'order' => '<svg width="24" height="24" fill="none"><path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="1.5"/></svg>',
+
+/* ================= TAILOR ================= */
+'tailor' => '<svg width="24" height="24" fill="none"><path d="M12 2L15 8H9L12 2Z" stroke="currentColor" stroke-width="1.5"/><path d="M5 22L9 8H15L19 22" stroke="currentColor" stroke-width="1.5"/></svg>',
+
+/* ================= DELIVERY ================= */
+'delivery' => '<svg width="24" height="24" fill="none"><path d="M3 7H15V17H3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M15 10H18L21 13V17H15V10Z" stroke="currentColor" stroke-width="1.5"/><circle cx="7.5" cy="18.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="18.5" r="1.5" stroke="currentColor" stroke-width="1.5"/></svg>',
+
+/* ================= TRACKING ================= */
+'tracking' => '<svg width="24" height="24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 7V12L15 15" stroke="currentColor" stroke-width="1.5"/></svg>',
+
+/* ================= REPORT ================= */
+'report' => '<svg width="24" height="24" fill="none"><path d="M4 4H20V20H4V4Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 16V10M12 16V6M16 16V12" stroke="currentColor" stroke-width="1.5"/></svg>',
+
+/* ================= EXPENSE ================= */
+'expense' => '<svg width="24" height="24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M8 12H16" stroke="currentColor" stroke-width="1.5"/></svg>',
+
+/* ================= PAYMENT ================= */
+'payment' => '<svg width="24" height="24" fill="none"><rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 10H21" stroke="currentColor" stroke-width="1.5"/></svg>',
+
+/* ================= SETTINGS ================= */
+'settings' => '<svg width="24" height="24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M19.4 15L21 16.5L19.5 19.5L17.5 19C17 19.4 16.4 19.7 15.8 20L15.5 22H12.5L12.2 20C11.6 19.7 11 19.4 10.5 19L8.5 19.5L7 16.5L8.6 15C8.5 14.3 8.5 13.7 8.6 13L7 11.5L8.5 8.5L10.5 9C11 8.6 11.6 8.3 12.2 8L12.5 6H15.5L15.8 8C16.4 8.3 17 8.6 17.5 9L19.5 8.5L21 11.5L19.4 13C19.5 13.7 19.5 14.3 19.4 15Z" stroke="currentColor" stroke-width="1.5"/></svg>',
+
+/* ================= SUPPORT ================= */
+'support' => '<svg width="24" height="24" fill="none"><path d="M20 17V12C20 7.58 16.42 4 12 4C7.58 4 4 7.58 4 12V17" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="17" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="17" r="2" stroke="currentColor" stroke-width="1.5"/></svg>',
+
+/* ================= NOTIFICATION ================= */
+'notification' => '<svg width="24" height="24" fill="none"><path d="M6 8C6 5.79 7.79 4 10 4H14C16.21 4 18 5.79 18 8V13L20 16H4L6 13V8Z" stroke="currentColor" stroke-width="1.5"/><path d="M10 20H14" stroke="currentColor" stroke-width="1.5"/></svg>',
         ];
 
         return $icons[$iconName] ?? '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/></svg>';

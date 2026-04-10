@@ -3,10 +3,56 @@
 @section('content')
 
 <div class="col-span-12">
+    <div class="flex items-start justify-between mb-4">
+
+
+    <!-- Right (TOP RIGHT CORNER) -->
+    <div class="flex justify-end" align='right'>
+
+    <div class="flex items-center bg-gray-50 border border-gray-200 rounded-xl p-1.5 gap-2 shadow-sm">
+
+        <!-- Buttons Group -->
+        <div class="flex bg-white rounded-lg border border-gray-200 overflow-hidden">
+
+            <button class="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100">
+                12M
+            </button>
+
+            <button class="px-3 py-1.5 text-sm bg-blue-600 text-green rounded-lg">
+                30D
+            </button>
+
+            <button class="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100">
+                7D
+            </button>
+
+            <button class="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100">
+                24H
+            </button>
+
+        </div>
+
+        <!-- Divider -->
+        <div class="h-6 w-px bg-gray-200"></div>
+
+        <!-- Dropdown -->
+        <select class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-blue-200">
+            <option>All Tailors</option>
+            <option>Ravi</option>
+            <option>Kumar</option>
+            <option>Suresh</option>
+            <option>Gani</option>
+        </select>
+
+    </div>
+
+</div>
+
+</div>
     <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
     <!-- Metric Item Start -->
     <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Total Order</p>
+      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Total Work</p>
 
       <div class="flex items-end justify-between mt-3">
         <div>
@@ -74,22 +120,82 @@
 <div class="bg-white rounded-2xl border border-gray-200 p-5">
 
     <!-- Header -->
-    <div class="flex items-center justify-between mb-4">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
+
+        <!-- Left -->
         <div>
             <h3 class="text-lg font-semibold text-gray-800">Analytics</h3>
-            <p class="text-sm text-gray-500">Order analytics of last 30 days</p>
+            <p class="text-sm text-gray-500">Work analytics of last 30 days</p>
         </div>
 
-        <div class="flex gap-2 text-sm">
-            <button class="px-3 py-1 bg-gray-100 rounded-lg">12 months</button>
-            <button class="px-3 py-1 bg-gray-100 rounded-lg">30 days</button>
-            <button class="px-3 py-1 bg-gray-100 rounded-lg">7 days</button>
-            <button class="px-3 py-1 bg-gray-100 rounded-lg">24 hours</button>
-        </div>
+
+
     </div>
 
     <!-- Chart -->
-    <div id="chart"></div>
+    <div class="overflow-x-auto">
+        <div id="chart" class="min-w-[900px]"></div>
+    </div>
+
+</div>
+
+<br />
+
+ <div class="rounded-2xl border border-gray-200 bg-white pt-4">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between px-6 mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">
+            Tailor Performance
+        </h3>
+
+
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-hidden">
+        <div class="max-w-full px-5 overflow-x-auto">
+
+           <table class="min-w-full mt-6">
+    <thead>
+        <tr class="border-y">
+            <th class="px-4 py-3 text-left text-gray-500 text-sm">Name</th>
+            <th class="px-4 py-3 text-left text-gray-500 text-sm">Order</th>
+            <th class="px-4 py-3 text-left text-gray-500 text-sm">On Time</th>
+            <th class="px-4 py-3 text-left text-gray-500 text-sm">Delay</th>
+            <th class="px-4 py-3 text-right text-gray-500 text-sm">Percentage</th>
+        </tr>
+    </thead>
+
+    <tbody class="divide-y">
+
+        <tr>
+            <td class="px-4 py-4 font-medium">Suresh</td>
+            <td class="px-4 py-4">25</td>
+            <td class="px-4 py-4">20</td>
+            <td class="px-4 py-4">5</td>
+            <td class="px-4 py-4 text-right space-x-2 text-green-500">
+                95%
+            </td>
+        </tr>
+
+        <tr>
+            <td class="px-4 py-4 font-medium">Suresh</td>
+            <td class="px-4 py-4">25</td>
+            <td class="px-4 py-4">20</td>
+            <td class="px-4 py-4">5</td>
+            <td class="px-4 py-4 text-right space-x-2 text-red-500">
+                85%
+            </td>
+        </tr>
+
+
+
+    </tbody>
+</table>
+
+        </div>
+    </div>
 
 </div>
 

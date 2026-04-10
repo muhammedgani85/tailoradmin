@@ -195,7 +195,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-t-2xl">
             <h3 class="text-lg font-semibold text-gray-800">
-                Add Customer
+                Add Tailor
             </h3>
             <button onclick="closeModal()" class="text-xl text-gray-500 hover:text-red-500">✕</button>
         </div>
@@ -250,6 +250,58 @@
 
 </div>
 
+<!-- Specialist Section -->
+<div class="col-span-2 mt-4">
+
+    <label class="text-sm font-medium text-gray-700 mb-2 block">
+        Specialist :
+    </label>
+
+    <div class="grid grid-cols-2 gap-4">
+
+        <!-- Pant -->
+        <div class="flex items-center gap-2 whitespace-nowrap">
+            <input type="checkbox" onchange="toggleCount(this, 'pantCount')">
+            <span class="text-sm w-24">Pant</span>
+
+            <input type="number" id="pantCount"
+                class="input w-14 hidden text-sm px-2 py-1"
+                placeholder="">
+        </div>
+
+        <!-- Full Hand -->
+        <div class="flex items-center gap-2 whitespace-nowrap">
+            <input type="checkbox" onchange="toggleCount(this, 'fullHandCount')">
+            <span class="text-sm w-24">Full Hand</span>
+
+            <input type="number" id="fullHandCount"
+                class="input w-14 hidden text-sm px-2 py-1"
+                placeholder="">
+        </div>
+
+        <!-- Half Hand -->
+        <div class="flex items-center gap-2 whitespace-nowrap">
+            <input type="checkbox" onchange="toggleCount(this, 'halfHandCount')">
+            <span class="text-sm w-24">Half Hand</span>
+
+            <input type="number" id="halfHandCount"
+                class="input w-14 hidden text-sm px-2 py-1"
+                placeholder="">
+        </div>
+
+        <!-- Kurtha -->
+        <div class="flex items-center gap-2 whitespace-nowrap">
+            <input type="checkbox" onchange="toggleCount(this, 'kurthaCount')">
+            <span class="text-sm w-24">Kurtha</span>
+
+            <input type="number" id="kurthaCount"
+                class="input w-14 hidden text-sm px-2 py-1"
+                placeholder="">
+        </div>
+
+    </div>
+
+</div>
                 <!-- Footer -->
                 <div class="flex justify-end gap-3 mt-6">
                     <button type="button" onclick="closeModal()"

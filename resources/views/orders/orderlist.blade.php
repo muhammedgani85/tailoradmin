@@ -22,7 +22,7 @@
     <div class="overflow-hidden">
         <div class="max-w-full px-5 overflow-x-auto">
 
-           <table id="orderTable" class="min-w-full">
+           <table id="myTable" class="min-w-full border border-gray-200 rounded-xl overflow-hidden">
     <thead>
         <tr class="border-y">
             <th class="px-4 py-3 text-left text-gray-500 text-sm">Order No</th>

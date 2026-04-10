@@ -117,6 +117,22 @@ Route::get('/analyticsorder', function () {
     return view('analytics.orders', ['title' => 'Orders']);
 })->name('analyticsorder');
 
+Route::get('/workbalanceanalytics', function () {
+    return view('analytics.workbalance', ['title' => 'Orders']);
+})->name('workbalanceanalytics');
+
+Route::get('/tailorlist', function () {
+    return view('taillors.tailorlist', ['title' => 'Tailor List']);
+})->name('tailorlist');
+
+Route::get('/types', function () {
+    return view('settings.types.typelist', ['title' => 'Types']);
+})->name('types');
+
+Route::get('/workflow', function () {
+    return view('settings.workflow.workflowlist', ['title' => 'Types']);
+})->name('workflow');
+
 
 
 
