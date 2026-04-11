@@ -104,7 +104,7 @@ class MenuHelper
     {
         return [
             [
-                'icon' => 'charts',
+                'icon' => 'ai-assistant',
                 'name' => 'Analytics',
                 'subItems' => [
                   /*   ['name' => 'Line Chart', 'path' => '/line-chart', 'pro' => false],
