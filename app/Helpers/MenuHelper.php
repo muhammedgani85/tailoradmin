@@ -16,7 +16,7 @@ class MenuHelper
                 ],
             ],
              [
-                'icon' => 'user',
+                'icon' => 'customer',
                 'name' => 'Customers',
                 'subItems' => [
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
