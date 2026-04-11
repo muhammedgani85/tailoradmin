@@ -78,7 +78,7 @@
     <!-- Card Body -->
     <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
         <div class="space-y-6">
-<img src="{{ asset('images/logo/chart.jpg') }}" alt="logo" style="padding:30px;margin-top:-30px;">
+<img src="{{ asset('images/logo/chart.jpg') }}" alt="logo" style="padding:30px;margin-top:-3p0px;">
         </div>
     </div>
 </div>                  </div>
