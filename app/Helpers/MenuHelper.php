@@ -47,7 +47,7 @@ class MenuHelper
                 'subItems' => [
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
                     ['name' => 'Ready for delivery', 'path' => '/deliverylist', 'pro' => false],
-                     ['name' => 'Delivered', 'path' => '/delivered', 'pro' => false],
+                     /* ['name' => 'Delivered', 'path' => '/delivered', 'pro' => false], */
                      ['name' => 'Delivery Tracking', 'path' => '/deliverytracking', 'pro' => false,'target' => '_blank'],
                 ],
             ],
@@ -57,7 +57,7 @@ class MenuHelper
                 'subItems' => [
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
                     ['name' => ' Customer Report', 'path' => '/deliverylist', 'pro' => false],
-                     ['name' => 'Order Report', 'path' => '/delivered', 'pro' => false],
+                     ['name' => 'Order Report', 'path' => '/orderreport', 'pro' => false],
                      ['name' => 'Work Stage Report', 'path' => '/deliverytracking', 'pro' => false,'target' => '_blank'],
                      ['name' => 'Tailor Performance Report ', 'path' => '/deliverytracking', 'pro' => false,'target' => '_blank'],
                       ['name' => 'Delivery Report', 'path' => '/deliverytracking', 'pro' => false,'target' => '_blank'],

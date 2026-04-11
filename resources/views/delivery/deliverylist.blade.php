@@ -1,8 +1,128 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <div class="flex items-center justify-between mb-4 relative">
+
+    <!-- Breadcrumb -->
     <x-common.page-breadcrumb pageTitle="Delivery" />
+
+    <!-- Calendar Icon -->
+    <button onclick="toggleDateFilter()"
+        class="p-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-100 shadow-sm">
+
+        <!-- Calendar SVG -->
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2V5M14 2V5M3 8H17M4 5H16C16.55 5 17 5.45 17 6V17C17 17.55 16.55 18 16 18H4C3.45 18 3 17.55 3 17V6C3 5.45 3.45 5 4 5Z"/>
+        </svg>
+
+    </button>
+
+    <!-- DATE FILTER DROPDOWN -->
+    <div id="dateFilterBox"
+        class="hidden absolute right-0 top-12 bg-white border border-gray-200 rounded-xl shadow-lg p-4 w-72 z-50">
+
+        <div class="space-y-3">
+
+            <div>
+                <label class="text-xs text-gray-500">Start Date</label>
+                <input type="date"
+                    class="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm">
+            </div>
+
+            <div>
+                <label class="text-xs text-gray-500">End Date</label>
+                <input type="date"
+                    class="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm">
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="toggleDateFilter()"
+                    class="px-3 py-1.5 text-sm bg-gray-100 rounded-lg hover:bg-gray-200">
+                    Cancel
+                </button>
+
+                <button
+                    class="px-3 py-1.5 text-sm bg-blue-600 text-blue rounded-lg hover:bg-blue-700">
+                    Apply
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
     <div class="space-y-6">
+<div class="col-span-12">
+    <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+    <!-- Metric Item Start -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]" >
+      <p class="text-gray-500 text-theme-sm dark:text-gray-400">BackLog</p>
+
+      <div class="flex items-end justify-between mt-3">
+        <div>
+          <h4 class="text-2xl font-bold text-gray-800 dark:text-white/90">24.7K</h4>
+        </div>
+
+        <div class="flex items-center gap-1">
+          <span class="flex items-center gap-1 rounded-full bg-success-50 px-2 py-0.5 text-theme-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
+            +20%
+          </span>
+
+          <span class="text-gray-500 text-theme-xs dark:text-gray-400"> Vs last month </span>
+        </div>
+      </div>
+    </div>
+    <!-- Metric Item End -->
+
+    <!-- Metric Item Start -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Delivered</p>
+
+      <div class="flex items-end justify-between mt-3">
+        <div>
+          <h4 class="text-2xl font-bold text-gray-800 dark:text-white/90">55.9K</h4>
+        </div>
+
+        <div class="flex items-center gap-1">
+          <span class="flex items-center gap-1 rounded-full bg-success-50 px-2 py-0.5 text-theme-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
+            +4%
+          </span>
+
+          <span class="text-gray-500 text-theme-xs dark:text-gray-400"> Vs last month </span>
+        </div>
+      </div>
+    </div>
+    <!-- Metric Item End -->
+
+    <!-- Metric Item Start -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Pending for Delivery</p>
+
+      <div class="flex items-end justify-between mt-3">
+        <div>
+          <h4 class="text-2xl font-bold text-gray-800 dark:text-white/90">54%</h4>
+        </div>
+
+        <div class="flex items-center gap-1">
+          <span class="flex items-center gap-1 rounded-full bg-error-50 px-2 py-0.5 text-theme-xs font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500">
+            -1.59%
+          </span>
+
+          <span class="text-gray-500 text-theme-xs dark:text-gray-400"> Vs last month </span>
+        </div>
+      </div>
+    </div>
+    <!-- Metric Item End -->
+
+    <!-- Metric Item Start -->
+
+    <!-- Metric Item End -->
+  </div>
+</div>
+
 
         <div class="rounded-2xl border border-gray-200 bg-white pt-4">
 
@@ -346,3 +466,19 @@ function confirmDeliveryAction() {
 
     </div>
 @endsection
+<script>
+function toggleDateFilter() {
+    const box = document.getElementById('dateFilterBox');
+    box.classList.toggle('hidden');
+}
+
+// close when clicking outside
+document.addEventListener('click', function (e) {
+    const box = document.getElementById('dateFilterBox');
+    const btn = e.target.closest('button');
+
+    if (!e.target.closest('#dateFilterBox') && !btn) {
+        box.classList.add('hidden');
+    }
+});
+</script>

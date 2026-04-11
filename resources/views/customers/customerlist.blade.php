@@ -333,8 +333,9 @@ $(document).ready(function () {
         buttons: [
             {
                 extend: 'excelHtml5',
-                text: '📊 Excel',
-                className: 'inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-2 py-2 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300'
+                text: ' Export',
+
+                className: 'shadow-theme-xs inline-flex items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-medium text-gray-700 ring-1 ring-gray-300 transition hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03]'
             },
             /* {
                 extend: 'csvHtml5',

@@ -134,6 +134,11 @@ Route::get('/workflow', function () {
 })->name('workflow');
 
 
+Route::get('/orderreport', function () {
+    return view('reports.order_report', ['title' => 'Order Report']);
+})->name('orderreport');
+
+
 
 
 
