@@ -75,16 +75,72 @@
         <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4 dark:border-white/[0.05] dark:bg-white/[0.03]">
 
     <!-- Header -->
-    <div class="flex items-center justify-between px-6 mb-4">
-        <h3 class="text-lg font-semibold text-gray-800">
-            Order Management
-        </h3>
+   <div class="flex items-center justify-between px-6 mb-4">
 
-       <button onclick="openModal()"
-    class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
-    + Add Order
-</button>
+    <h3 class="text-lg font-semibold text-gray-800">
+        Order Management
+    </h3>
+
+    <!-- RIGHT SIDE -->
+    <div class="flex items-center gap-3 flex-wrap">
+
+
+        <!-- Due Dropdown -->
+
+
+         <select
+            class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
+            <option value="">All Due</option>
+            <option>Today</option>
+            <option>Tomorrow</option>
+            <option>This Week</option>
+            <option>This Month</option>
+
+        </select>
+
+        <!-- CUSTOMER DROPDOWN -->
+        <select
+            class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
+            <option value="">All Customers</option>
+            <option>Gani - 9876543210</option>
+            <option>Ravi - 9123456780</option>
+            <option>Kumar - 9988776655</option>
+            <option>Suresh - 9012345678</option>
+        </select>
+
+        <!-- STATUS DROPDOWN -->
+        <select
+            class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
+            <option value="">All Status</option>
+            <option>In Progress</option>
+            <option>Stitching</option>
+            <option>Ironing</option>
+            <option>Completed</option>
+            <option>Urgent</option>
+        </select>
+
+        <!-- DATE RANGE -->
+        <div class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-2 py-1">
+
+            <input type="date"
+                class="px-2 py-1 text-sm bg-white border border-gray-200 rounded-md focus:ring-1 focus:ring-brand-300">
+
+            <span class="text-gray-400 text-sm">to</span>
+
+            <input type="date"
+                class="px-2 py-1 text-sm bg-white border border-gray-200 rounded-md focus:ring-1 focus:ring-brand-300">
+
+        </div>
+
+        <!-- ADD ORDER BUTTON -->
+        <button onclick="openModal()"
+            class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
+            + Add Order
+        </button>
+
     </div>
+
+</div>
 
     <!-- Table -->
     <div class="overflow-hidden">
@@ -154,7 +210,12 @@
             <td class="py-2 font-medium text-blue-600">ORD001-1</td>
             <td class="font-medium">Shirt</td>
             <td>Full Sleeve</td>
-            <td>Ravi</td>
+            <td>
+    <button onclick="openTailorModal('Ravi')"
+        class="text-blue-600 hover:underline">
+        Ravi
+    </button>
+</td>
             <td>02 Apr</td>
             <td>08 Apr</td>
 
@@ -234,6 +295,79 @@
     </tr>
 
 </tbody>
+
+
+<!-- ORDER 3 (URGENT) -->
+<tr class="bg-red-50 border-l-4 border-red-500">
+    <td class="px-4 py-4 font-medium">
+        <button onclick="toggleRow(this)" class="mr-2 text-blue-600">▶</button>
+        ORD003
+    </td>
+    <td class="px-4 py-4">CUS004</td>
+    <td class="px-4 py-4">06 Apr 2026</td>
+    <td class="px-4 py-4 text-red-600 font-medium">07 Apr 2026</td>
+    <td class="px-4 py-4">2 Items</td>
+
+    <td class="px-4 py-4">
+        <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-700">
+            Urgent
+        </span>
+    </td>
+
+    <td class="px-4 py-4 text-right space-x-2">
+        <a href="{{ route('profile') }}" class="text-blue-600">👁️</a>
+        <button class="text-green-600">✏️</button>
+        <button class="text-red-600">🗑️</button>
+    </td>
+</tr>
+
+<!-- ACCORDION -->
+<tr class="hidden bg-gray-50">
+    <td colspan="8">
+        <div class="p-4">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="text-gray-500 text-left">
+                        <th class="py-2">Sub Order</th>
+                        <th>Item</th>
+                        <th>Type</th>
+                        <th>Tailor</th>
+                        <th>Start</th>
+                        <th>Delivery</th>
+                        <th>Status</th>
+                        <th>Delay</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="border-t">
+                        <td class="py-2 font-medium text-blue-600">ORD003-1</td>
+                        <td class="font-medium">Blazer</td>
+                        <td>Wedding</td>
+                        <td>Arun</td>
+                        <td>05 Apr</td>
+                        <td class="text-red-600 font-medium">07 Apr</td>
+
+                        <td>
+                            <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-700">
+                                Urgent
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="text-red-600 font-medium">
+                                1 Day Left
+                            </span>
+                        </td>
+
+                        <td>High Priority</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </td>
+</tr>
 </table>
 
         </div>
@@ -327,6 +461,104 @@
 
 <!-- JS -->
 
+
+<!--worl load Modal -->
+
+
+<div id="tailorModal"
+    onclick="if(event.target.id==='tailorModal') closeTailorModal()"
+    class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+    <div class="bg-white rounded-2xl w-[900px] shadow-lg">
+
+        <!-- HEADER -->
+        <div class="flex items-center justify-between px-5 py-4 border-b">
+            <h3 class="text-lg font-semibold text-gray-800">
+                ReAssign Tailor Work Load
+            </h3>
+            <button onclick="closeTailorModal()" class="text-gray-500 hover:text-red-500">✕</button>
+        </div>
+
+        <!-- BODY -->
+        <div class="p-5 max-h-[70vh] overflow-y-auto">
+
+            <table class="w-full text-sm table-auto">
+
+    <thead>
+        <tr class="text-gray-500 border-b">
+            <th class="py-3 px-4 text-left w-1/5">Tailor</th>
+            <th class="px-4 text-center w-1/6">Total</th>
+            <th class="px-4 text-center w-1/6">In Progress</th>
+            <th class="px-4 text-center w-1/6">Pending</th>
+            <th class="px-4 text-left w-2/5">Notes</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr class="border-t hover:bg-gray-50">
+            <td class="py-3 px-4 font-medium">Ravi</td>
+            <td class="px-4 text-center">12</td>
+            <td class="px-4 text-center text-yellow-600 font-medium">5</td>
+            <td class="px-4 text-center text-red-600 font-medium">3</td>
+            <td class="px-4">
+                <input type="text"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs"
+                    placeholder="Add note">
+            </td>
+             <td><button class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">Assign</button></td>
+        </tr>
+
+        <tr class="border-t hover:bg-gray-50">
+            <td class="py-3 px-4 font-medium">Kumar</td>
+            <td class="px-4 text-center">10</td>
+            <td class="px-4 text-center text-yellow-600 font-medium">4</td>
+            <td class="px-4 text-center text-red-600 font-medium">2</td>
+            <td class="px-4">
+                <input type="text"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs"
+                    placeholder="Add note">
+            </td>
+            <td><button class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">Assign</button></td>
+        </tr>
+
+        <tr class="border-t hover:bg-gray-50">
+            <td class="py-3 px-4 font-medium">Suresh</td>
+            <td class="px-4 text-center">8</td>
+            <td class="px-4 text-center text-yellow-600 font-medium">3</td>
+            <td class="px-4 text-center text-red-600 font-medium">1</td>
+            <td class="px-4">
+                <input type="text"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs"
+                    placeholder="Add note">
+            </td>
+            <td><button class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">Assign</button></td>
+        </tr>
+
+    </tbody>
+</table>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="flex justify-end gap-3 p-4 border-t">
+            <button onclick="closeTailorModal()"
+                class="px-4 py-2 bg-gray-200 rounded-lg text-sm">
+                Close
+            </button>
+
+            <button
+                class="px-4 py-2 bg-blue-600 text-black rounded-lg text-sm hover:bg-blue-700">
+                Save
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+
 <style>
 .input {
     width: 100%;
@@ -372,7 +604,16 @@ function toggleRow(btn) {
 }
 </script>
 
+<script>
+function openTailorModal(name) {
+    document.getElementById('tailorModal').classList.remove('hidden');
+    document.getElementById('tailorName').innerText = name;
+}
 
+function closeTailorModal() {
+    document.getElementById('tailorModal').classList.add('hidden');
+}
+</script>
 
     </div>
 @endsection
