@@ -138,8 +138,14 @@ Route::get('/orderreport', function () {
     return view('reports.order_report', ['title' => 'Order Report']);
 })->name('orderreport');
 
+Route::get('/dueorders', function () {
+    return view('orders.dueorderlist', ['title' => 'Due Order']);
+})->name('dueorders');
 
 
+Route::get('/orderstatus', function () {
+    return view('orders.orderstatus', ['title' => 'Blank']);
+})->name('orderstatus');
 
 
 

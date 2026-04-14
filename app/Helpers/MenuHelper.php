@@ -39,6 +39,7 @@ class MenuHelper
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
                     ['name' => 'Order List', 'path' => '/orderlist', 'pro' => false],
                      ['name' => 'Tailor Order', 'path' => '/tailororder', 'pro' => false],
+                     ['name' => 'Dues', 'path' => '/dueorders', 'pro' => false],
                 ],
             ],
              [
