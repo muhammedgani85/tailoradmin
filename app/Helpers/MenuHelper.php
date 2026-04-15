@@ -26,7 +26,7 @@ class MenuHelper
 
             [
                 'icon' => 'tailor',
-                'name' => 'Tailors',
+                'name' => 'HRM',
                 'subItems' => [
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
                     ['name' => 'Tailor List', 'path' => '/tailorlist', 'pro' => false],
