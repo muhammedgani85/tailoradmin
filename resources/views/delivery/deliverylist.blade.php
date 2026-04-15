@@ -348,8 +348,66 @@
         </div>
 
         <!-- Body -->
-        <div class="p-5 text-sm text-gray-600">
-            Are you sure you want to deliver selected items?
+        <div class="p-5 space-y-4 text-sm text-gray-600">
+
+            <!-- MESSAGE -->
+            <p>
+                Are you sure you want to deliver selected items?
+            </p>
+
+            <!-- PAYMENT MODE -->
+            <div>
+                <label class="block mb-1 text-gray-700 font-medium">Payment Mode</label>
+                <div class="flex gap-4">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="payment_mode" value="gpay" class="accent-blue-600">
+                        GPay
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="payment_mode" value="cash" class="accent-blue-600">
+                        Cash
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="payment_mode" value="bank" class="accent-blue-600">
+                        Bank Transfer
+                    </label>
+                </div>
+            </div>
+
+            <!-- DELIVERY TYPE -->
+            <div>
+                <label class="block mb-1 text-gray-700 font-medium">Delivery Type</label>
+                <div class="flex gap-4">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="delivery_type" value="in_person" class="accent-blue-600">
+                        In-Person
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="delivery_type" value="courier" class="accent-blue-600">
+                        Courier
+                    </label>
+                </div>
+            </div>
+
+            <!-- AMOUNT -->
+            <div>
+                <label class="block mb-1 text-gray-700 font-medium">Amount</label>
+                <input type="number" placeholder="Enter amount"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-400 text-sm">
+            </div>
+
+            <div>
+                <label class="block mb-1 text-gray-700 font-medium">Discount</label>
+                <input type="number" placeholder="Enter amount"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-400 text-sm">
+            </div>
+
+             <div>
+                <label class="block mb-1 text-gray-700 font-medium">Final Amount</label>
+                <input type="number" placeholder="Enter amount"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-400 text-sm">
+            </div>
+
         </div>
 
         <!-- Footer -->
@@ -481,4 +539,12 @@ document.addEventListener('click', function (e) {
         box.classList.add('hidden');
     }
 });
+
+function confirmDeliveryAction() {
+    let payment = document.querySelector('input[name="payment_mode"]:checked')?.value;
+    let delivery = document.querySelector('input[name="delivery_type"]:checked')?.value;
+    let amount = document.querySelector('input[type="number"]').value;
+
+    console.log(payment, delivery, amount);
+}
 </script>
