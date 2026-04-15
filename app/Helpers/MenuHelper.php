@@ -129,7 +129,7 @@ class MenuHelper
             ],
 
             [
-                'icon' => 'Support',
+                'icon' => 'support',
                 'name' => 'Support',
                 'subItems' => [
                   /*   ['name' => 'Line Chart', 'path' => '/line-chart', 'pro' => false],
@@ -256,7 +256,7 @@ class MenuHelper
 /* ================= SUPPORT ================= */
 'support' => '<svg width="24" height="24" fill="none"><path d="M20 17V12C20 7.58 16.42 4 12 4C7.58 4 4 7.58 4 12V17" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="17" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="17" r="2" stroke="currentColor" stroke-width="1.5"/></svg>',
 
-'settings' =>'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 17.0518V12C20 7.58174 16.4183 4 12 4C7.58168 4 3.99994 7.58174 3.99994 12V17.0518M19.9998 14.041V19.75C19.9998 20.5784 19.3282 21.25 18.4998 21.25H13.9998M6.5 18.75H5.5C4.67157 18.75 4 18.0784 4 17.25V13.75C4 12.9216 4.67157 12.25 5.5 12.25H6.5C7.32843 12.25 8 12.9216 8 13.75V17.25C8 18.0784 7.32843 18.75 6.5 18.75ZM17.4999 18.75H18.4999C19.3284 18.75 19.9999 18.0784 19.9999 17.25V13.75C19.9999 12.9216 19.3284 12.25 18.4999 12.25H17.4999C16.6715 12.25 15.9999 12.9216 15.9999 13.75V17.25C15.9999 18.0784 16.6715 18.75 17.4999 18.75Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
+
 
 /* ================= NOTIFICATION ================= */
 'notification' => '<svg width="24" height="24" fill="none"><path d="M6 8C6 5.79 7.79 4 10 4H14C16.21 4 18 5.79 18 8V13L20 16H4L6 13V8Z" stroke="currentColor" stroke-width="1.5"/><path d="M10 20H14" stroke="currentColor" stroke-width="1.5"/></svg>',
