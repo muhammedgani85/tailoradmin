@@ -147,6 +147,10 @@ Route::get('/orderstatus', function () {
     return view('orders.orderstatus', ['title' => 'Blank']);
 })->name('orderstatus');
 
+Route::get('/support', function () {
+    return view('settings.common.contactus', ['title' => 'Support']);
+})->name('support');
+
 
 
 
