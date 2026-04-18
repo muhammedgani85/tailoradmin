@@ -158,6 +158,12 @@ Route::get('/addorder', function () {
 })->name('addorder');
 
 
+Route::get('/printorder', function () {
+    return view('orders.printorderlist', ['title' => 'Print Order']);
+})->name('printorder');
+
+
+
 Route::any('/whatsapp/send', [WhatsAppController::class, 'send'])->name('whatsapp.send');
 
 

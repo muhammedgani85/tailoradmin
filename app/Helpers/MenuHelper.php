@@ -39,10 +39,10 @@ class MenuHelper
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
                      ['name' => 'Add Order', 'path' => '/addorder', 'pro' => false],
                     ['name' => 'Order List', 'path' => '/orderlist', 'pro' => false],
-
-
+                    ['name' => 'Print Assign Order', 'path' => '/printorder', 'pro' => false],
                      ['name' => 'Tailor Order', 'path' => '/tailororder', 'pro' => false],
                      ['name' => 'Dues', 'path' => '/dueorders', 'pro' => false],
+
                 ],
             ],
              [

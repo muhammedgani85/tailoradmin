@@ -351,9 +351,62 @@
         <div class="p-5 space-y-4 text-sm text-gray-600">
 
             <!-- MESSAGE -->
-            <p>
-                Are you sure you want to deliver selected items?
-            </p>
+
+
+
+            <div class="relative">
+
+    <!-- 🔥 RIBBON -->
+    <div class="absolute -top-2 right-0 bg-red-500 text-white text-xs px-3 py-1 rounded-l-lg shadow">
+        Partial Paid
+    </div>
+
+    <!-- PARTIAL VERSION (use this instead if needed) -->
+    <!--
+    <div class="absolute -top-2 right-0 bg-yellow-500 text-white text-xs px-3 py-1 rounded-l-lg shadow">
+        Partially Paid
+    </div>
+    -->
+
+    <!-- PAYMENT MODE -->
+    <label class="block mb-1 text-gray-700 font-medium">Payment Mode</label>
+
+    <div class="flex gap-4">
+        <label class="flex items-center gap-2">
+            <input type="radio" name="payment_mode" value="gpay" class="accent-blue-600">
+            GPay
+        </label>
+        <label class="flex items-center gap-2">
+            <input type="radio" name="payment_mode" value="cash" class="accent-blue-600">
+            Cash
+        </label>
+        <label class="flex items-center gap-2">
+            <input type="radio" name="payment_mode" value="bank" class="accent-blue-600">
+            Bank Transfer
+        </label>
+    </div>
+
+    <!-- 🔥 PAYMENT INFO -->
+    <div class="mt-3 bg-gray-50 border rounded-lg p-3 text-xs text-gray-600" style="background-color: lightblue;">
+
+        <div class="flex justify-between">
+            <span>Payment Type</span>
+            <span class="font-medium text-gray-800">GPay</span>
+        </div>
+
+        <div class="flex justify-between mt-1">
+            <span>Amount</span>
+            <span class="font-medium text-green-600">₹1500</span>
+        </div>
+
+        <div class="flex justify-between mt-1">
+            <span>Date</span>
+            <span class="font-medium text-gray-800">18 Apr 2026</span>
+        </div>
+
+    </div>
+
+</div>
 
             <!-- PAYMENT MODE -->
             <div>
@@ -373,6 +426,24 @@
                     </label>
                 </div>
             </div>
+
+            <!-- Payment Type -->
+
+            <div>
+                <label class="block mb-1 text-gray-700 font-medium">Payment</label>
+                <div class="flex gap-4">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="delivery_type" value="in_person" class="accent-blue-600">
+                        Partial
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="delivery_type" value="courier" class="accent-blue-600">
+                        Full
+                    </label>
+                </div>
+            </div>
+
+            <!-- Payment Type End -->
 
             <!-- DELIVERY TYPE -->
             <div>
