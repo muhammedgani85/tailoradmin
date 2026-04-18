@@ -55,6 +55,12 @@
                         <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/kurta-icon-svg-download-png-1553110.png?f=webp&w=256" />
                     </button>
 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button onclick="openCartModal()"
+                        class="shadow-theme-xs flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
+                        <img src="https://cdn.iconscout.com/icon/free/png-512/free-cart-icon-svg-download-png-1322328.png?f=webp&w=256" />
+                    </button>
+
 
 
                 </div>
@@ -308,6 +314,134 @@ class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/
     <!-- Customer Search Model End -->
 
 
+
+    <!-- Cart Modal -->
+
+    <div id="cartModal"
+class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/30 backdrop-blur-sm" style="background-color: lightgrey !important;">
+
+    <div class="w-half max-w-2xl bg-white rounded-2xl shadow-xl">
+
+        <!-- HEADER -->
+        <div class="flex items-center justify-between px-6 py-4 border-b">
+            <h3 class="text-lg font-semibold text-gray-800">
+                Order Checkout
+            </h3>
+            <button onclick="closeCartModal()" class="text-gray-400 hover:text-red-500 text-xl">✕</button>
+        </div>
+
+        <!-- BODY -->
+        <!-- BODY -->
+<div class="p-4 space-y-6">
+
+    <!-- 🔥 CUSTOMER DETAILS -->
+    <div class="bg-gray-50 border rounded-xl p-4">
+
+        <h4 class="text-sm font-semibold text-gray-800 mb-3">
+            Customer Details
+        </h4>
+
+        <div class="grid grid-cols-2 gap-4 text-sm">
+
+            <div>
+                <p class="text-gray-500">Customer ID</p>
+                <p class="font-medium text-gray-800">CUS001</p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">Name</p>
+                <p class="font-medium text-gray-800">Ravi Kumar</p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">Phone</p>
+                <p class="font-medium text-gray-800">9876543210</p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">City</p>
+                <p class="font-medium text-gray-800">Chennai</p>
+            </div>
+
+            <div class="col-span-2">
+                <p class="text-gray-500">State</p>
+                <p class="font-medium text-gray-800">Tamil Nadu</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- 🔥 ORDER TABLE -->
+    <div class="overflow-x-auto border rounded-lg">
+
+        <table class="w-full text-sm">
+
+            <thead class="bg-gray-50 text-gray-600">
+                <tr>
+                    <th class="px-4 py-3 text-left">Type</th>
+                    <th class="px-4 py-3 text-center">Qty</th>
+                    <th class="px-4 py-3 text-left">Order Date</th>
+                    <th class="px-4 py-3 text-left">Comments</th>
+                </tr>
+            </thead>
+
+            <tbody class="divide-y">
+
+                <tr>
+                    <td class="px-4 py-3 font-medium">Pant</td>
+                    <td class="px-4 py-3 text-center">2</td>
+                    <td class="px-4 py-3">18 Apr 2026</td>
+                    <td class="px-4 py-3 text-gray-500">Urgent stitching</td>
+                </tr>
+
+                <tr>
+                    <td class="px-4 py-3 font-medium">Shirt</td>
+                    <td class="px-4 py-3 text-center">3</td>
+                    <td class="px-4 py-3">18 Apr 2026</td>
+                    <td class="px-4 py-3 text-gray-500">Regular</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- 🔥 SUMMARY -->
+    <div class="flex justify-between items-center text-sm">
+
+        <span class="text-gray-500">
+            Total Items: <strong>5</strong>
+        </span>
+
+
+
+    </div>
+
+</div>
+
+        <!-- FOOTER -->
+        <div class="flex justify-end gap-3 px-6 py-4 border-t">
+
+            <button onclick="closeCartModal()"
+                class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
+                Cancel
+            </button>
+
+            <button onclick="confirmOrder()"
+                class="px-5 py-2 bg-green-600 text-red rounded-lg hover:bg-green-700">
+                Confirm Order
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- Cart Modal End -->
+
     <script>
 
 function openSearchModal() {
@@ -332,6 +466,19 @@ function selectCustomer(id) {
 
 </script>
 
+<script>
+function openCartModal() {
+    document.getElementById('cartModal').classList.remove('hidden');
+}
 
+function closeCartModal() {
+    document.getElementById('cartModal').classList.add('hidden');
+}
+
+function confirmOrder() {
+    alert("Order Confirmed!");
+    closeCartModal();
+}
+</script>
 
     @endsection
