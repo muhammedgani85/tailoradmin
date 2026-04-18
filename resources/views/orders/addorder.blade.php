@@ -84,7 +84,7 @@
                 </h4>
 
                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
-                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:1200px !important;">
+                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:auto !important;">
                         <div class="p-6 flex items-center px-6 py-2 justify-between">
                             <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Waist/Waist.png" style="color: transparent;">
                             <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Waist / இடுப்பு</label>
@@ -100,7 +100,7 @@
 
 
                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
-                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:1200px !important;">
+                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:auto !important;">
                         <div class="p-6 flex items-center px-6 py-2 justify-between">
                             <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Seat/Seat.png" style="color: transparent;">
                             <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Seat / பின்புற அளவு</label>
@@ -115,7 +115,7 @@
 
 
                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
-                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:1200px !important;">
+                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:auto !important;">
                         <div class="p-6 flex items-center px-6 py-2 justify-between">
                             <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Calf/Calf.png" style="color: transparent;">
                             <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Calf / Knee
@@ -131,7 +131,7 @@
 
 
                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
-                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:1200px !important;">
+                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:auto !important;">
                         <div class="p-6 flex items-center px-6 py-2 justify-between">
                             <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Ankle/Ankle.png" style="color: transparent;">
                             <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Bottom / Bells
@@ -147,7 +147,7 @@
 
 
                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
-                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:1200px !important;">
+                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:auto !important;">
                         <div class="p-6 flex items-center px-6 py-2 justify-between">
                             <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Pants_Length/Pants_Length.png" style="color: transparent;">
                             <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Length / நீளம்</label>
@@ -179,7 +179,10 @@
  <div class="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
             <div>
-                <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">Address</h4>
+                <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
+                    Documents
+
+                </h4>
 
                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
                     <div>
