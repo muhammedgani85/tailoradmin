@@ -1,7 +1,8 @@
 <?php
-
+namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WhatsAppController;
 
 // dashboard pages
 Route::get('/', function () {
@@ -150,6 +151,14 @@ Route::get('/orderstatus', function () {
 Route::get('/support', function () {
     return view('settings.common.contactus', ['title' => 'Support']);
 })->name('support');
+
+
+Route::get('/addorder', function () {
+    return view('orders.addorder', ['title' => 'Add Order']);
+})->name('addorder');
+
+
+Route::any('/whatsapp/send', [WhatsAppController::class, 'send'])->name('whatsapp.send');
 
 
 

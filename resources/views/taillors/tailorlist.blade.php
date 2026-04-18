@@ -2,13 +2,13 @@
 
 @section('content')
 
-    <x-common.page-breadcrumb pageTitle="Tailors" />
+    <x-common.page-breadcrumb pageTitle="Users" />
     <div class="space-y-6">
         <div class="col-span-12">
     <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
     <!-- Metric Item Start -->
     <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]" >
-      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Total Tailors</p>
+      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Total Users</p>
 
       <div class="flex items-end justify-between mt-3">
         <div>
@@ -28,7 +28,7 @@
 
     <!-- Metric Item Start -->
     <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Active Tailors</p>
+      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Active Users</p>
 
       <div class="flex items-end justify-between mt-3">
         <div>
@@ -48,7 +48,7 @@
 
     <!-- Metric Item Start -->
     <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-      <p class="text-gray-500 text-theme-sm dark:text-gray-400">InActive Tailors</p>
+      <p class="text-gray-500 text-theme-sm dark:text-gray-400">InActive Users</p>
 
       <div class="flex items-end justify-between mt-3">
         <div>
@@ -86,7 +86,7 @@
 
        <button onclick="openModal()"
     class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
-    + Add Tailors
+    + Add Users
 </button>
     </div>
 

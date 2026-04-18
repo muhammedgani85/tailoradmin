@@ -29,7 +29,7 @@ class MenuHelper
                 'name' => 'HRM',
                 'subItems' => [
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
-                    ['name' => 'Tailor List', 'path' => '/tailorlist', 'pro' => false],
+                    ['name' => 'Users List', 'path' => '/tailorlist', 'pro' => false],
                 ],
             ],
             [
@@ -37,7 +37,10 @@ class MenuHelper
                 'name' => 'Orders',
                 'subItems' => [
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
+                     ['name' => 'Add Order', 'path' => '/addorder', 'pro' => false],
                     ['name' => 'Order List', 'path' => '/orderlist', 'pro' => false],
+
+
                      ['name' => 'Tailor Order', 'path' => '/tailororder', 'pro' => false],
                      ['name' => 'Dues', 'path' => '/dueorders', 'pro' => false],
                 ],
