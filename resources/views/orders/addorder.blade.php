@@ -80,39 +80,89 @@
         <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
             <div>
                 <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
-                    Personal Information
+                    Measurement
                 </h4>
 
-                <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
-                    <div>
-                        <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">First Name</p>
-                        <p class="text-sm font-medium text-gray-800 dark:text-white/90">Musharof</p>
-                    </div>
+                <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
+                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:1200px !important;">
+                        <div class="p-6 flex items-center px-6 py-2 justify-between">
+                            <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Waist/Waist.png" style="color: transparent;">
+                            <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Waist / இடுப்பு</label>
+                            <div class="mt-0"><div class="relative">
+                                <input class="peer w-full bg-background dark:border-700 px-3 file:border-0 file:bg-transparent file:text-sm file:font-medium read-only:bg-background disabled:cursor-not-allowed disabled:opacity-50 transition duration-300 border-default-300 text-default focus:outline-none focus:border-primary disabled:bg-default-200 placeholder:text-accent-foreground/50 rounded-lg h-12 text-base read-only:leading-[48px] border peer text-center arrow-hide" id="measurement_147ed2b0-1a83-4089-af93-5fa39f9d3734" placeholder=" " name="measurements.0.measurement_value">
+                            </div></div></div></div></div>
 
-                    <div>
-                        <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">Last Name</p>
-                        <p class="text-sm font-medium text-gray-800 dark:text-white/90">Chowdhury</p>
-                    </div>
 
-                    <div>
-                        <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                            Email address
-                        </p>
-                        <p class="text-sm font-medium text-gray-800 dark:text-white/90">
-                            randomuser@pimjo.com
-                        </p>
-                    </div>
 
-                    <div>
-                        <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">Phone</p>
-                        <p class="text-sm font-medium text-gray-800 dark:text-white/90">+09 363 398 46</p>
-                    </div>
 
-                    <div>
-                        <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">Bio</p>
-                        <p class="text-sm font-medium text-gray-800 dark:text-white/90">Team Manager</p>
-                    </div>
                 </div>
+
+
+
+                <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
+                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:1200px !important;">
+                        <div class="p-6 flex items-center px-6 py-2 justify-between">
+                            <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Seat/Seat.png" style="color: transparent;">
+                            <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Seat / பின்புற அளவு</label>
+                            <div class="mt-0"><div class="relative">
+                                <input class="peer w-full bg-background dark:border-700 px-3 file:border-0 file:bg-transparent file:text-sm file:font-medium read-only:bg-background disabled:cursor-not-allowed disabled:opacity-50 transition duration-300 border-default-300 text-default focus:outline-none focus:border-primary disabled:bg-default-200 placeholder:text-accent-foreground/50 rounded-lg h-12 text-base read-only:leading-[48px] border peer text-center arrow-hide" id="measurement_147ed2b0-1a83-4089-af93-5fa39f9d3734" placeholder=" " name="measurements.0.measurement_value">
+                            </div></div></div></div></div>
+
+
+
+
+                </div>
+
+
+                <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
+                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:1200px !important;">
+                        <div class="p-6 flex items-center px-6 py-2 justify-between">
+                            <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Calf/Calf.png" style="color: transparent;">
+                            <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Calf / Knee
+கெண்டைக்கால் / முழங்கால்</label>
+                            <div class="mt-0"><div class="relative">
+                                <input class="peer w-full bg-background dark:border-700 px-3 file:border-0 file:bg-transparent file:text-sm file:font-medium read-only:bg-background disabled:cursor-not-allowed disabled:opacity-50 transition duration-300 border-default-300 text-default focus:outline-none focus:border-primary disabled:bg-default-200 placeholder:text-accent-foreground/50 rounded-lg h-12 text-base read-only:leading-[48px] border peer text-center arrow-hide" id="measurement_147ed2b0-1a83-4089-af93-5fa39f9d3734" placeholder=" " name="measurements.0.measurement_value">
+                            </div></div></div></div></div>
+
+
+
+
+                </div>
+
+
+                <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
+                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:1200px !important;">
+                        <div class="p-6 flex items-center px-6 py-2 justify-between">
+                            <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Ankle/Ankle.png" style="color: transparent;">
+                            <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Bottom / Bells
+கீழே / மணி</label>
+                            <div class="mt-0"><div class="relative">
+                                <input class="peer w-full bg-background dark:border-700 px-3 file:border-0 file:bg-transparent file:text-sm file:font-medium read-only:bg-background disabled:cursor-not-allowed disabled:opacity-50 transition duration-300 border-default-300 text-default focus:outline-none focus:border-primary disabled:bg-default-200 placeholder:text-accent-foreground/50 rounded-lg h-12 text-base read-only:leading-[48px] border peer text-center arrow-hide" id="measurement_147ed2b0-1a83-4089-af93-5fa39f9d3734" placeholder=" " name="measurements.0.measurement_value">
+                            </div></div></div></div></div>
+
+
+
+
+                </div>
+
+
+                <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
+                    <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:1200px !important;">
+                        <div class="p-6 flex items-center px-6 py-2 justify-between">
+                            <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Pants_Length/Pants_Length.png" style="color: transparent;">
+                            <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Length / நீளம்</label>
+                            <div class="mt-0"><div class="relative">
+                                <input class="peer w-full bg-background dark:border-700 px-3 file:border-0 file:bg-transparent file:text-sm file:font-medium read-only:bg-background disabled:cursor-not-allowed disabled:opacity-50 transition duration-300 border-default-300 text-default focus:outline-none focus:border-primary disabled:bg-default-200 placeholder:text-accent-foreground/50 rounded-lg h-12 text-base read-only:leading-[48px] border peer text-center arrow-hide" id="measurement_147ed2b0-1a83-4089-af93-5fa39f9d3734" placeholder=" " name="measurements.0.measurement_value">
+                            </div></div></div></div></div>
+
+
+
+
+                </div>
+
+
+
+
             </div>
 
             <button class="edit-button" @click="$dispatch('open-profile-info-modal')">
