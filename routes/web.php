@@ -89,9 +89,9 @@ Route::get('/videos', function () {
 })->name('videos');
 
 //Customer routes
-Route::get('/customerlist', function () {
+/* Route::get('/customerlist', function () {
     return view('customers.customerlist', ['title' => 'Customer List']);
-})->name('customerlist');
+})->name('customerlist'); */
 
 Route::get('/orderlist', function () {
     return view('orders.orderlist', ['title' => 'Order List']);
@@ -126,13 +126,13 @@ Route::get('/tailorlist', function () {
     return view('taillors.tailorlist', ['title' => 'Tailor List']);
 })->name('tailorlist');
 
-Route::get('/types', function () {
+/* Route::get('/types', function () {
     return view('settings.types.typelist', ['title' => 'Types']);
-})->name('types');
+})->name('types'); */
 
-Route::get('/workflow', function () {
+/* Route::get('/workflow', function () {
     return view('settings.workflow.workflowlist', ['title' => 'Types']);
-})->name('workflow');
+})->name('workflow'); */
 
 
 Route::get('/orderreport', function () {
@@ -165,6 +165,36 @@ Route::get('/printorder', function () {
 
 
 Route::any('/whatsapp/send', [WhatsAppController::class, 'send'])->name('whatsapp.send');
+
+
+/** Types Routes */
+
+
+Route::get('/types', [TypeController::class,'index']);
+Route::post('/types', [TypeController::class,'store']);
+Route::get('/types/{id}/edit', [TypeController::class,'edit']);
+Route::put('/types/{id}', [TypeController::class,'update']);
+Route::delete('/types/{id}', [TypeController::class,'destroy']);
+Route::post('/types/toggle-status', [TypeController::class,'toggleStatus']);
+
+
+
+// Work Flow Routes
+Route::get('/workflow', [WorkflowController::class,'index']);
+Route::post('/workflow', [WorkflowController::class,'store']);
+Route::get('/workflow/{id}/edit', [WorkflowController::class,'edit']);
+Route::put('/workflow/{id}', [WorkflowController::class,'update']);
+Route::delete('/workflow/{id}', [WorkflowController::class,'destroy']);
+Route::post('/workflow/toggle-status', [WorkflowController::class,'toggleStatus']);
+
+// Customer Routes
+
+Route::get('/customers', [CustomerController::class,'index']);
+Route::post('/customers', [CustomerController::class,'store']);
+Route::get('/customers/{id}/edit', [CustomerController::class,'edit']);
+Route::put('/customers/{id}', [CustomerController::class,'update']);
+Route::delete('/customers/{id}', [CustomerController::class,'destroy']);
+Route::post('/customers/toggle-status', [CustomerController::class,'toggleStatus']);
 
 
 
