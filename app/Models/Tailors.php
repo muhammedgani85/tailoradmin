@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Customer extends Model
+class Tailors extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
-        'name','dob','phone','state','city','district',
-        'address','created_by','updated_by','date','status','relation','family_id'
+        'name','age','phone','state','city','district','address','types','status'
     ];
 }

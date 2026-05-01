@@ -48,6 +48,14 @@
         <div class="flex gap-6 min-w-[1500px]">
 
             @php
+                $stages = [
+                    'Cutting' => 5,
+                    'Stitching' => 4,
+                    'Finishing' => 3,
+                    'Ironing' => 2,
+                    'Ready' => 4,
+                    'Delivered' => 1
+                ];
 
                 $items = ['Shirt', 'Pant', 'Coat'];
                 $tailors = ['Ravi', 'Kumar', 'Ali', 'John'];
@@ -76,7 +84,7 @@
                     @endphp
 
                     <div class="p-4 rounded-xl shadow-sm border
-                        {{ $isDelayed ? 'bg-red-50 border-red-400' : 'bg-white border-gray-200' }}" style="width: 200px !important;">
+                        {{ $isDelayed ? 'bg-red-50 border-red-400' : 'bg-white border-gray-200' }}">
 
                         <!-- Item -->
                         <p class="font-medium">

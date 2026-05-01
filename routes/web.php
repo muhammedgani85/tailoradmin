@@ -35,9 +35,7 @@ Route::get('/blank', function () {
     return view('pages.blank', ['title' => 'Blank']);
 })->name('blank');
 
-Route::get('/taskkanban', function () {
-    return view('pages.taskkanban', ['title' => 'Kanban']);
-})->name('taskkanban');
+Route::get('/taskkanban', [DashboardController::class, 'taskkanban'])->name('taskkanban');
 
 // error pages
 Route::get('/error-404', function () {
@@ -122,9 +120,9 @@ Route::get('/workbalanceanalytics', function () {
     return view('analytics.workbalance', ['title' => 'Orders']);
 })->name('workbalanceanalytics');
 
-Route::get('/tailorlist', function () {
+/* Route::get('/tailorlist', function () {
     return view('taillors.tailorlist', ['title' => 'Tailor List']);
-})->name('tailorlist');
+})->name('tailorlist'); */
 
 /* Route::get('/types', function () {
     return view('settings.types.typelist', ['title' => 'Types']);
@@ -153,9 +151,9 @@ Route::get('/support', function () {
 })->name('support');
 
 
-Route::get('/addorder', function () {
+/* Route::get('/addorder', function () {
     return view('orders.addorder', ['title' => 'Add Order']);
-})->name('addorder');
+})->name('addorder'); */
 
 
 Route::get('/printorder', function () {
@@ -189,12 +187,52 @@ Route::post('/workflow/toggle-status', [WorkflowController::class,'toggleStatus'
 
 // Customer Routes
 
-Route::get('/customers', [CustomerController::class,'index']);
-Route::post('/customers', [CustomerController::class,'store']);
-Route::get('/customers/{id}/edit', [CustomerController::class,'edit']);
-Route::put('/customers/{id}', [CustomerController::class,'update']);
-Route::delete('/customers/{id}', [CustomerController::class,'destroy']);
-Route::post('/customers/toggle-status', [CustomerController::class,'toggleStatus']);
+// LIST PAGE
+Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+
+// STORE (AJAX)
+Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
+
+// EDIT (GET SINGLE DATA)
+Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+
+// UPDATE
+Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
+
+// DELETE
+Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.delete');
+
+Route::post('/customers/toggle-status', [CustomerController::class, 'toggleStatus']);
+
+Route::post('/customers/newstore', [CustomerController::class, 'newstore'])->name('customers.newstore');
+
+
+//  Tailors Routes
+Route::get('/tailors',[Tailors::class,'index']);
+Route::post('/tailors',[Tailors::class,'store'])->name('tailors.store');
+Route::get('/tailors/{id}/edit',[Tailors::class,'edit']);
+Route::put('/tailors/{id}',[Tailors::class,'update']);
+Route::post('/tailors/toggle-status',[Tailors::class,'toggleStatus']);
+Route::get('/tailors/workbalance',[Tailors::class,'workbalance'])->name('tailors.workbalance');
+Route::post('/workflow/save-types',[WorkflowController::class,'saveTypes'])->name('workflow.save-types');
+
+Route::get('/orders',[OrderController::class,'index']);
+Route::post('/orders',[OrderController::class,'store'])->name('orders.store');
+
+Route::get('/orders/{id}/edit',[OrderController::class,'edit']);
+Route::put('/orders/{id}',[OrderController::class,'update']);
+Route::delete('/orders/{id}',[OrderController::class,'destroy']);
+Route::get('/orders/addorder',[OrderController::class,'addorder'])->name('orders.addorder');
+Route::get('/customers/search', [CustomerController::class, 'search']);
+
+//Routes Types
+
+Route::get('/types/{id}/measurements', [MeasurementController::class, 'getMeasurements']);
+
+
+
+
+
 
 
 

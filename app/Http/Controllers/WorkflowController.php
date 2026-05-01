@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Workflow;
+use App\Models\Types;
+use Illuminate\Support\Facades\DB;
+
 
 class WorkflowController extends Controller
 {
@@ -15,8 +18,19 @@ class WorkflowController extends Controller
     public function index()
     {
         try {
-            $workflow = Workflow::latest()->get();
-            return view('settings.workflow.workflowlist', ['title' => 'WorkFlow'],compact('workflow'));
+            $workflows = Workflow::orderBy('id','asc')->get();
+$types = Types::where('status','active')->get();
+
+// 🔥 get mapping
+$typeWorkflow = DB::table('type_workflows')->get();
+
+// 👉 group by workflow_id
+$mapping = [];
+
+foreach($typeWorkflow as $row){
+    $mapping[$row->workflow_id][] = $row->type_id;
+}
+            return view('settings.workflow.workflowlist', ['title' => 'WorkFlow'],compact('workflows', 'types', 'mapping'));
 
         } catch (\Exception $e) {
             return response()->json([
@@ -209,4 +223,26 @@ class WorkflowController extends Controller
             ]);
         }
     }
+
+
+public function saveTypes(Request $req)
+{
+    DB::table('type_workflows')
+        ->where('workflow_id',$req->workflow_id)
+        ->delete();
+
+    if($req->types){
+        foreach($req->types as $type_id){
+            DB::table('type_workflows')->insert([
+                'workflow_id'=>$req->workflow_id,
+                'type_id'=>$type_id,
+                'created_at'=>now(),
+                'updated_at'=>now()
+            ]);
+        }
+    }
+
+    return response()->json(['success'=>true]);
+}
+
 }

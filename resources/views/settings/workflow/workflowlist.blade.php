@@ -9,10 +9,10 @@
             WorkFlow Management
         </h3>
 
-       <button onclick="openModal()"
+      <!--  <button onclick="openModal()"
     class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
     + Add Flow
-</button>
+</button> -->
 
 
 
@@ -34,24 +34,21 @@
            <table class="min-w-full mt-6" id="worktable">
     <thead style="background-color: lightgrey;">
         <tr class="border-y">
-            <th class="px-4 py-3 text-left text-gray-500 text-sm">Type</th>
-            <th class="px-4 py-3 text-left text-gray-500 text-sm">Status</th>
-            <th class="px-4 py-3 text-left text-gray-500 text-sm">WorkFlow Id</th>
+            <th class="px-4 py-3 text-left text-gray-500 text-sm">Flow</th>
+           <!--  <th class="px-4 py-3 text-left text-gray-500 text-sm">Status</th> -->
+            <th class="px-4 py-3 text-left text-gray-500 text-sm">Types</th>
 
-            <th class="px-4 py-3 text-left text-gray-500 text-sm">Added By</th>
-            <th class="px-4 py-3 text-left text-gray-500 text-sm">Added Date</th>
-            <th class="px-4 py-3 text-right text-gray-500 text-sm">Action</th>
         </tr>
     </thead>
 
     <tbody class="divide-y">
 
-        @foreach ($workflow as $workflowvalues )
+        @foreach ($workflows as $workflowvalues )
 
 
         <tr>
             <td class="px-4 py-4 font-medium">{{ ucfirst($workflowvalues->name) }}</td>
-            <td class="px-4 py-4">
+            <!-- <td class="px-4 py-4">
 
  <div x-data="{ switcherToggle: {{ json_encode($workflowvalues->status == 'active') }} }">
     <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-gray-700 select-none">
@@ -77,20 +74,33 @@
 </div>
 
 
+</td> -->
+
+          <td class="px-4 py-4">
+
+    <div class="flex flex-wrap gap-2">
+
+        @foreach($types as $type)
+        <label class="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded cursor-pointer">
+
+            <input type="checkbox"
+                class="workflow-type"
+                data-workflow="{{ $workflowvalues->id }}"
+                value="{{ $type->id }}"
+
+                {{ isset($mapping[$workflowvalues->id]) && in_array($type->id, $mapping[$workflowvalues->id]) ? 'checked' : '' }}
+            >
+
+            {{ $type->type }}
+
+        </label>
+        @endforeach
+
+    </div>
+
 </td>
 
-            <td class="px-4 py-4">{{ $workflowvalues->order_id }}</td>
-            <td class="px-4 py-4">{{ $workflowvalues->created_by }}</td>
-            <td class="px-4 py-4">{{ $workflowvalues->created_at->format('d-m-Y') }}</td>
-            <td class="px-4 py-4 text-right space-x-2">
-               <button onclick="editType({{ $workflowvalues->id }})" class="text-green-600">
-    <svg class="fill-current" width="21" height="21" viewBox="0 0 21 21">
-        <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M17.0911 3.53206C16.2124 2.65338 14.7878 2.65338 13.9091 3.53206L5.6074 11.8337C5.29899 12.1421 5.08687 12.5335 4.99684 12.9603L4.26177 16.445C4.20943 16.6931 4.286 16.9508 4.46529 17.1301C4.64458 17.3094 4.90232 17.3859 5.15042 17.3336L8.63507 16.5985C9.06184 16.5085 9.45324 16.2964 9.76165 15.988L18.0633 7.68631C18.942 6.80763 18.942 5.38301 18.0633 4.50433L17.0911 3.53206Z" />
-    </svg>
-</button>
 
-            </td>
         </tr>
  @endforeach
 
@@ -127,32 +137,32 @@
     @csrf
     <input type="hidden" id="flow_id">
 
-    <div class="grid grid-cols-2 gap-4">
+    <div class="col-span-2 mt-4">
 
-        <!-- TYPE -->
+    <label class="text-sm font-semibold text-gray-700 mb-3 block">
+        Workflow Stages :
+    </label>
+
+    <div class="grid grid-cols-2 gap-3 max-h-60 overflow-y-auto border p-3 rounded">
+
+        @foreach($workflows as $flow)
         <div class="flex items-center gap-2">
-            <label class="w-24 text-sm text-gray-700">Flow :</label>
-            <input name="name" class="input flex-1" placeholder="Enter Flow" required>
-        </div>
 
-        <!-- STATUS -->
-        <div class="flex items-center gap-2">
-            <label class="w-20 text-sm text-gray-700">Status :</label>
-            <select name="status" class="input flex-1">
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-            </select>
-        </div>
+            <input type="checkbox"
+                name="workflows[]"
+                value="{{ $flow->id }}"
+                id="flow{{ $flow->id }}">
 
-        <!-- COMMENTS -->
-        <div class="col-span-2 flex items-start gap-2">
-            <label class="w-24 text-sm text-gray-700 mt-2">Flow Id</label>
-            <!-- <textarea name="comments" class="input flex-1"></textarea> -->
-            <input type="text" name='order_id' class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
+            <label for="flow{{ $flow->id }}" class="text-sm">
+                {{ $flow->name }}
+            </label>
 
         </div>
+        @endforeach
 
     </div>
+
+</div>
 
     <div class="flex justify-end gap-3 mt-6">
         <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-200 rounded-lg">
@@ -171,6 +181,7 @@
 </div>
 
 <!-- JS -->
+
 
 <style>
 .input {
@@ -297,13 +308,15 @@ $(document).ready(function () {
 
         dom: 't<"flex justify-end mt-4"p>', // table + right pagination
 
-        pageLength: 5,
-        paging: true,
-        ordering: true,
-        info: false,
-        lengthChange: false,
+        pageLength: 15,
+    paging: true,
+   ordering: false,
 
-        pagingType: "simple_numbers",
+    order: [[0, 'asc']], // ✅ FIX
+
+    info: false,
+    lengthChange: false,
+    pagingType: "simple_numbers",
 
         buttons: [
             {
@@ -441,5 +454,32 @@ function editType(id){
 
 </style>
 
+<script>
+    $('.workflow-type').on('change', function(){
+
+    let workflow_id = $(this).data('workflow');
+
+    let types = [];
+
+    // collect all checked for this row
+    $('.workflow-type[data-workflow="'+workflow_id+'"]:checked').each(function(){
+        types.push($(this).val());
+    });
+
+    $.ajax({
+        url: '/workflow/save-types',
+        method: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            workflow_id: workflow_id,
+            types: types
+        },
+        success: function(){
+            console.log('Saved');
+        }
+    });
+
+});
+</script>
 
 @endsection
