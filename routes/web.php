@@ -229,6 +229,8 @@ Route::get('/customers/search', [CustomerController::class, 'search']);
 
 Route::get('/types/{id}/measurements', [MeasurementController::class, 'getMeasurements']);
 
+Route::get('types/{id}/corrections', [correctionnotesController::class, 'getCorrections'])->name('types.corrections');
+
 
 
 

@@ -8,7 +8,7 @@
         <div class="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div class="flex w-full flex-col items-center gap-6 xl:flex-row">
                 <div class="h-20 w-20 overflow-hidden rounded-full border border-gray-200 dark:border-gray-800">
-                    <img src="./images/user/owner.jpg" alt="user" />
+                    <img src="/images/user/owner.jpg" alt="user" />
                 </div>
                <div class="order-3 xl:order-2">
     <h4 id="custName" class="mb-2 text-center text-lg font-semibold text-gray-800 xl:text-left">
@@ -185,10 +185,10 @@
                         </div> -->
 
             <div class="flex items-center gap-2">
-            <label class="w-24 text-sm">Notes :</label>
-            <textarea name="notes" class="input flex-1" style="width:650px !important;"></textarea>
 
-            <button onclick="correctionnotes()" class="shadow-theme-xs flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
+            <textarea name="notes" id="notes" class="input flex-1" style="width:850px !important;"></textarea>
+
+            <button onclick="openCorrectionModal()" class="shadow-theme-xs flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                 <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M15.0911 2.78206C14.2125 1.90338 12.7878 1.90338 11.9092 2.78206L4.57524 10.116C4.26682 10.4244 4.0547 10.8158 3.96468 11.2426L3.31231 14.3352C3.25997 14.5833 3.33653 14.841 3.51583 15.0203C3.69512 15.1996 3.95286 15.2761 4.20096 15.2238L7.29355 14.5714C7.72031 14.4814 8.11172 14.2693 8.42013 13.9609L15.7541 6.62695C16.6327 5.74827 16.6327 4.32365 15.7541 3.44497L15.0911 2.78206ZM12.9698 3.84272C13.2627 3.54982 13.7376 3.54982 14.0305 3.84272L14.6934 4.50563C14.9863 4.79852 14.9863 5.2734 14.6934 5.56629L14.044 6.21573L12.3204 4.49215L12.9698 3.84272ZM11.2597 5.55281L5.6359 11.1766C5.53309 11.2794 5.46238 11.4099 5.43238 11.5522L5.01758 13.5185L6.98394 13.1037C7.1262 13.0737 7.25666 13.003 7.35947 12.9002L12.9833 7.27639L11.2597 5.55281Z" fill=""></path>
                 </svg>
@@ -199,6 +199,7 @@
 
 
         </div>
+        <br />
          <button class="edit-button" onclick="saveMeasurement()">
 
                             Save
@@ -251,7 +252,7 @@
     </div>
 
     <!-- Order Info End -->
-
+<br />
     <!-- Address Info -->
  <div class="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
@@ -262,29 +263,41 @@
                 </h4>
 
                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
-                    <div>
-                        <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">Country</p>
-                        <p class="text-sm font-medium text-gray-800 dark:text-white/90">United States</p>
-                    </div>
+                   <div class="mb-3">
 
-                    <div>
-                        <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">City/State</p>
-                        <p class="text-sm font-medium text-gray-800 dark:text-white/90">
-                            Phoenix, United States
-                        </p>
-                    </div>
+    <!-- MESSAGE -->
+    <div id="noCameraMsg" class="text-red-500 text-sm mb-2 hidden">
+        Camera not detected. Please upload files.
+    </div>
 
-                    <div>
-                        <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                            Postal Code
-                        </p>
-                        <p class="text-sm font-medium text-gray-800 dark:text-white/90">ERT 2489</p>
-                    </div>
+    <!-- CAMERA -->
+    <video id="video" width="200" autoplay class="border hidden"></video>
+    <button onclick="capturePhoto()" id="captureBtn"
+        class="hidden bg-green-500 text-white px-2 py-1 mt-1 rounded">
+        Capture
+    </button>
 
-                    <div>
-                        <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">TAX ID</p>
-                        <p class="text-sm font-medium text-gray-800 dark:text-white/90">AS4568384</p>
-                    </div>
+    <!-- FILE UPLOAD (ALWAYS AVAILABLE) -->
+    <input type="file" id="fileInput" multiple class="border p-2 w-full mt-2">
+
+</div>
+
+<!-- PREVIEW TABLE -->
+<table class="w-full text-sm border">
+    <thead class="bg-gray-100">
+        <tr>
+            <th>#</th>
+            <th>Preview</th>
+            <th>Source</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="fileTableBody"></tbody>
+</table>
+
+
+
+
                 </div>
             </div>
 
@@ -402,14 +415,7 @@ class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/
 
             <!-- SEARCH INPUT -->
             <div class="mb-4 flex gap-2">
-                <input type="text" id="searchPhone"
-                    placeholder="Enter phone number..."
-                    class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-200" maxlength="13">
 
-                <button onclick="searchCustomer()"
-                    class="px-3 py-1 bg-green-500 text-white rounded-lg text-xs">
-                    Search
-                </button>
             </div>
 
             <!-- TABLE -->
@@ -419,16 +425,13 @@ class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/
 
                     <thead class="bg-gray-50 text-gray-600">
                         <tr>
-                            <th class="px-4 py-3 text-left">Name</th>
-                            <th class="px-4 py-3 text-left">Phone</th>
-                            <th class="px-4 py-3 text-left">Customer ID</th>
-                            <th class="px-4 py-3 text-left">City</th>
-                            <th class="px-4 py-3 text-left">State</th>
-                            <th class="px-4 py-3 text-center">Action</th>
+                            <th class="px-4 py-3 text-left"></th>
+                            <th class="px-4 py-3 text-left">Description</th>
+
                         </tr>
                     </thead>
 
-                    <tbody id="customerTable" class="divide-y">
+                    <tbody id="correctionTableBody" class="divide-y">
 
                         <!-- SAMPLE DATA -->
                        <!--  <tr>
@@ -450,7 +453,7 @@ class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/
                 </table>
 
             </div>
-
+<button onclick="saveCorrections()" class="px-3 py-1 bg-green-500 text-white rounded-lg text-xs"> Select</button>
         </div>
 
     </div>
@@ -697,9 +700,9 @@ class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/
  <!-- New Customer Modal End -->
 
 
- <input type="text" id="customer_name"  >
-        <input type="text" id="customer_phone">
-         <input type="text" id="customer_location" >
+ <input type="hidden" id="customer_name"  >
+        <input type="hidden" id="customer_phone">
+         <input type="hidden" id="customer_location" >
 
 <style>
 .input {
@@ -1018,6 +1021,7 @@ function loadMeasurement(typeId){
 }
 
 let cart = [];
+let editIndex = null;
 
 function saveMeasurement(){
 
@@ -1034,22 +1038,35 @@ function saveMeasurement(){
         };
     });
 
-    // 👉 GET CUSTOMER DETAILS
-    let customer = {
-        name: $('#customer_name').val(),
-        phone: $('#customer_phone').val(),
-        location: $('#customer_location').val()
-    };
-
-    // 👉 PUSH INTO CART
-    cart.push({
-        customer: customer,
+    let itemData = {
+        customer: {
+            name: $('#customer_name').val(),
+            phone: $('#customer_phone').val(),
+            location: $('#customer_location').val()
+        },
         type_id: $('#selected_type_id').val(),
         type_name: $('#selectedTypeName').text(),
-        measurements: measurements
-    });
+        measurements: measurements,
+        correctionnotes: $('#notes').val()
+    };
+
+    // 👉 UPDATE OR ADD
+    if(editIndex !== null){
+
+        cart[editIndex] = itemData; // update
+
+        editIndex = null;
+
+    } else {
+
+        cart.push(itemData); // new
+    }
 
     openCartModal();
+
+    // 👉 reset form
+    $('#measurementSection').html('');
+    $('#notes').val('');
 }
 
 
@@ -1057,34 +1074,47 @@ function openCartModal(){
 
     let html = '';
 
-    // 👉 CUSTOMER DETAILS
-    if(cart.length > 0){
+    // 👉 CUSTOMER TABLE (FULL WIDTH)
+   /*  if(cart.length > 0){
 
         let c = cart[0].customer;
 
         html += `
-            <div class="mb-4 p-3 bg-blue-50 border rounded text-sm">
-                <div><b>${c.name}</b></div>
-                <div>${c.phone}</div>
-                <div>${c.location}</div>
-            </div>
+            <table class="w-full text-sm border mb-4">
+                <thead class="bg-blue-100 text-gray-700">
+                    <tr>
+                        <th class="p-2 text-left">Customer Name</th>
+                        <th class="p-2 text-left">Phone</th>
+                        <th class="p-2 text-left">Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-t">
+                        <td class="p-2 font-semibold">${c.name}</td>
+                        <td class="p-2">${c.phone}</td>
+                        <td class="p-2">${c.location}</td>
+                    </tr>
+                </tbody>
+            </table>
         `;
-    }
+    } */
 
-    // 👉 TABLE START
+    // 👉 ORDER ITEMS TABLE (FULL WIDTH)
     html += `
-        <table class="w-full text-sm border border-gray-200 rounded overflow-hidden" style="width:100%;">
+        <table class="w-full text-sm border">
             <thead class="bg-gray-100 text-gray-700">
                 <tr>
                     <th class="p-2 text-left">#</th>
                     <th class="p-2 text-left">Type</th>
                     <th class="p-2 text-left">Measurements</th>
+                    <th class="p-2 text-left">Notes</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
     `;
 
-    // 👉 ITEMS
+
     cart.forEach((item, index) => {
 
         let measurementHtml = '';
@@ -1103,28 +1133,316 @@ function openCartModal(){
         html += `
             <tr class="border-t">
                 <td class="p-2">${index+1}</td>
+
                 <td class="p-2 font-semibold">
                     ${item.type_name ?? item.type_id}
                 </td>
+
                 <td class="p-2">
                     ${measurementHtml}
                 </td>
+
+                <td class="p-2">
+                    ${
+                        item.correctionnotes
+                        ? `<div class="text-xs text-red-500 whitespace-pre-line">${item.correctionnotes},</div>`
+                        : '-'
+                    }
+                </td>
+                <td>
+                 <button onclick="editItem(${index})" class="text-blue-500 text-xs mr-2">Edit</button>
+    <button onclick="removeItem(${index})" class="text-red-500 text-xs">Delete</button>
+</td>
             </tr>
-        `;
+        `
+
     });
 
     html += `
+        <tr class="bg-gray-100 font-semibold">
+        <td colspan="5s" class="p-2 text-right">
+            Total Items: ${cart.length}
+        </td>
+        </tr>
+
             </tbody>
         </table>
     `;
 
     $('#cartContent').html(html);
-
-   // $('#cartModal').removeClass('hidden');
 }
 
 
 
+// correction notes scripts
+function openCorrectionModal(){
+
+
+    let type_id = $('#selected_type_id').val();
+
+    if(!type_id){
+        alert('Please select type first');
+        return;
+    }
+
+    selectedCorrections = [];
+
+    $.get('/types/'+type_id+'/corrections', function(res){
+
+        let data = res.data ? res.data : res;
+
+        let rows = '';
+
+        if(data.length === 0){
+            rows = `
+                <tr>
+                    <td colspan="2" class="text-center py-3 text-gray-400">
+                        No corrections found
+                    </td>
+                </tr>
+            `;
+        } else {
+
+            data.forEach(c => {
+                rows += `
+                    <tr class="border-t">
+                        <td class="px-3 py-2">
+                            <input type="checkbox"
+                                class="correctionCheck"
+                                value="${c.id}"
+                                data-name="${c.description ?? c.name}">
+                        </td>
+
+                        <td class="px-3 py-2">
+                            ${c.description ?? c.name}
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        $('#correctionTableBody').html(rows);
+
+       $('#CorrectionModal').removeClass('hidden');
+    });
+}
+
+
+function saveCorrections(){
+
+    let newSelections = [];
+
+    $('.correctionCheck:checked').each(function(){
+
+        newSelections.push($(this).data('name'));
+
+    });
+
+    // 👉 Get existing notes (split by line)
+    let existingNotes = $('#notes').val()
+        ? $('#notes').val().split('\n')
+        : [];
+
+    // 👉 Merge + remove duplicates
+    let finalNotes = [...new Set([...existingNotes, ...newSelections])];
+
+    // 👉 Set back to textarea
+    $('#notes').val(finalNotes.join('\n'));
+
+    // 👉 Optional: update global array also
+    selectedCorrections = finalNotes.map((name, index) => ({
+        id: index,
+        name: name
+    }));
+
+    document.getElementById('CorrectionModal').classList.add('hidden');
+}
+
+function removeItem(index){
+
+    // 👉 remove item from array
+    cart.splice(index, 1);
+
+    // 👉 re-render cart UI
+    openCartModal();
+}
+
+function editItem(index){
+
+    let item = cart[index];
+
+    editIndex = index;
+
+    // 👉 set type
+    $('#selected_type_id').val(item.type_id);
+    $('#selectedTypeName').text(item.type_name);
+
+    // 👉 load measurement fields again
+    loadMeasurement(item.type_id);
+
+    // 👉 wait for fields to render
+    setTimeout(() => {
+
+        for(let key in item.measurements){
+
+            let m = item.measurements[key];
+
+            // find input by label match
+            $('#measurementSection label').each(function(){
+
+                if($(this).text().trim() === m.name){
+                    $(this).next('input').val(m.value);
+                }
+
+            });
+        }
+
+    }, 300);
+
+    // 👉 notes
+    $('#notes').val(item.correctionnotes ?? '');
+
+}
+
+
+
+// Image Upload options
+let filesArray = [];
+let editFileIndex = null;
+
+$(document).ready(function(){
+
+    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+
+            $('#video').removeClass('hidden');
+            $('#captureBtn').removeClass('hidden');
+
+            document.getElementById('video').srcObject = stream;
+
+        })
+        .catch(() => {
+            showNoCamera();
+        });
+
+    } else {
+        showNoCamera();
+    }
+
+});
+
+function showNoCamera(){
+    $('#noCameraMsg').removeClass('hidden');
+    $('#video').addClass('hidden');
+    $('#captureBtn').addClass('hidden');
+}
+$('#fileInput').on('change', function(e){
+
+    let files = e.target.files;
+
+    for(let i=0; i<files.length; i++){
+
+        let reader = new FileReader();
+
+        reader.onload = function(ev){
+
+            if(editFileIndex !== null){
+
+                filesArray[editFileIndex] = {
+                    src: ev.target.result,
+                    type: 'file'
+                };
+
+                editFileIndex = null;
+
+            } else {
+
+                filesArray.push({
+                    src: ev.target.result,
+                    type: 'file'
+                });
+            }
+
+            renderFiles();
+        };
+
+        reader.readAsDataURL(files[i]);
+    }
+
+});
+function capturePhoto(){
+
+    let video = document.getElementById('video');
+
+    let canvas = document.createElement('canvas');
+    canvas.width = 200;
+    canvas.height = 150;
+
+    let ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, 200, 150);
+
+    let img = canvas.toDataURL('image/png');
+
+    filesArray.push({
+        src: img,
+        type: 'camera'
+    });
+
+    renderFiles();
+}
+function renderFiles(){
+
+    let html = '';
+
+    if(filesArray.length === 0){
+        html = `<tr><td colspan="4" class="text-center p-3 text-gray-400">No files</td></tr>`;
+    }
+
+    filesArray.forEach((file, index) => {
+
+        html += `
+            <tr class="border-t">
+
+                <td class="p-2">${index+1}</td>
+
+                <td class="p-2">
+                    <img src="${file.src}" width="80" class="rounded border">
+                </td>
+
+                <td class="p-2 text-xs">
+                    ${file.type === 'camera' ? 'Camera' : 'Upload'}
+                </td>
+
+                <td class="p-2">
+
+                    <button onclick="editFile(${index})"
+                        class="text-blue-500 text-xs mr-2">
+                        Edit
+                    </button>
+
+                    <button onclick="deleteFile(${index})"
+                        class="text-red-500 text-xs">
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+        `;
+    });
+
+    $('#fileTableBody').html(html);
+}
+function deleteFile(index){
+    filesArray.splice(index, 1);
+    renderFiles();
+}
+function editFile(index){
+    editFileIndex = index;
+    $('#fileInput').click();
+}
 
 </script>
 
