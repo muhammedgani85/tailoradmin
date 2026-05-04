@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\stage;
 use App\Models\Workflow;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class DashboardController extends Controller
 
     public function taskkanban()
     {
-        $stages = Workflow::orderBy('order_id','asc')
+     $stages = stage::orderBy('order_id','asc')
     ->pluck('name')
     ->mapWithKeys(function($name){
         return [$name => 5]; // same value
