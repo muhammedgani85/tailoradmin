@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflows', function (Blueprint $table) {
+       Schema::create('order_images', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Cutting, Stitching
-            $table->integer('order_no'); // sequence
-            $table->softDeletes();
-
+            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('order_item_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->text('image_path');
             $table->timestamps();
         });
+
     }
 
     /**
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflows');
+        Schema::dropIfExists('order_images');
     }
 };

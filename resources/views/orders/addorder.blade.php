@@ -64,7 +64,7 @@
                     </button>
 
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button onclick="openCartModal()"
+                    <button onclick="confirmOrder()"
                         class="shadow-theme-xs flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                         <img src="https://cdn.iconscout.com/icon/free/png-512/free-cart-icon-svg-download-png-1322328.png?f=webp&w=256" />
                     </button>
@@ -95,98 +95,16 @@
          <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
                                 Measurement
         </h4>
+
         </div>
         <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-                        <!-- <div>
-                            <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
-                                Measurement
-                            </h4>
 
-                            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
-                                <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:auto !important;">
-                                    <div class="p-6 flex items-center px-6 py-2 justify-between">
-                                        <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Waist/Waist.png" style="color: transparent;">
-                                        <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Waist / இடுப்பு</label>
-                                        <div class="mt-0"><div class="relative">
-                                            <input class="peer w-full bg-background dark:border-700 px-3 file:border-0 file:bg-transparent file:text-sm file:font-medium read-only:bg-background disabled:cursor-not-allowed disabled:opacity-50 transition duration-300 border-default-300 text-default focus:outline-none focus:border-primary disabled:bg-default-200 placeholder:text-accent-foreground/50 rounded-lg h-12 text-base read-only:leading-[48px] border peer text-center arrow-hide" id="measurement_147ed2b0-1a83-4089-af93-5fa39f9d3734" placeholder=" " name="measurements.0.measurement_value">
-                                        </div></div></div></div></div>
-
-
-
-
-                            </div>
-
-
-
-                            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
-                                <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:auto !important;">
-                                    <div class="p-6 flex items-center px-6 py-2 justify-between">
-                                        <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Seat/Seat.png" style="color: transparent;">
-                                        <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Seat / பின்புற அளவு</label>
-                                        <div class="mt-0"><div class="relative">
-                                            <input class="peer w-full bg-background dark:border-700 px-3 file:border-0 file:bg-transparent file:text-sm file:font-medium read-only:bg-background disabled:cursor-not-allowed disabled:opacity-50 transition duration-300 border-default-300 text-default focus:outline-none focus:border-primary disabled:bg-default-200 placeholder:text-accent-foreground/50 rounded-lg h-12 text-base read-only:leading-[48px] border peer text-center arrow-hide" id="measurement_147ed2b0-1a83-4089-af93-5fa39f9d3734" placeholder=" " name="measurements.0.measurement_value">
-                                        </div></div></div></div></div>
-
-
-
-
-                            </div>
-
-
-                            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
-                                <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:auto !important;">
-                                    <div class="p-6 flex items-center px-6 py-2 justify-between">
-                                        <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Calf/Calf.png" style="color: transparent;">
-                                        <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Calf / Knee
-            கெண்டைக்கால் / முழங்கால்</label>
-                                        <div class="mt-0"><div class="relative">
-                                            <input class="peer w-full bg-background dark:border-700 px-3 file:border-0 file:bg-transparent file:text-sm file:font-medium read-only:bg-background disabled:cursor-not-allowed disabled:opacity-50 transition duration-300 border-default-300 text-default focus:outline-none focus:border-primary disabled:bg-default-200 placeholder:text-accent-foreground/50 rounded-lg h-12 text-base read-only:leading-[48px] border peer text-center arrow-hide" id="measurement_147ed2b0-1a83-4089-af93-5fa39f9d3734" placeholder=" " name="measurements.0.measurement_value">
-                                        </div></div></div></div></div>
-
-
-
-
-                            </div>
-
-
-                            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
-                                <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:auto !important;">
-                                    <div class="p-6 flex items-center px-6 py-2 justify-between">
-                                        <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Ankle/Ankle.png" style="color: transparent;">
-                                        <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Bottom / Bells
-            கீழே / மணி</label>
-                                        <div class="mt-0"><div class="relative">
-                                            <input class="peer w-full bg-background dark:border-700 px-3 file:border-0 file:bg-transparent file:text-sm file:font-medium read-only:bg-background disabled:cursor-not-allowed disabled:opacity-50 transition duration-300 border-default-300 text-default focus:outline-none focus:border-primary disabled:bg-default-200 placeholder:text-accent-foreground/50 rounded-lg h-12 text-base read-only:leading-[48px] border peer text-center arrow-hide" id="measurement_147ed2b0-1a83-4089-af93-5fa39f9d3734" placeholder=" " name="measurements.0.measurement_value">
-                                        </div></div></div></div></div>
-
-
-
-
-                            </div>
-
-
-                            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32" >
-                                <div class="rounded-md bg-card text-card-foreground shadow-sm border border-default mt-2" style="width:auto !important;">
-                                    <div class="p-6 flex items-center px-6 py-2 justify-between">
-                                        <img alt="Waist" loading="lazy" width="100" height="100" decoding="async" data-nimg="1" src="https://s3.ap-south-1.amazonaws.com/static.tailormate.com/assets/app/images/measurements/male/Pants_Length/Pants_Length.png" style="color: transparent;">
-                                        <div class="flex flex-col items-center gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 inline-block">Length / நீளம்</label>
-                                        <div class="mt-0"><div class="relative">
-                                            <input class="peer w-full bg-background dark:border-700 px-3 file:border-0 file:bg-transparent file:text-sm file:font-medium read-only:bg-background disabled:cursor-not-allowed disabled:opacity-50 transition duration-300 border-default-300 text-default focus:outline-none focus:border-primary disabled:bg-default-200 placeholder:text-accent-foreground/50 rounded-lg h-12 text-base read-only:leading-[48px] border peer text-center arrow-hide" id="measurement_147ed2b0-1a83-4089-af93-5fa39f9d3734" placeholder=" " name="measurements.0.measurement_value">
-                                        </div></div></div></div></div>
-
-
-
-
-                            </div>
-
-
-
-
-                        </div> -->
 
             <div class="flex items-center gap-2">
 
             <textarea name="notes" id="notes" class="input flex-1" style="width:850px !important;"></textarea>
+
+
 
             <button onclick="openCorrectionModal()" class="shadow-theme-xs flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                 <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -194,8 +112,12 @@
                 </svg>
 
             </button>
-
+ <input type="checkbox" id="urgent" name="urgent" class="ml-2">Urgent
+         <input type="checkbox" id="washing" name="washing" class="ml-2">Washing
         </div>
+
+
+
 
 
         </div>
@@ -301,7 +223,7 @@
                 </div>
             </div>
 
-            <button @click="$dispatch('open-profile-address-modal')"
+            <button @click="$dispatch('open-profile-address-modal')" style="display: none;"
                 class="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto">
                 <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -1443,6 +1365,131 @@ function editFile(index){
     editFileIndex = index;
     $('#fileInput').click();
 }
+
+
+
+// Order Confirmation
+
+
+
+function confirmOrder(){
+
+    // 🔴 VALIDATION
+    if(cart.length === 0){
+        Swal.fire('Error', 'Cart is empty', 'error');
+        return;
+    }
+
+    let customer_id = $('#customer_id').val();
+    let phone = $('#customer_phone').val();
+
+    if(!customer_id){
+        Swal.fire('Error', 'Please select customer', 'error');
+        return;
+    }
+
+    if(!phone){
+        Swal.fire('Error', 'Phone number required', 'error');
+        return;
+    }
+
+    // ✅ CONFIRMATION
+    Swal.fire({
+        title: 'Confirm Order?',
+        text: 'Do you want to save this order?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Save',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+
+        if(result.isConfirmed){
+
+            // 🔥 DISABLE BUTTON
+            $('#confirmBtn').prop('disabled', true);
+
+            $.ajax({
+                url: '/orders', // ✅ resource route
+                type: 'POST',
+
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    customer_id: customer_id,
+                    phone: phone,
+                    items: cart,
+                    images: filesArray
+                },
+
+                beforeSend: function(){
+                    Swal.fire({
+                        title: 'Saving...',
+                        text: 'Please wait',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
+
+                success: function(res){
+
+                    if(typeof res === 'string'){
+                        res = JSON.parse(res);
+                    }
+
+                    if(!res.success){
+                        $('#confirmBtn').prop('disabled', false);
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: res.message
+                        });
+                        return;
+                    }
+
+                    // ✅ SUCCESS
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Order Created',
+                        text: 'Order No: ' + (res.order_no ?? '')
+                    }).then(() => {
+
+                        // 👉 RESET EVERYTHING
+                        cart = [];
+                        filesArray = [];
+
+                        $('#notes').val('');
+                        $('#measurementSection').html('');
+                        $('#fileTableBody').html('');
+                        $('#customer_id').val('');
+                        $('#customer_phone').val('');
+
+                        openCartModal(); // refresh cart UI
+
+                        location.reload(); // optional
+                    });
+                },
+
+                error: function(xhr){
+
+                    $('#confirmBtn').prop('disabled', false);
+
+                    console.log(xhr.responseText);
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Something went wrong'
+                    });
+                }
+            });
+        }
+    });
+}
+
+
+
 
 </script>
 
