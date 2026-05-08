@@ -1452,7 +1452,7 @@ function confirmOrder(){
                     Swal.fire({
                         icon: 'success',
                         title: 'Order Created',
-                        text: 'Order No: ' + (res.order_no ?? '')
+                        //text: 'Order No: ' + (res.order_no ?? '')
                     }).then(() => {
 
                         // 👉 RESET EVERYTHING

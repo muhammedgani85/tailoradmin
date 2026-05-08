@@ -14,6 +14,7 @@ class DashboardController extends Controller
     }
 
     public function taskkanban()
+
     {
      $stages = stage::orderBy('order_id','asc')
     ->pluck('name')

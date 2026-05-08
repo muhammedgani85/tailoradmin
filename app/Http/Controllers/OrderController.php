@@ -16,6 +16,7 @@ use App\Models\OrderImage;
 use App\Models\stage;
 use Illuminate\Support\Str;
 
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -62,7 +63,7 @@ public function store(Request $req)
         ]);
 
         // 🔥 Get all workflow stages
-        $stages = stage::orderBy('id')->where('id',2)->get();
+        $stages = stage::orderBy('id')->where('id',3)->get();
 
         // 🔥 Loop items
 
@@ -79,16 +80,13 @@ public function store(Request $req)
             // 🔥 Loop stages
                 foreach($stages as $stage){
 
-
-
-
-
                 if($stage->name == 'Washing' && empty($item['washing'])){
                 continue;
                 }
 
                 $assignedUser = $this->assignUser(
                 $stage->role_id,
+
                 $item['type_id'],
                 $stage->id
                 );
@@ -185,46 +183,83 @@ public function store(Request $req)
     }
 
 
-    private function assignUser($role_id, $type_id, $stage_id)
+    private function assignUser($role_id, $type_id, $stage_id=3)
 {
+    Log::info('TEST LOG WORKING');
+    Log::info('Assigning User for Role ID: '.$role_id.', Type ID: '.$type_id.', Stage ID: '.$stage_id);
     $tailors = DB::table('tailor_types as tt')
         ->join('tailors as u', 'u.id', '=', 'tt.tailor_id')
         ->where('u.roles', $role_id)
-        ->where('tt.type_id', $type_id) // 👈 KEY LINE
+        ->where('tt.type_id', $type_id)
         ->where('u.status', 'active')
         ->select('u.id as user_id', 'tt.qty as capacity')
         ->get();
+
+
+        Log::info('Tailors Found: '.count($tailors));
 
     if($tailors->isEmpty()){
         return null;
     }
 
+    $withCapacity = [];
+    $withoutCapacity = [];
+
+
+
+
+    foreach($tailors as $t){
+        if($t->capacity > 0){
+            $withCapacity[] = $t;
+        } else {
+            $withoutCapacity[] = $t;
+        }
+    }
+    Log::info('With Capacity: '.count($withCapacity).', Without Capacity: '.count($withoutCapacity));
+
+    // ✅ STEP 1: HANDLE CAPACITY USERS
     $selectedUser = null;
     $minLoad = PHP_INT_MAX;
 
-    foreach($tailors as $t){
-
+    foreach($withCapacity as $t){
 
         $load = DB::table('order_item_tracks')
             ->where('assigned_to', $t->user_id)
             ->where('stage_id', $stage_id)
-            ->where('status','pending')
+             ->whereIn('status', ['pending', 'in_progress'])
             ->count();
 
-        if($t->capacity > 0){
-
-            if($load < $t->capacity && $load < $minLoad){
-                $minLoad = $load;
-                $selectedUser = $t;
-            }
-
-        } else {
-            if($load < $minLoad){
-                $minLoad = $load;
-                $selectedUser = $t;
-            }
+        if($load < $t->capacity && $load < $minLoad){
+            $minLoad = $load;
+            $selectedUser = $t;
         }
     }
+
+    // 👉 If found → return
+    if($selectedUser){
+        return $selectedUser;
+    }
+
+    // ✅ STEP 2: EQUAL DISTRIBUTION (NO CAPACITY USERS)
+
+    $minLoad = PHP_INT_MAX;
+    $selectedUser = null;
+
+    foreach($withoutCapacity as $t){
+
+        $load = DB::table('order_item_tracks')
+            ->where('assigned_to', $t->user_id)
+            ->where('stage_id', $stage_id)
+             ->whereIn('status', ['pending', 'in_progress'])
+            ->count();
+
+        if($load < $minLoad){
+            $minLoad = $load;
+            $selectedUser = $t;
+        }
+    }
+
+    //dd($selectedUser);
 
     return $selectedUser;
 }
