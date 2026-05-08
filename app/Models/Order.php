@@ -17,5 +17,9 @@ class Order extends Model
     public function images(){
         return $this->hasMany(OrderImage::class);
     }
+    public function customer()
+{
+    return $this->belongsTo(Customer::class);
+}
 
 }

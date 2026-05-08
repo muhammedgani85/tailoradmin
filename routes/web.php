@@ -91,9 +91,9 @@ Route::get('/videos', function () {
     return view('customers.customerlist', ['title' => 'Customer List']);
 })->name('customerlist'); */
 
-Route::get('/orderlist', function () {
+/* Route::get('/orderlist', function () {
     return view('orders.orderlist', ['title' => 'Order List']);
-})->name('orderlist');
+})->name('orderlist'); */
 
 
 Route::get('/deliverylist', function () {
@@ -232,6 +232,18 @@ Route::get('/types/{id}/measurements', [MeasurementController::class, 'getMeasur
 Route::get('types/{id}/corrections', [correctionnotesController::class, 'getCorrections'])->name('types.corrections');
 
 Route::get('tailororder', [OrderController::class, 'tailororder'])->name('tailororder');
+
+Route::get('/tailor/works/{id}', [OrderController::class, 'tailorwork'])->name('tailor.works');
+Route::post('/track/start/{id}',[OrderController::class, 'startWork'])->name('track.start');
+
+Route::post('/track/complete/{id}',[OrderController::class, 'completeWork'])->name('track.complete');
+
+
+/* Route::get('/orderlist', function () {
+    return view('orders.orderlist', ['title' => 'Order List']);
+})->name('orderlist'); */
+
+Route::get('/orderlist',[OrderController::class, 'orderList'])->name('orderlist');
 
 
 

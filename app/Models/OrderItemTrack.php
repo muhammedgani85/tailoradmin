@@ -16,4 +16,14 @@ class OrderItemTrack extends Model
         return $this->belongsTo(OrderItem::class,'order_item_id');
     }
 
+    public function stage()
+{
+    return $this->belongsTo(Stage::class, 'stage_id');
+}
+
+public function tailor()
+{
+    return $this->belongsTo(Tailors::class, 'assigned_to');
+}
+
 }

@@ -133,16 +133,13 @@
         </div>
 
         <!-- ADD ORDER BUTTON -->
-        <button onclick="openModal()"
-            class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
-            + Add Order
-        </button>
+
 
     </div>
 
 </div>
 
-    <!-- Table -->
+    <!-- Table List Start -->
     <div class="overflow-hidden">
         <div class="max-w-full px-5 overflow-x-auto">
 
@@ -160,210 +157,145 @@
         </tr>
     </thead>
 
-    <tbody class="divide-y">
+   <tbody class="divide-y">
 
-    <!-- ORDER 1 -->
-    <tr>
-        <td class="px-4 py-4 font-medium">
-            <button onclick="toggleRow(this)" class="mr-2 text-blue-600">▶</button>
-            ORD001
-        </td>
-        <td class="px-4 py-4">CUS001</td>
-        <td class="px-4 py-4">04 Apr 2026</td>
-        <td class="px-4 py-4">06 Apr 2026</td>
-        <td class="px-4 py-4">3 Items</td>
+@foreach($orders as $order)
 
-        <td class="px-4 py-4">
-            <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
-                In Progress
-            </span>
-        </td>
-        <td class="px-4 py-4 text-right space-x-2">
-            <a href="{{ route('profile') }}" class="text-blue-600">👁️</a>
-            <button class="text-green-600">✏️</button>
-            <button class="text-red-600">🗑️</button>
-        </td>
-    </tr>
+<tr>
 
-    <!-- ACCORDION CONTENT -->
-    <tr class="hidden bg-gray-50">
-    <td colspan="8">
-        <div class="p-4">
-            <table class="w-full text-sm">
-    <thead>
-        <tr class="text-gray-500 text-left">
-            <th class="py-2">Sub Order</th>
-            <th>Item</th>
-            <th>Type</th>
-            <th>Tailor</th>
-            <th>Start</th>
-            <th>Delivery</th>
-            <th>Status</th>
-            <th>Delay</th>
-            <th>Notes</th>
-        </tr>
-    </thead>
+    <td class="px-4 py-4 font-medium">
 
-    <tbody>
+        <button onclick="toggleRow(this)"
+            class="mr-2 text-blue-600">
 
-        <tr class="border-t">
-            <td class="py-2 font-medium text-blue-600">ORD001-1</td>
-            <td class="font-medium">Shirt</td>
-            <td>Full Sleeve</td>
-            <td>
-    <button onclick="openTailorModal('Ravi')"
-        class="text-blue-600 hover:underline">
-        Ravi
-    </button>
-</td>
-            <td>02 Apr</td>
-            <td>08 Apr</td>
+            ▶
+        </button>
 
-            <td>
-                <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
-                    Stitching
-                </span>
-            </td>
+        {{ $order->order_no }}
 
-            <td>
-                <span class="text-red-600 font-medium">
-                    2 Days
-                </span>
-            </td>
-
-            <td><a href="{{ route('profile') }}" class="text-blue-600">👁️</a></td>
-        </tr>
-
-        <tr class="border-t">
-            <td class="py-2 font-medium text-blue-600">ORD001-2</td>
-            <td class="font-medium">Pant</td>
-            <td>Formal</td>
-            <td>Kumar</td>
-            <td>01 Apr</td>
-            <td>07 Apr</td>
-
-            <td>
-                <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
-                    Completed
-                </span>
-            </td>
-
-            <td>
-                <span class="text-green-600">
-                    On Time
-                </span>
-            </td>
-
-            <td>-</td>
-        </tr>
-
-    </tbody>
-</table>
-        </div>
     </td>
+
+    <td class="px-4 py-4">
+        {{ $order->customer->phone ?? '-' }}
+    </td>
+
+    <td class="px-4 py-4">
+        {{ date('d M Y', strtotime($order->order_date)) }}
+    </td>
+
+    <td class="px-4 py-4">
+        {{ $order->delivery_date ?? '-' }}
+    </td>
+
+    <td class="px-4 py-4">
+        {{ $order->items->count() }} Items
+    </td>
+
+    <td class="px-4 py-4">
+        In Progress
+    </td>
+
 </tr>
 
-    <!-- ORDER 2 -->
-    <tr>
-        <td class="px-4 py-4 font-medium">
-            <button onclick="toggleRow(this)" class="mr-2 text-blue-600">▶</button>
-            ORD002
-        </td>
-        <td class="px-4 py-4">CUS002</td>
-        <td class="px-4 py-4">05 Apr 2026</td>
-        <td class="px-4 py-4">05 Apr 2026</td>
-        <td class="px-4 py-4">5 Items</td>
-        <td class="px-4 py-4">
-            <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
-                Completed
-            </span>
-        </td>
-        <td class="px-4 py-4 text-right space-x-2">
-            <a href="{{ route('profile') }}" class="text-blue-600">👁️</a>
-            <button class="text-green-600">✏️</button>
-            <button class="text-red-600">🗑️</button>
-        </td>
-    </tr>
+{{-- ACCORDION --}}
+<tr class="hidden bg-gray-50">
 
-    <!-- ACCORDION -->
-    <tr class="hidden bg-gray-50">
-        <td colspan="6">
-            <div class="p-4 text-sm text-gray-600">
-                No items added
-            </div>
-        </td>
-    </tr>
+<td colspan="8">
+
+<div class="p-4">
+
+<table class="w-full text-sm">
+
+<thead>
+
+<tr class="text-gray-500 text-left">
+
+    <th>Sub Order</th>
+    <th>Type</th>
+    <th>Tailor</th>
+    <th>Stage</th>
+    <th>Status</th>
+    <th>Delay</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+@foreach($order->items as $item)
+
+<tr class="border-t">
+
+    <td class="py-2">
+        {{ $item->item_no }}
+    </td>
+
+    <td>
+        {{ $item->type->type ?? '-' }}
+    </td>
+
+    <td>
+        {{ optional($item->tracks->last()?->tailor)->name ?? '-' }}
+    </td>
+
+    <td>
+        {{ optional($item->tracks->last()?->stage)->name ?? '-' }}
+    </td>
+
+    <td>
+        {{ ucfirst($item->tracks->last()?->status ?? '-') }}
+    </td>
+
+    <td>
+
+        @php
+
+            $track = $item->tracks->last();
+
+            $days = $track
+                ? round(
+                    \Carbon\Carbon::parse($track->created_at)
+                        ->floatDiffInDays(now()),
+                    2
+                )
+                : 0;
+
+        @endphp
+
+        @if($days > 2)
+
+            <span class="text-red-600">
+                {{ $days }} Days
+            </span>
+
+        @else
+
+            <span class="text-green-600">
+                On Time
+            </span>
+
+        @endif
+
+    </td>
+
+</tr>
+
+@endforeach
 
 </tbody>
 
+</table>
 
-<!-- ORDER 3 (URGENT) -->
-<tr class="bg-red-50 border-l-4 border-red-500">
-    <td class="px-4 py-4 font-medium">
-        <button onclick="toggleRow(this)" class="mr-2 text-blue-600">▶</button>
-        ORD003
-    </td>
-    <td class="px-4 py-4">CUS004</td>
-    <td class="px-4 py-4">06 Apr 2026</td>
-    <td class="px-4 py-4 text-red-600 font-medium">07 Apr 2026</td>
-    <td class="px-4 py-4">2 Items</td>
+</div>
 
-    <td class="px-4 py-4">
-        <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-700">
-            Urgent
-        </span>
-    </td>
+</td>
 
-    <td class="px-4 py-4 text-right space-x-2">
-        <a href="{{ route('profile') }}" class="text-blue-600">👁️</a>
-        <button class="text-green-600">✏️</button>
-        <button class="text-red-600">🗑️</button>
-    </td>
 </tr>
 
-<!-- ACCORDION -->
-<tr class="hidden bg-gray-50">
-    <td colspan="8">
-        <div class="p-4">
-            <table class="w-full text-sm">
-                <thead>
-                    <tr class="text-gray-500 text-left">
-                        <th class="py-2">Sub Order</th>
-                        <th>Item</th>
-                        <th>Type</th>
-                        <th>Tailor</th>
-                        <th>Start</th>
-                        <th>Delivery</th>
-                        <th>Status</th>
-                        <th>Delay</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
+@endforeach
 
-                <tbody>
-                    <tr class="border-t">
-                        <td class="py-2 font-medium text-blue-600">ORD003-1</td>
-                        <td class="font-medium">Blazer</td>
-                        <td>Wedding</td>
-                        <td>Arun</td>
-                        <td>05 Apr</td>
-                        <td class="text-red-600 font-medium">07 Apr</td>
-
-                        <td>
-                            <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-700">
-                                Urgent
-                            </span>
-                        </td>
-
-                        <td>
-                            <span class="text-red-600 font-medium">
-                                1 Day Left
-                            </span>
-                        </td>
-
-                        <td>High Priority</td>
-                    </tr>
-                </tbody>
+</tbody>
             </table>
         </div>
     </td>
@@ -372,6 +304,8 @@
 
         </div>
     </div>
+
+    <!-- Table List End -->
 
 </div>
 

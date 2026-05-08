@@ -91,16 +91,13 @@
     <!-- Personal Info -->
 
     <div class="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
-        <div id="measurementSection" class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-         <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
+
+         <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6 ">
                                 Measurement
         </h4>
+        <div id="measurementSection" style="width:100%;"></div>
 
-        </div>
-        <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-
-
-            <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2">
 
             <textarea name="notes" id="notes" class="input flex-1" style="width:850px !important;"></textarea>
 
@@ -115,25 +112,28 @@
  <input type="checkbox" id="urgent" name="urgent" class="ml-2">Urgent
          <input type="checkbox" id="washing" name="washing" class="ml-2">Washing
         </div>
-
-
-
-
-
-        </div>
         <br />
-         <button class="edit-button" onclick="saveMeasurement()">
+
+                 <button class="edit-button" onclick="saveMeasurement()">
 
                             Save
                         </button>
+
+
+    </div>
+
+
+
+
 
     </div>
 
     <!-- Personal Info  End-->
 
+    <br />
 
     <!-- Order Info -->
-     <div class="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
+     <div class="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 bg-white-50 dark:bg-white-800/50" style="background-color: #FFF !important;">
 
         <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
             <div>
@@ -923,20 +923,60 @@ function setType(typeId, element){
 
 
 // Measurement scripts
-function loadMeasurement(typeId){
+function loadMeasurement(typeId)
+{
+    let customerId = $('#customer_id').val();
 
-    $.get('/types/'+typeId+'/measurements', function(res){
+    $.get('/types/' + typeId + '/measurements', {
 
-        let html = '';
+        customer_id: customerId
+
+    }, function(res){
+
+        let html = `
+
+            <div style="
+                display:grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap:15px;
+                width:100%;
+            ">
+
+        `;
 
         res.forEach(m => {
+
             html += `
-                <div class="mb-2">
-                    <label>${m.field_name}</label>
-                    <input name="measurements[${m.id}]" class="input">
+
+                <div>
+
+                    <label style="
+                        display:block;
+                        margin-bottom:5px;
+                        font-size:14px;
+                        font-weight:500;
+                    ">
+                        ${m.field_name}
+                    </label>
+
+
+                    <input
+                        type="text"
+                        name="measurements[${m.id}]"
+                        value="${m.value ?? ''}"
+                        style="
+                            width:100%;
+                            border:1px solid #d1d5db;
+                            border-radius:8px;
+                            padding:10px;
+                        ">
+
                 </div>
+
             `;
         });
+
+        html += `</div>`;
 
         $('#measurementSection').html(html);
     });

@@ -42,7 +42,8 @@ public function  taskkanban()
             ->leftJoin('tailors as u', 'u.id', '=', 'oit.assigned_to')
 
             ->where('oit.stage_id', $workflow->id)
-            ->where('oit.status', 'pending')
+           ->whereIn('oit.status', ['pending', 'in_progress'])
+
 
             ->select(
                 'oit.id as track_id',

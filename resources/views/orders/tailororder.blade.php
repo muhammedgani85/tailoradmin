@@ -38,7 +38,7 @@
 <div id="orderList" class="px-4 space-y-4 pb-20">
 
     <!-- ORDER CARD -->
-    <div class="bg-white rounded-2xl shadow p-4">
+    <!-- <div class="bg-white rounded-2xl shadow p-4">
 
         <div class="flex justify-between items-center">
             <div>
@@ -52,7 +52,7 @@
             </span>
         </div>
 
-        <!-- ACTION -->
+
         <div class="mt-4 flex justify-end">
             <button onclick="startWork(this)"
                 class="px-3 py-1 text-sm bg-green-600 text-white rounded-lg">
@@ -60,102 +60,194 @@
             </button>
         </div>
 
-    </div>
+    </div> -->
+    <div id="ordersContainer"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
+</div>
 
     <!-- ORDER CARD -->
-    <div class="bg-white rounded-2xl shadow p-4">
 
-        <div class="flex justify-between items-center">
-            <div>
-                <h3 class="font-semibold text-gray-800">ORD001-2</h3>
-                <p class="text-xs text-gray-500">Order Date: 04 Apr 2026</p>
-                <p class="text-xs text-gray-500">Assigned: 05 Apr 2026</p>
-            </div>
-
-            <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
-                In Progress
-            </span>
-        </div>
-
-        <!-- ACTION -->
-        <div class="mt-4 flex justify-end">
-            <button onclick="stopWork(this)"
-                class="px-3 py-1 text-sm bg-red-600 text-white rounded-lg">
-                Stop
-            </button>
-        </div>
-
-    </div>
-
-    <!-- ORDER CARD -->
-    <div class="bg-white rounded-2xl shadow p-4">
-
-        <div class="flex justify-between items-center">
-            <div>
-                <h3 class="font-semibold text-gray-800">ORD002-1</h3>
-                <p class="text-xs text-gray-500">Order Date: 05 Apr 2026</p>
-                <p class="text-xs text-gray-500">Assigned: 06 Apr 2026</p>
-            </div>
-
-            <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
-                Completed
-            </span>
-        </div>
-
-        <!-- ACTION -->
-        <div class="mt-4 flex justify-end">
-            <button disabled
-                class="px-3 py-1 text-sm bg-gray-300 text-gray-600 rounded-lg cursor-not-allowed">
-                Done
-            </button>
-        </div>
-
-    </div>
 
 </div>
 
 <!-- JS -->
+
+
+
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 
-// simulate load
-function loadOrders() {
+function loadOrders()
+{
     let id = document.getElementById('tailorId').value;
 
-    if (!id) {
-        alert('Enter Tailor ID');
+
+    if(!id){
+        alert('Enter Employee ID');
         return;
     }
 
-    console.log("Load orders for:", id);
-}
+    $('#ordersContainer').html(`
+        <div class="text-gray-400">
+            Loading...
+        </div>
+    `);
 
-// START
-function startWork(btn) {
-    let card = btn.closest('div.bg-white');
+    $.get('/tailor/works/' + id, function(res){
 
-    let status = card.querySelector('span');
-    status.innerHTML = "In Progress";
-    status.className = "px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700";
+        if(!res.success){
+            alert(res.message);
+            return;
+        }
 
-    btn.innerText = "Stop";
-    btn.className = "px-3 py-1 text-sm bg-red-600 text-white rounded-lg";
-    btn.setAttribute("onclick", "stopWork(this)");
-}
+        let html = '';
 
-// STOP
-function stopWork(btn) {
-    let card = btn.closest('div.bg-white');
+        if(res.data.length === 0){
 
-    let status = card.querySelector('span');
-    status.innerHTML = "Completed";
-    status.className = "px-2 py-1 text-xs rounded-full bg-green-100 text-green-700";
+            html = `
+                <div class="text-gray-400">
+                    No pending orders
+                </div>
+            `;
 
-    btn.innerText = "Done";
-    btn.className = "px-3 py-1 text-sm bg-gray-300 text-gray-600 rounded-lg";
-    btn.disabled = true;
+        } else {
+
+            res.data.forEach(item => {
+
+                let badge = '';
+
+                if(item.status == 'pending'){
+
+                    badge = `
+                        <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                            Pending
+                        </span>
+                    `;
+
+                } else {
+
+                    badge = `
+                        <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+                            In Progress
+                        </span>
+                    `;
+                }
+
+                html += `
+
+                <div class="bg-white rounded-2xl shadow p-4">
+
+                    <div class="flex justify-between items-start">
+
+                        <div>
+
+                            <h3 class="font-semibold text-gray-800">
+                                ${item.item_no}
+                            </h3>
+                            <p class="text-xs text-gray-500">
+                                Name : ${item.tailor_name}
+                                </p>
+
+                            <p class="text-xs text-gray-500 mt-1">
+                                Order : ${item.order_no}
+                            </p>
+
+                            <p class="text-xs text-gray-500">
+                                Type : ${item.type}
+                            </p>
+
+                            <p class="text-xs text-gray-500">
+                                Stage : ${item.stage_name}
+                            </p>
+
+                            <p class="text-xs text-gray-500 mt-1">
+                                Assigned : ${item.assigned_date}
+                            </p>
+                             <p class="text-xs text-gray-500 mt-1">
+                                 Notes : ${item.correction_notes}
+                            </p>
+
+                        </div>
+
+                        ${badge}
+
+                    </div>
+
+                    <div class="mt-4 flex justify-end">
+
+                        ${
+                            item.status == 'pending'
+
+                            ?
+
+                            `<button
+                               onclick="startWork(this, ${item.track_id})"
+                                class="px-3 py-1 text-sm bg-green-600 text-white rounded-lg">
+                                Start
+                            </button>`
+
+                            :
+
+                            `<button
+                                onclick="completeWork(this, ${item.track_id})"
+                                class="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg">
+                                Complete
+                            </button>`
+                        }
+
+                    </div>
+
+                </div>
+                `;
+            });
+        }
+
+        $('#ordersContainer').html(html);
+
+    });
 }
 
 </script>
+<script>
+// START
+function startWork(btn, id){
 
-</body>
+    let card = btn.closest('.bg-white');
+
+    $.post('/track/start/' + id, {
+        _token: '{{ csrf_token() }}'
+    }, function(res){
+
+        if(res.success){
+
+            btn.innerText = 'In Progress';
+
+            btn.classList.remove('bg-green-600');
+            btn.classList.add('bg-blue-600');
+        }
+    });
+}
+
+// STOP
+function completeWork(btn, id){
+
+
+
+    $.post('/track/complete/' + id, {
+        _token: '{{ csrf_token() }}'
+    }, function(res){
+
+        if(res.success){
+
+            let card = btn.closest('.bg-white');
+
+            card.remove();
+        }
+    });
+}
+
+</script>
 </html>

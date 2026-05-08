@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Measurement;
+use App\Models\OrderItem;
 
 class MeasurementController extends Controller
 {
@@ -64,17 +65,58 @@ class MeasurementController extends Controller
         //
     }
 
-    public function getMeasurements($id)
+    public function getMeasurements($id, Request $request)
 {
     try {
 
+        // ✅ measurement fields
         $measurements = Measurement::where('type_id', $id)->get();
 
-        return response()->json($measurements);
+        // ✅ latest order item
+        $latestItem = OrderItem::join(
+                'orders',
+                'orders.id',
+                '=',
+                'order_items.order_id'
+            )
+            ->where('orders.customer_id', $request->customer_id)
+            ->where('order_items.type_id', $id)
+            ->select('order_items.measurements')
+            ->latest('order_items.id')
+            ->first();
+
+        $oldMeasurements = [];
+
+        // ✅ already array
+        if($latestItem && $latestItem->measurements){
+
+            $oldMeasurements = $latestItem->measurements;
+        }
+
+        // ✅ append old values
+        $data = $measurements->map(function($m) use ($oldMeasurements){
+
+            return [
+
+                'id' => $m->id,
+
+                'field_name' => $m->field_name,
+                'display_name' => $m->display_name,
+
+                'value' => $oldMeasurements[$m->id]['value']
+                    ?? ''
+
+            ];
+        });
+
+        return response()->json($data);
 
     } catch(\Exception $e){
 
-        return response()->json([]);
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
     }
 }
 }

@@ -22,4 +22,12 @@ class OrderItem extends Model
     public function tracks(){
         return $this->hasMany(OrderItemTrack::class);
     }
+
+
+
+
+public function type()
+{
+    return $this->belongsTo(Types::class, 'type_id');
+}
 }

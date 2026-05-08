@@ -134,7 +134,7 @@
                     onclick="moveNextStage({{ $item->track_id }})"
                     class="text-xs bg-brand-500 text-white px-3 py-1 rounded">
 
-                    Pending
+                    {{ ucfirst($item->status) }}
                 </button>
 
             </div>

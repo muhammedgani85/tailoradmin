@@ -271,4 +271,237 @@ public function tailororder()
 
 }
 
+
+public function tailorwork($id)
+{
+    try {
+
+        $orders = DB::table('order_item_tracks as oit')
+
+            ->join('order_items as oi', 'oi.id', '=', 'oit.order_item_id')
+            ->join('orders as o', 'o.id', '=', 'oi.order_id')
+            ->join('types as t', 't.id', '=', 'oi.type_id')
+            ->join('stages as w', 'w.id', '=', 'oit.stage_id')
+            ->join('tailors as u', 'u.id', '=', 'oit.assigned_to')
+
+            ->where('oit.assigned_to', $id)
+
+            ->whereIn('oit.status', ['pending', 'in_progress'])
+
+            ->select(
+                'oit.id as track_id',
+                'oit.status',
+                'oit.created_at as assigned_date',
+                 'oi.notes as correction_notes',
+
+                'oi.item_no',
+
+                'o.order_no',
+                'o.order_date',
+
+                't.type',
+
+                'w.name as stage_name',
+                'u.name as tailor_name'
+            )
+
+            ->orderBy('oit.id', 'desc')
+
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $orders
+        ]);
+
+    } catch(\Exception $e){
+
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
+    }
+}
+
+public function startWork($id)
+{
+    try {
+
+        $track = OrderItemTrack::findOrFail($id);
+
+        $track->update([
+            'status' => 'in_progress',
+            'started_at' => now()
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Work Started'
+        ]);
+
+    } catch(\Exception $e){
+
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
+    }
+}
+
+public function completeWork($id)
+{
+    DB::beginTransaction();
+
+    try {
+
+        // ✅ current track
+        $track = OrderItemTrack::find($id);
+
+
+
+        if(!$track){
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Track not found'
+            ]);
+        }
+
+        // ✅ mark completed
+        $track->update([
+            'status' => 'completed',
+            'completed_at' => now()
+        ]);
+      // ✅ current workflow stage
+        $currentStage = stage::find($track->stage_id);
+        //dd($currentStage->id);
+
+        if(!$currentStage){
+
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Current workflow stage not found'
+            ]);
+        }
+
+
+        // ✅ order_no validation
+        if(is_null($currentStage->id)){
+
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Workflow order_no missing'
+            ]);
+        }
+
+        // ✅ get next workflow
+        $nextStage = stage::where(
+                'id',
+                '>',
+                $currentStage->id
+            )
+            ->orderBy('id', 'asc')
+            ->first();
+
+        // ✅ if no next stage
+        if(!$nextStage){
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Order Fully Completed'
+            ]);
+        }
+
+        // ✅ current order item
+        $orderItem = OrderItem::find($track->order_item_id);
+
+        if(!$orderItem){
+
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Order item not found'
+            ]);
+        }
+
+        // ✅ skip washing if not required
+        if(
+            strtolower($nextStage->name) == 'washing'
+            &&
+            empty($orderItem->washing)
+        ){
+
+            $nextStage = stage::where(
+                    'id',
+                    '>',
+                    $nextStage->id
+                )
+                ->orderBy('id', 'asc')
+                ->first();
+        }
+
+        // ✅ assign user
+        $assignedUser = $this->assignUser(
+            $nextStage->role_id,
+            $orderItem->type_id,
+            $nextStage->id
+        );
+
+        // ✅ insert next stage
+        OrderItemTrack::create([
+
+            'order_item_id' => $track->order_item_id,
+
+            'stage_id' => $nextStage->id,
+
+            'assigned_to' => $assignedUser?->user_id,
+
+            'status' => 'pending',
+
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        DB::commit();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Moved To Next Stage'
+        ]);
+
+    } catch(\Exception $e){
+
+        DB::rollBack();
+
+        \Log::error($e);
+
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
+    }
+}
+
+public function orderList()
+{
+    $orders = Order::with([
+        'customer',
+        'items.tracks.stage',
+        'items.tracks.tailor',
+        'items.type'
+    ])
+    ->latest()
+    ->get();
+
+    return view('orders.orderlist', compact('orders'));
+}
+
+
 }
