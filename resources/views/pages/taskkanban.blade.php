@@ -44,97 +44,118 @@
     </div>
 
     <!-- 🧩 KANBAN BOARD -->
-    <div class="w-full overflow-x-auto">
-        <div class="flex gap-6 min-w-[1500px]">
+    <div class="flex gap-6 min-w-[1250px]">
 
-            @php
+@foreach($board as $column)
 
-                $items = ['Shirt', 'Pant', 'Coat'];
-                $tailors = ['Ravi', 'Kumar', 'Ali', 'John'];
-                $dates = ['Today', 'Tomorrow', 'Jan 8'];
-            @endphp
+<div class="w-[420px] bg-white border rounded-2xl p-4 flex flex-col h-[85vh]">
 
-            @foreach($stages as $stage => $count)
-            <div class="w-[280px] bg-white border rounded-2xl p-4 flex flex-col h-[80vh]">
+    {{-- HEADER --}}
+    <div class="flex justify-between items-center mb-4" style="width: 180px !important;">
 
-                <!-- Column Header -->
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-semibold text-md">
-                        {{ $stage }} ({{ $count }})
-                    </h3>
-                    <span class="text-gray-400">⋯</span>
-                </div>
+        <h3 class="font-semibold text-md">
+            {{ $column['stage']->name }}
+            ({{ count($column['items']) }})
+        </h3>
 
-                <!-- Cards -->
-                <div class="space-y-4 overflow-y-auto pr-2">
+        <span class="text-gray-400">⋯</span>
+    </div>
 
-                    @for($i = 1; $i <= $count; $i++)
+    {{-- CARDS --}}
+    <div class="space-y-4 overflow-y-auto pr-2">
 
-                    @php
-                        $isDelayed = rand(0,1);
-                        $delayDays = rand(1,5);
-                    @endphp
+        @forelse($column['items'] as $item)
 
-                    <div class="p-4 rounded-xl shadow-sm border
-                        {{ $isDelayed ? 'bg-red-50 border-red-400' : 'bg-white border-gray-200' }}" style="width: 200px !important;">
+        @php
 
-                        <!-- Item -->
-                        <p class="font-medium">
-                            {{ $items[array_rand($items)] }} - Item {{ $i }}
-                        </p>
+           $days = number_format(
+    \Carbon\Carbon::parse($item->created_at)
+        ->floatDiffInDays(now()),
+    2
+);
 
-                        <!-- Order -->
-                        <p class="text-xs text-gray-500 mt-2">
-                            Order #ORD{{ rand(100,999) }}
-                        </p>
+            $isDelayed = $days > 2;
 
-                        <!-- Tailor -->
-                        <p class="text-xs text-gray-500">
-                            Tailor: {{ $tailors[array_rand($tailors)] }}
-                        </p>
+        @endphp
 
-                        <!-- Date -->
-                        <p class="text-xs mt-1
-                            {{ $isDelayed ? 'text-red-600 font-semibold' : 'text-gray-500' }}">
-                            📅 {{ $dates[array_rand($dates)] }}
-                        </p>
+        <div class="p-4 rounded-xl shadow-sm border
+            {{ $isDelayed
+                ? 'bg-red-50 border-red-300'
+                : 'bg-white border-gray-200' }}">
 
-                        <!-- Footer -->
-                        <div class="mt-2 space-y-2">
+            {{-- TYPE --}}
+            <div class="flex flex-col">
 
-                            <!-- Stage -->
-                            <span class="text-xs px-2 py-1 rounded inline-block
-                                @if($stage == 'Cutting') bg-blue-100 text-blue-600
-                                @elseif($stage == 'Stitching') bg-purple-100 text-purple-600
-                                @elseif($stage == 'Finishing') bg-yellow-100 text-yellow-600
-                                @elseif($stage == 'Ironing') bg-pink-100 text-pink-600
-                                @elseif($stage == 'Ready') bg-green-100 text-green-600
-                                @else bg-gray-100 text-gray-600
-                                @endif
-                            ">
-                                {{ $stage }}
-                            </span>
+    <p class="font-semibold text-gray-800" style="font-size: 10px !important;">
+        {{ $item->type }}
+    </p>
 
-                            <!-- Delay Days -->
-                            @if($isDelayed)
-                                <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded inline-block">
-                                    {{ $delayDays }} days
-                                </span>
-                            @endif
+    <p class="text-xs text-gray-400 mt-1">
+        {{ $item->order_no }}
+    </p>
 
-                        </div>
+</div>
 
-                    </div>
+            {{-- ORDER --}}
+            <p class="text-xs text-gray-500 mt-2">
+                Order : {{ $item->item_no }}
+            </p>
 
-                    @endfor
+            {{-- TAILOR --}}
+            <p class="text-xs text-gray-500 mt-1">
+                👤 {{ $item->tailor_name ?? 'Unassigned' }}
+            </p>
 
-                </div>
+             <p class="text-xs text-gray-500 mt-1 flatpickr-input active:bg-transparent">
+                 Dt :{{ date('d-m-Y',strtotime($item->created_at)) ?? 'Unassigned' }}
+            </p>
+
+            {{-- NOTES --}}
+            <!-- @if($item->notes)
+            <div class="mt-2 text-xs text-gray-600 bg-gray-50 p-2 rounded">
+                {{ $item->notes }}
+            </div>
+            @endif -->
+
+            {{-- FOOTER --}}
+            <div class="flex justify-between items-center mt-3">
+
+                {{-- DELAY --}}
+                @if($isDelayed)
+
+                <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">
+                    {{ $days }} days
+                </span>
+
+                @endif
+
+                {{-- ACTION --}}
+                <button
+                    onclick="moveNextStage({{ $item->track_id }})"
+                    class="text-xs bg-brand-500 text-white px-3 py-1 rounded">
+
+                    Pending
+                </button>
 
             </div>
-            @endforeach
 
         </div>
+
+        @empty
+
+        <div class="text-center text-sm text-gray-400 py-10">
+            No Items
+        </div>
+
+        @endforelse
+
     </div>
+
+</div>
+
+@endforeach
+
+</div>
 
 </div>
 

@@ -93,7 +93,7 @@ public function store(Request $req)
 
                 OrderItemTrack::create([
                 'order_item_id' => $orderItem->id,
-                'stage_id' => $stage->id,
+                'stage_id' => ($assignedUser?->user_id)?$stage->id:1,
                 'assigned_to' => $assignedUser?->user_id, // ✅ FIXED
                 'status' => 'pending'
                 ]);
@@ -263,4 +263,12 @@ public function store(Request $req)
 
     return $selectedUser;
 }
+
+
+public function tailororder()
+{
+    return view('orders.tailororder', ['title' => 'Tailor Order']);
+
+}
+
 }

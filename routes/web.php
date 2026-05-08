@@ -108,9 +108,9 @@ Route::get('/deliverytracking', function () {
     return view('delivery.deliverytracking', ['title' => 'Delivery Tracking']);
 })->name('deliverytracking');
 
-Route::get('/tailororder', function () {
+/* Route::get('/tailororder', function () {
     return view('orders.tailororder', ['title' => 'Tailor Order']);
-})->name('tailororder');
+})->name('tailororder'); */
 
 Route::get('/analyticsorder', function () {
     return view('analytics.orders', ['title' => 'Orders']);
@@ -230,6 +230,9 @@ Route::get('/customers/search', [CustomerController::class, 'search']);
 Route::get('/types/{id}/measurements', [MeasurementController::class, 'getMeasurements']);
 
 Route::get('types/{id}/corrections', [correctionnotesController::class, 'getCorrections'])->name('types.corrections');
+
+Route::get('tailororder', [OrderController::class, 'tailororder'])->name('tailororder');
+
 
 
 
