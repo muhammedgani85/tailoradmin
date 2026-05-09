@@ -72,7 +72,29 @@
 
 <!-- JS -->
 
+<!--- image Modal --->
+<!-- IMAGE MODAL -->
+<div id="imageModal"
+    class="fixed inset-0 z-[99999] hidden items-center justify-center bg-black/80">
 
+    <div class="relative">
+
+        <!-- CLOSE -->
+        <button onclick="closeImageModal()"
+            class="absolute -top-10 right-0 text-white text-3xl">
+            ✕
+        </button>
+
+        <!-- IMAGE -->
+        <img id="popupImage"
+            src=""
+            class="max-w-[90vw] max-h-[90vh] rounded-xl shadow-2xl">
+
+    </div>
+
+</div>
+
+<!--- image Modal --->
 
 
 
@@ -166,11 +188,66 @@ function loadOrders()
                             <p class="text-xs text-gray-500 mt-1">
                                 Assigned : ${item.assigned_date}
                             </p>
-                             <p class="text-xs text-gray-500 mt-1">
-                                 Notes : ${item.correction_notes}
-                            </p>
+                        <p class="text-xs text-gray-500 mt-1">
+
+                        <b>Notes :</b><br>
+
+                        ${(item.correction_notes || '')
+                        .replace(/\n/g, '<br>')}
+
+                        </p>
+                        <p></p>
+                        <p>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+     width="20"
+     height="20"
+     fill="currentColor"
+     viewBox="0 0 16 16">
+    <path d="M14.002 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z"/>
+    <path d="M10.648 7.646a.5.5 0 0 1 .704 0L14 10.293V12H2v-1.293l3.646-3.647a.5.5 0 0 1 .708.002l2.294 2.293 2-1.709z"/>
+    <path d="M6.5 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+</svg>
+                        </p>
 
                         </div>
+
+                        <div class="mt-3">
+
+    <p class="font-semibold text-gray-700 mb-2">
+        Measurements
+    </p>
+
+    <table class="w-full text-xs border border-gray-200 rounded overflow-hidden">
+
+        <tbody>
+
+            ${Object.values(
+                typeof item.measurements === 'string'
+                ? JSON.parse(item.measurements)
+                : item.measurements
+            ).map(m => `
+
+                <tr class="border-b">
+
+                    <td class="px-2 py-1 bg-gray-50 font-medium">
+                        ${m.name}
+                    </td>
+
+                    <td class="px-2 py-1">
+                        ${m.value}
+                    </td>
+
+                </tr>
+
+            `).join('')}
+
+        </tbody>
+
+    </table>
+
+</div>
+                        <div class="mt-2">
+</div>
 
                         ${badge}
 
@@ -248,6 +325,43 @@ function completeWork(btn, id){
         }
     });
 }
+
+
+// Load Tailor Images
+
+
+</script>
+
+<script>
+
+function openImageModal(src)
+{
+    document.getElementById('popupImage').src = src;
+
+    let modal = document.getElementById('imageModal');
+
+    modal.classList.remove('hidden');
+
+    modal.classList.add('flex');
+}
+
+function closeImageModal()
+{
+    let modal = document.getElementById('imageModal');
+
+    modal.classList.remove('flex');
+
+    modal.classList.add('hidden');
+}
+
+// ✅ click outside close
+document.getElementById('imageModal')
+.addEventListener('click', function(e){
+
+    if(e.target.id === 'imageModal'){
+        closeImageModal();
+    }
+});
 
 </script>
 </html>

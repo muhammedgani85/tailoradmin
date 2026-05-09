@@ -283,6 +283,7 @@ public function tailorwork($id)
             ->join('types as t', 't.id', '=', 'oi.type_id')
             ->join('stages as w', 'w.id', '=', 'oit.stage_id')
             ->join('tailors as u', 'u.id', '=', 'oit.assigned_to')
+           /*  ->join('order_images as oim', 'oim.order_id', '=', 'oit.order_item_id') */
 
             ->where('oit.assigned_to', $id)
 
@@ -302,7 +303,9 @@ public function tailorwork($id)
                 't.type',
 
                 'w.name as stage_name',
-                'u.name as tailor_name'
+                'u.name as tailor_name',
+                'oi.measurements'
+                /* 'oim.image_path' */
             )
 
             ->orderBy('oit.id', 'desc')
@@ -503,5 +506,144 @@ public function orderList()
     return view('orders.orderlist', compact('orders'));
 }
 
+public function getStageTailors($trackId)
+{
+    try {
+
+        $track = OrderItemTrack::findOrFail($trackId);
+
+        $orderItem = OrderItem::findOrFail(
+            $track->order_item_id
+        );
+
+        // ✅ current stage
+        $stageId = $track->stage_id;
+
+        // ✅ get stage
+        $stage = Stage::find($stageId);
+
+        // ✅ users for same role + type
+        $tailors = DB::table('tailor_types as tt')
+
+            ->join('tailors as t', 't.id', '=', 'tt.tailor_id')
+
+            ->where('t.roles', $stage->role_id)
+
+            ->where('tt.type_id', $orderItem->type_id)
+
+            ->where('t.status', 'active')
+
+            ->select(
+                't.id',
+                't.name'
+            )
+
+            ->get();
+
+        $data = [];
+
+        foreach($tailors as $t){
+
+            $total = OrderItemTrack::where(
+                    'assigned_to',
+                    $t->id
+                )
+                ->count();
+
+            $pending = OrderItemTrack::where(
+                    'assigned_to',
+                    $t->id
+                )
+                ->where('status', 'pending')
+                ->count();
+
+            $inProgress = OrderItemTrack::where(
+                    'assigned_to',
+                    $t->id
+                )
+                ->where('status', 'in_progress')
+                ->count();
+
+            $data[] = [
+
+                'id' => $t->id,
+
+                'name' => $t->name,
+
+                'total' => $total,
+
+                'pending' => $pending,
+
+                'in_progress' => $inProgress
+            ];
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
+
+    } catch(\Exception $e){
+
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
+    }
+}
+
+
+public function reassignTailor(Request $request)
+{
+    try {
+
+        OrderItemTrack::where('id', $request->track_id)
+
+            ->update([
+
+                'assigned_to' => $request->tailor_id
+            ]);
+
+        return response()->json([
+
+            'success' => true,
+
+            'message' => 'Reassigned Successfully'
+        ]);
+
+    } catch(\Exception $e){
+
+        return response()->json([
+
+            'success' => false,
+
+            'message' => $e->getMessage()
+        ]);
+    }
+}
+
+public function getOrderImages($id)
+{
+    try {
+
+        $images = OrderImage::where(
+                'order_id',
+                $id
+            )
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $images
+        ]);
+
+    } catch(\Exception $e){
+
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
+    }
+}
 
 }

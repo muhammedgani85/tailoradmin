@@ -224,6 +224,7 @@ Route::put('/orders/{id}',[OrderController::class,'update']);
 Route::delete('/orders/{id}',[OrderController::class,'destroy']);
 Route::get('/orders/addorder',[OrderController::class,'addorder'])->name('orders.addorder');
 Route::get('/customers/search', [CustomerController::class, 'search']);
+Route::get('/orders/{id}/images',[OrderController::class, 'getOrderImages']);
 
 //Routes Types
 
@@ -244,6 +245,10 @@ Route::post('/track/complete/{id}',[OrderController::class, 'completeWork'])->na
 })->name('orderlist'); */
 
 Route::get('/orderlist',[OrderController::class, 'orderList'])->name('orderlist');
+
+Route::get('/stage-tailors/{trackId}',[OrderController::class, 'getStageTailors']);
+
+Route::post('/reassign-tailor',[OrderController::class, 'reassignTailor']);
 
 
 

@@ -152,6 +152,7 @@
             <th class="px-4 py-3 text-left text-gray-500 text-sm">Delivery Date</th>
             <th class="px-4 py-3 text-left text-gray-500 text-sm">Items</th>
             <th class="px-4 py-3 text-left text-gray-500 text-sm">Status</th>
+             <th class="px-4 py-3 text-left text-gray-500 text-sm">Doc</th>
 
             <th class="px-4 py-3 text-right text-gray-500 text-sm">Action</th>
         </tr>
@@ -193,6 +194,11 @@
 
     <td class="px-4 py-4">
         In Progress
+    </td>
+    <td class="px-4 py-4">
+        <a href="#"  onclick="openOrderImages({{ $order->id }})">
+        <svg width="24" height="24" fill="none"><path d="M4 4H20V20H4V4Z" stroke="currentColor" stroke-width="1.5"></path><path d="M8 16V10M12 16V6M16 16V12" stroke="currentColor" stroke-width="1.5"></path></svg>
+        </a>
     </td>
 
 </tr>
@@ -236,7 +242,7 @@
     </td>
 
     <td>
-        {{ optional($item->tracks->last()?->tailor)->name ?? '-' }}
+       <a href="#" onclick="openTailorModal('{{ $item->tracks->last()->id  }}')"> {{ optional($item->tracks->last()?->tailor)->name ?? '-' }} </a>
     </td>
 
     <td>
@@ -429,48 +435,7 @@
         </tr>
     </thead>
 
-    <tbody>
-
-        <tr class="border-t hover:bg-gray-50">
-            <td class="py-3 px-4 font-medium">Ravi</td>
-            <td class="px-4 text-center">12</td>
-            <td class="px-4 text-center text-yellow-600 font-medium">5</td>
-            <td class="px-4 text-center text-red-600 font-medium">3</td>
-            <td class="px-4">
-                <input type="text"
-                    class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs"
-                    placeholder="Add note">
-            </td>
-             <td><button class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">Assign</button></td>
-        </tr>
-
-        <tr class="border-t hover:bg-gray-50">
-            <td class="py-3 px-4 font-medium">Kumar</td>
-            <td class="px-4 text-center">10</td>
-            <td class="px-4 text-center text-yellow-600 font-medium">4</td>
-            <td class="px-4 text-center text-red-600 font-medium">2</td>
-            <td class="px-4">
-                <input type="text"
-                    class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs"
-                    placeholder="Add note">
-            </td>
-            <td><button class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">Assign</button></td>
-        </tr>
-
-        <tr class="border-t hover:bg-gray-50">
-            <td class="py-3 px-4 font-medium">Suresh</td>
-            <td class="px-4 text-center">8</td>
-            <td class="px-4 text-center text-yellow-600 font-medium">3</td>
-            <td class="px-4 text-center text-red-600 font-medium">1</td>
-            <td class="px-4">
-                <input type="text"
-                    class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs"
-                    placeholder="Add note">
-            </td>
-            <td><button class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">Assign</button></td>
-        </tr>
-
-    </tbody>
+    <tbody id="tailorTableBody"></tbody>
 </table>
 
         </div>
@@ -493,6 +458,42 @@
 </div>
 
 
+<!-- ORDER IMAGE MODAL -->
+<div id="orderImageModal"
+    class="fixed inset-0 z-[99999] hidden items-center justify-center bg-black/70 overflow-y-auto p-5">
+
+    <div
+        class="bg-white rounded-2xl w-[900px] overflow-y-auto p-5 relative"
+        style="
+            min-height:300px;
+            max-height:500px;
+            overflow-y:auto;
+        ">
+
+        <!-- CLOSE -->
+        <button onclick="closeOrderImageModal()"
+            class="absolute top-3 right-4 text-2xl text-gray-500 hover:text-red-500">
+
+            ✕
+
+        </button>
+
+        <!-- TITLE -->
+        <h3 class="text-lg font-semibold mb-5">
+            Order Images
+        </h3>
+
+        <!-- IMAGE LIST -->
+        <div id="orderImageList"
+            class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <style>
 .input {
     width: 100%;
@@ -507,6 +508,9 @@
     box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
 }
 </style>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+
 <script>
 function openModal() {
 
@@ -539,14 +543,277 @@ function toggleRow(btn) {
 </script>
 
 <script>
-function openTailorModal(name) {
-    document.getElementById('tailorModal').classList.remove('hidden');
-    document.getElementById('tailorName').innerText = name;
+let currentTrackId = null;
+
+function openTailorModal(trackId)
+{
+    currentTrackId = trackId;
+
+    $('#tailorModal').removeClass('hidden');
+
+    $('#tailorTableBody').html(`
+        <tr>
+            <td colspan="6" class="text-center py-4">
+                Loading...
+            </td>
+        </tr>
+    `);
+
+    $.get('/stage-tailors/' + trackId, function(res){
+
+        let rows = '';
+
+        res.data.forEach(t => {
+
+            rows += `
+
+                <tr class="border-t hover:bg-gray-50">
+
+                    <td class="py-3 px-4 font-medium">
+                        ${t.name}
+                    </td>
+
+                    <td class="px-4 text-center">
+                        ${t.total}
+                    </td>
+
+                    <td class="px-4 text-center text-yellow-600 font-medium">
+                        ${t.in_progress}
+                    </td>
+
+                    <td class="px-4 text-center text-red-600 font-medium">
+                        ${t.pending}
+                    </td>
+
+                    <td class="px-4">
+
+                        <input type="text"
+                            id="note_${t.id}"
+                            class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs"
+                            placeholder="Add note">
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            onclick="assignTailor(${t.id})"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
+
+                            Assign
+
+                        </button>
+
+                    </td>
+
+                </tr>
+            `;
+        });
+
+        $('#tailorTableBody').html(rows);
+    });
 }
 
+function assignTailor(tailorId)
+{
+    let note = $('#note_' + tailorId).val();
+
+    $.post('/reassign-tailor', {
+
+        _token: '{{ csrf_token() }}',
+
+        track_id: currentTrackId,
+
+        tailor_id: tailorId,
+
+        note: note
+
+    }, function(res){
+
+        if(res.success){
+
+            alert('Reassigned Successfully');
+
+            closeTailorModal();
+
+            location.reload();
+        }
+    });
+}
 function closeTailorModal() {
     document.getElementById('tailorModal').classList.add('hidden');
 }
+</script>
+
+
+<script>
+
+function openOrderImages(orderId)
+{
+    document.getElementById('orderImageModal')
+        .classList.remove('hidden');
+
+    document.getElementById('orderImageModal')
+        .classList.add('flex');
+
+    document.getElementById('orderImageList').innerHTML = `
+        <div class="col-span-4 text-center py-10">
+            Loading...
+        </div>
+    `;
+
+    fetch('/orders/' + orderId + '/images')
+
+    .then(res => res.json())
+
+    .then(res => {
+
+        let html = '';
+
+        if(res.data.length === 0){
+
+            html = `
+                <div class="col-span-4 text-center text-gray-400">
+                    No Images Found
+                </div>
+            `;
+        }
+
+       res.data.forEach((img, index) => {
+
+    html += `
+
+        <div class="w-full">
+
+            <!-- HEADER -->
+            <h4
+                style="
+                    font-size:14px;
+                    font-weight:600;
+                    color:#000;
+                    margin-bottom:10px;
+                ">
+
+                Doc ${index + 1}
+
+            </h4>
+
+            <!-- IMAGE -->
+            <img
+                src="/${img.image_path}"
+                onclick="openImagePopup('/${img.image_path}')"
+                style="
+                    width:100%;
+                    height:300px;
+                    object-fit:cover;
+                    border-radius:12px;
+                    cursor:pointer;
+                    border:1px solid #ddd;
+                ">
+
+            <!-- LINE -->
+            <hr style="margin-top:15px; border-color:#ddd;" />
+
+        </div>
+
+    `;
+});
+
+        document.getElementById('orderImageList')
+            .innerHTML = html;
+    });
+}
+
+function closeOrderImageModal()
+{
+    document.getElementById('orderImageModal')
+        .classList.remove('flex');
+
+    document.getElementById('orderImageModal')
+        .classList.add('hidden');
+}
+
+</script>
+
+<script>
+
+function openOrderImages(orderId)
+{
+    let modal = document.getElementById('orderImageModal');
+
+    if(!modal){
+        console.error('orderImageModal not found');
+        return;
+    }
+
+    modal.classList.remove('hidden');
+
+    modal.classList.add('flex');
+
+    fetch('/orders/' + orderId + '/images')
+
+    .then(res => res.json())
+
+    .then(res => {
+
+        let html = '';
+
+        res.data.forEach(img => {
+
+            html += `
+
+                <img
+                    src="/${img.image_path}"    style="width: 500px; height: 400px;"      
+                    onclick="openImagePopup('/${img.image_path}')"
+                    class="w-full h-40 object-cover rounded-xl cursor-pointer border">
+
+            `;
+        });
+
+        document.getElementById('orderImageList').innerHTML = html;
+    });
+}
+
+function closeOrderImageModal()
+{
+    let modal = document.getElementById('orderImageModal');
+
+    if(modal){
+
+        modal.classList.remove('flex');
+
+        modal.classList.add('hidden');
+    }
+}
+
+function openImagePopup(src)
+{
+    let modal = document.getElementById('fullImageModal');
+
+    if(!modal){
+        console.error('fullImageModal not found');
+        return;
+    }
+
+    document.getElementById('fullPopupImage').src = src;
+
+    modal.classList.remove('hidden');
+
+    modal.classList.add('flex');
+}
+
+function closeImagePopup()
+{
+    let modal = document.getElementById('fullImageModal');
+
+    if(modal){
+
+        modal.classList.remove('flex');
+
+        modal.classList.add('hidden');
+    }
+}
+
 </script>
 
     </div>

@@ -958,7 +958,7 @@ function loadMeasurement(typeId)
                     ">
                         ${m.field_name}
                     </label>
-
+                        ( ${m.display_name} )
 
                     <input
                         type="text"
@@ -1036,30 +1036,7 @@ function openCartModal(){
 
     let html = '';
 
-    // 👉 CUSTOMER TABLE (FULL WIDTH)
-   /*  if(cart.length > 0){
 
-        let c = cart[0].customer;
-
-        html += `
-            <table class="w-full text-sm border mb-4">
-                <thead class="bg-blue-100 text-gray-700">
-                    <tr>
-                        <th class="p-2 text-left">Customer Name</th>
-                        <th class="p-2 text-left">Phone</th>
-                        <th class="p-2 text-left">Location</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-t">
-                        <td class="p-2 font-semibold">${c.name}</td>
-                        <td class="p-2">${c.phone}</td>
-                        <td class="p-2">${c.location}</td>
-                    </tr>
-                </tbody>
-            </table>
-        `;
-    } */
 
     // 👉 ORDER ITEMS TABLE (FULL WIDTH)
     html += `
@@ -1229,41 +1206,55 @@ function removeItem(index){
     openCartModal();
 }
 
-function editItem(index){
-
+function editItem(index)
+{
     let item = cart[index];
 
     editIndex = index;
 
-    // 👉 set type
+    console.log('Editing Item:', item);
+
+    // ✅ set type
     $('#selected_type_id').val(item.type_id);
+
     $('#selectedTypeName').text(item.type_name);
 
-    // 👉 load measurement fields again
+    // ✅ load measurements again
     loadMeasurement(item.type_id);
 
-    // 👉 wait for fields to render
+    // ✅ wait render
     setTimeout(() => {
 
-        for(let key in item.measurements){
+        let measurements = typeof item.measurements === 'string'
+            ? JSON.parse(item.measurements)
+            : item.measurements;
 
-            let m = item.measurements[key];
+        // ✅ fill values
+        Object.keys(measurements).forEach(key => {
 
-            // find input by label match
-            $('#measurementSection label').each(function(){
+            let m = measurements[key];
 
-                if($(this).text().trim() === m.name){
-                    $(this).next('input').val(m.value);
-                }
+            $(`input[name="measurements[${key}]"]`)
+                .val(m.value);
 
-            });
-        }
+        });
 
-    }, 300);
+    }, 500);
 
-    // 👉 notes
+    // ✅ notes
     $('#notes').val(item.correctionnotes ?? '');
 
+    // ✅ urgent
+    $('#urgent').prop(
+        'checked',
+        item.urgent == 1
+    );
+
+    // ✅ washing
+    $('#washing').prop(
+        'checked',
+        item.washing == 1
+    );
 }
 
 
