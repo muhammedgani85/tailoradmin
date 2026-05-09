@@ -226,6 +226,8 @@ Route::get('/orders/addorder',[OrderController::class,'addorder'])->name('orders
 Route::get('/customers/search', [CustomerController::class, 'search']);
 Route::get('/orders/{id}/images',[OrderController::class, 'getOrderImages']);
 
+Route::get('/orders/{id}/print-details',[OrderController::class, 'printDetails']);
+
 //Routes Types
 
 Route::get('/types/{id}/measurements', [MeasurementController::class, 'getMeasurements']);
@@ -249,6 +251,14 @@ Route::get('/orderlist',[OrderController::class, 'orderList'])->name('orderlist'
 Route::get('/stage-tailors/{trackId}',[OrderController::class, 'getStageTailors']);
 
 Route::post('/reassign-tailor',[OrderController::class, 'reassignTailor']);
+
+// Measurement Routes
+
+Route::resource('measurements',MeasurementController::class);
+
+Route::post('/measurements/toggle-status',[MeasurementController::class, 'toggleStatus']);
+
+
 
 
 

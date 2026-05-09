@@ -622,6 +622,42 @@ class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/
  <!-- New Customer Modal End -->
 
 
+ <!-- Print Modal -->
+ <!-- PRINT MODAL -->
+<div id="printModal"
+    class="fixed inset-0 z-[99999] hidden items-center justify-center bg-black/70 overflow-y-auto p-5">
+
+    <div
+        class="bg-white rounded-2xl max-h-[95vh] overflow-y-auto p-6 relative"
+        style="
+            width:55%;
+            max-width:800px;
+            height:80vh;
+        ">
+
+        <!-- CLOSE -->
+        <button onclick="closePrintModal()"
+            class="absolute top-3 right-4 text-2xl text-gray-500 hover:text-red-500">
+
+            ✕
+
+        </button>
+
+        <!-- TITLE -->
+        <h2 class="text-2xl font-bold mb-5">
+            Order Print Preview
+        </h2>
+
+        <!-- CONTENT -->
+        <div id="printContent"></div>
+
+    </div>
+
+</div>
+
+ <!-- Print Modal End -->
+
+
  <input type="hidden" id="customer_name"  >
         <input type="hidden" id="customer_phone">
          <input type="hidden" id="customer_location" >
@@ -684,10 +720,10 @@ function closeCartModal() {
     document.getElementById('cartModal').classList.add('hidden');
 }
 
-function confirmOrder() {
+/* function confirmOrder() {
     alert("Order Confirmed!");
     closeCartModal();
-}
+} */
 </script>
 <script>
 function searchCustomer(){
@@ -1009,7 +1045,9 @@ function saveMeasurement(){
         type_id: $('#selected_type_id').val(),
         type_name: $('#selectedTypeName').text(),
         measurements: measurements,
-        correctionnotes: $('#notes').val()
+        correctionnotes: $('#notes').val(),
+        'urgent': $('#urgent').is(':checked'),
+        'washing': $('#washing').is(':checked')
     };
 
     // 👉 UPDATE OR ADD
@@ -1486,6 +1524,8 @@ function confirmOrder(){
                         //text: 'Order No: ' + (res.order_no ?? '')
                     }).then(() => {
 
+                        openPrintModal(res.order_id);
+
                         // 👉 RESET EVERYTHING
                         cart = [];
                         filesArray = [];
@@ -1498,7 +1538,7 @@ function confirmOrder(){
 
                         openCartModal(); // refresh cart UI
 
-                        location.reload(); // optional
+                       // location.reload(); // optional
                     });
                 },
 
@@ -1520,11 +1560,292 @@ function confirmOrder(){
 }
 
 
+// Print Modal
+
 
 
 </script>
 
+<script>
 
+function openPrintModal(orderId)
+{
+    $('#printModal')
+        .removeClass('hidden')
+        .addClass('flex');
+
+    $('#printContent').html(`
+
+        <div class="text-center py-10 text-gray-400">
+
+            Loading...
+
+        </div>
+
+    `);
+
+    $.get('/orders/' + orderId + '/print-details', function(res){
+
+        if(!res.success){
+
+            alert(res.message);
+
+            return;
+        }
+
+        let order = res.data;
+
+        let html = '';
+
+        order.items.forEach((item, index) => {
+
+            let track = item.tracks.length
+                ? item.tracks[item.tracks.length - 1]
+                : null;
+
+            let measurements =
+                typeof item.measurements === 'string'
+                ? JSON.parse(item.measurements)
+                : item.measurements;
+
+            html += `
+
+            <div class="print-block border rounded-2xl mb-6 overflow-hidden">
+
+                <!-- HEADER -->
+                <div class="flex justify-between items-center bg-gray-100 px-4 py-3">
+
+                    <div>
+
+                        <h3 class="font-bold text-lg">
+
+                            ${item.item_no}
+
+                        </h3>
+
+                        <p class="text-xs text-gray-500">
+
+                            Order : ${order.order_no}
+
+                        </p>
+
+                    </div>
+
+                    <button
+                        onclick="printBlock(this)"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
+
+                        Print
+
+                    </button>
+
+                </div>
+
+                <!-- TABLE -->
+                <table class="w-full text-sm border-collapse">
+
+                    <tbody>
+
+                        <!-- CUSTOMER + ASSIGNED + TYPE -->
+                        <tr class="border-b">
+
+                            <td class="bg-gray-50 font-semibold px-4 py-3">
+                                Customer
+                            </td>
+
+                            <td class="px-4 py-3">
+
+                                ${order.customer?.name ?? ''}
+
+                                |
+
+                                ${order.customer?.phone ?? ''}
+
+                                |
+
+                                ${order.customer?.city ?? ''}
+
+                            </td>
+
+                            <td class="bg-gray-50 font-semibold px-4 py-3">
+                                Assigned
+                            </td>
+
+                            <td class="px-4 py-3">
+
+                                ${track?.tailor?.name ?? '-'}
+
+                                |
+
+                                ${track?.stage?.name ?? '-'}
+
+                                |
+
+                                ${track?.status ?? '-'}
+
+                            </td>
+
+                            <td class="bg-gray-50 font-semibold px-4 py-3">
+                                Type
+                            </td>
+
+                            <td class="px-4 py-3">
+
+                                ${item.type?.type ?? '-'}
+
+                            </td>
+
+                        </tr>
+
+                        <!-- NOTES -->
+                        <tr class="border-b">
+
+                            <td class="bg-gray-50 font-semibold px-4 py-3">
+
+                                Notes
+
+                            </td>
+
+                            <td colspan="5"
+                                class="px-4 py-3 leading-7">
+
+                                ${(item.notes || '')
+                                    .replace(/\n/g, '<br>')}
+
+                            </td>
+
+                        </tr>
+
+                        <!-- MEASUREMENTS -->
+                        <tr>
+
+                            <td class="bg-gray-50 font-semibold px-4 py-3 align-top">
+
+                                Measurements
+
+                            </td>
+
+                            <td colspan="5"
+                                class="px-4 py-3">
+
+                                <table class="w-full text-xs border">
+
+                                    <tbody>
+
+                                        ${Object.values(measurements || {}).map(m => `
+
+                                            <tr class="border-b">
+
+                                                <td class="px-2 py-2 bg-gray-50 w-[250px]">
+
+                                                    ${m.name}
+
+                                                </td>
+
+                                                <td class="px-2 py-2">
+
+                                                    ${m.value}
+
+                                                </td>
+
+                                            </tr>
+
+                                        `).join('')}
+
+                                    </tbody>
+
+                                </table>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            `;
+        });
+
+        $('#printContent').html(html);
+    });
+}
+
+function closePrintModal()
+{
+    $('#printModal')
+        .removeClass('flex')
+        .addClass('hidden');
+}
+
+function printBlock(btn)
+{
+    let block = btn.closest('.print-block');
+
+    let win = window.open('', '', 'width=1000,height=700');
+
+    win.document.write(`
+
+        <html>
+
+        <head>
+
+            <title>Print</title>
+
+            <style>
+
+                body{
+                    font-family:Arial;
+                    padding:20px;
+                }
+
+                table{
+                    width:100%;
+                    border-collapse:collapse;
+                }
+
+                td{
+                    border:1px solid #ddd;
+                    padding:8px;
+                    vertical-align:top;
+                }
+
+                .bg-gray-50{
+                    background:#f9fafb;
+                }
+
+                .font-semibold{
+                    font-weight:bold;
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            ${block.outerHTML}
+
+        </body>
+
+        </html>
+
+    `);
+
+    win.document.close();
+
+    win.focus();
+
+    setTimeout(() => {
+
+        win.print();
+
+    }, 500);
+}
+
+</script>
 
 
     @endsection

@@ -42,8 +42,19 @@ public function  taskkanban()
             ->leftJoin('tailors as u', 'u.id', '=', 'oit.assigned_to')
 
             ->where('oit.stage_id', $workflow->id)
-           ->whereIn('oit.status', ['pending', 'in_progress'])
+            ->whereIn('oit.status', ['pending', 'in_progress'])
+             // ✅ urgent first
+            ->orderByDesc('oi.urgent')
+            ->orderByRaw("
+                CASE
+                    WHEN oit.status = 'in_progress' THEN 0
+                    WHEN oit.status = 'pending' THEN 1
+                    ELSE 2
+                END
+            ")
 
+            // ✅ latest next
+            ->orderBy('oit.created_at', 'asc')
 
             ->select(
                 'oit.id as track_id',
@@ -57,7 +68,11 @@ public function  taskkanban()
 
                 't.type',
 
-                'u.name as tailor_name'
+                'u.name as tailor_name',
+                'oi.urgent',
+                'oit.created_at',
+                'oit.started_at'
+
             )
             ->get();
 

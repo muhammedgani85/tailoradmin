@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Measurement;
 use App\Models\OrderItem;
+use App\Models\Types;
 
 class MeasurementController extends Controller
 {
@@ -14,7 +15,161 @@ class MeasurementController extends Controller
      */
     public function index()
     {
-        //
+        $measurements = Measurement::with('type')
+            ->latest()
+            ->get();
+
+        $types = Types::where(
+                'status',
+                'active'
+            )
+            ->get();
+
+        return view(
+            'settings.measurement.index',
+            ['title' => 'Measurements'],
+            compact(
+                'measurements',
+                'types'
+            )
+        );
+    }
+
+    // STORE
+    public function store(Request $req)
+    {
+        try {
+
+            $req->validate([
+
+                'type_id' => 'required',
+
+                'field_name' => 'required',
+
+                'display_name' => 'required',
+
+                'status' => 'required'
+            ]);
+
+            Measurement::create([
+
+                'type_id'
+                    => $req->type_id,
+
+                'field_name'
+                    => $req->field_name,
+
+                'display_name'
+                    => $req->display_name,
+
+                'status'
+                    => $req->status
+            ]);
+
+            return response()->json([
+
+                'success' => true,
+
+                'message'
+                    => 'Measurement Created'
+            ]);
+
+        } catch(\Exception $e){
+
+            return response()->json([
+
+                'success' => false,
+
+                'message'
+                    => $e->getMessage()
+            ]);
+        }
+    }
+
+    // EDIT
+    public function edit($id)
+    {
+        return Measurement::findOrFail($id);
+    }
+
+    // UPDATE
+    public function update(Request $req, $id)
+    {
+        try {
+
+            $req->validate([
+
+                'type_id' => 'required',
+
+                'field_name' => 'required',
+
+                'display_name' => 'required',
+
+                'status' => 'required'
+            ]);
+
+            Measurement::findOrFail($id)
+                ->update([
+
+                    'type_id'
+                        => $req->type_id,
+
+                    'field_name'
+                        => $req->field_name,
+
+                    'display_name'
+                        => $req->display_name,
+
+                    'status'
+                        => $req->status
+                ]);
+
+            return response()->json([
+
+                'success' => true,
+
+                'message'
+                    => 'Measurement Updated'
+            ]);
+
+        } catch(\Exception $e){
+
+            return response()->json([
+
+                'success' => false,
+
+                'message'
+                    => $e->getMessage()
+            ]);
+        }
+    }
+
+    // STATUS
+    public function toggleStatus(Request $req)
+    {
+        try {
+
+            Measurement::where(
+                'id',
+                $req->id
+            )->update([
+
+                'status'
+                    => $req->status
+            ]);
+
+            return response()->json([
+
+                'success' => true
+            ]);
+
+        } catch(\Exception $e){
+
+            return response()->json([
+
+                'success' => false
+            ]);
+        }
     }
 
     /**
@@ -28,10 +183,7 @@ class MeasurementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+
 
     /**
      * Display the specified resource.
@@ -44,18 +196,7 @@ class MeasurementController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -70,7 +211,7 @@ class MeasurementController extends Controller
     try {
 
         // ✅ measurement fields
-        $measurements = Measurement::where('type_id', $id)->get();
+        $measurements = Measurement::where('type_id', $id)->where('status','active')->get();
 
         // ✅ latest order item
         $latestItem = OrderItem::join(

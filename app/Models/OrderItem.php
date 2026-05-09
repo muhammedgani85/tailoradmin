@@ -8,7 +8,7 @@ class OrderItem extends Model
 {
      protected $fillable = [
         'order_id','item_no','type_id','qty','status',
-        'assigned_to','measurements','notes'
+        'assigned_to','measurements','notes','urgent'
     ];
 
     protected $casts = [

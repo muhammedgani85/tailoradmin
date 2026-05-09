@@ -79,15 +79,38 @@
         @endphp
 
         <div class="p-4 rounded-xl shadow-sm border
-            {{ $isDelayed
-                ? 'bg-red-50 border-red-300'
-                : 'bg-white border-gray-200' }}">
+
+    {{
+        $item->urgent == 1 && $isDelayed
+
+        ? 'bg-red-100 border-red-500 text-red-700'
+
+        : (
+
+            $item->urgent == 1
+
+            ? 'bg-red-50 border-red-400 text-red-700'
+
+            : (
+
+                $isDelayed
+
+                ? 'bg-amber-50 border-amber-400 text-amber-700'
+
+                : 'bg-white border-gray-200'
+
+            )
+
+        )
+    }}">
+
+
 
             {{-- TYPE --}}
             <div class="flex flex-col">
 
     <p class="font-semibold text-gray-800" style="font-size: 10px !important;">
-        {{ $item->type }}
+        {{ $item->type }}  {{ ($item->urgent == 1) ? '(Urgent)' : ''}}
     </p>
 
     <p class="text-xs text-gray-400 mt-1">
@@ -107,7 +130,13 @@
             </p>
 
              <p class="text-xs text-gray-500 mt-1 flatpickr-input active:bg-transparent">
-                 Dt :{{ date('d-m-Y',strtotime($item->created_at)) ?? 'Unassigned' }}
+                 O.Dt :{{ date('d-m-Y',strtotime($item->created_at)) ?? 'Unassigned' }}
+            </p>
+            <p class="text-xs text-gray-500 mt-1 flatpickr-input active:bg-transparent">
+                 Agn.Dt :{{ ($item->created_at!=NULL)? date('d-m-y H:i',strtotime($item->created_at)) : 'Not Start' }}
+            </p>
+            <p class="text-xs text-gray-500 mt-1 flatpickr-input active:bg-transparent">
+                 St.Dt :{{ ($item->started_at!=NULL)? date('d-m-y H:i',strtotime($item->started_at)) : 'Not Start' }}
             </p>
 
             {{-- NOTES --}}
@@ -131,11 +160,29 @@
 
                 {{-- ACTION --}}
                 <button
-                    onclick="moveNextStage({{ $item->track_id }})"
-                    class="text-xs bg-brand-500 text-white px-3 py-1 rounded">
+    onclick="moveNextStage({{ $item->track_id }})"
 
-                    {{ ucfirst($item->status) }}
-                </button>
+    class="text-xs text-white px-3 py-1 rounded
+
+    {{
+        $item->status == 'pending'
+
+        ? 'bg-blue-500 hover:bg-blue-600'
+
+        : (
+
+            $item->status == 'in_progress'
+
+            ? 'bg-green-500 hover:bg-green-600'
+
+            : 'bg-gray-500 hover:bg-gray-600'
+
+        )
+    }}">
+
+    {{ ucfirst(str_replace('_', ' ', $item->status)) }}
+
+</button>
 
             </div>
 

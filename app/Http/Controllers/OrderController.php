@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\State;
 use App\Models\District;
+use App\Models\Measurement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Order;
@@ -43,6 +44,8 @@ class OrderController extends Controller
 
 public function store(Request $req)
 {
+
+//dd($req->all());
     DB::beginTransaction();
 
     try {
@@ -74,7 +77,9 @@ public function store(Request $req)
                 'item_no' => $orderNo.'-'.($index+1),
                 'type_id' => $item['type_id'],
                 'measurements' => $item['measurements'],
-                'notes' => $item['correctionnotes'] ?? null
+                'notes' => $item['correctionnotes'] ?? null,
+                'urgent' => isset($item['urgent']) && $item['urgent'] == true ? 1 : 0,
+
             ]);
 
             // 🔥 Loop stages
@@ -83,17 +88,19 @@ public function store(Request $req)
                 if($stage->name == 'Washing' && empty($item['washing'])){
                 continue;
                 }
-
+                $stage_id = !empty($item['washing']) ? 2 : $stage->id;
+                $role_id = !empty($item['washing']) ? 1 : $stage->role_id;
                 $assignedUser = $this->assignUser(
-                $stage->role_id,
+                $role_id,
 
                 $item['type_id'],
-                $stage->id
+                $stage_id,
+
                 );
 
                 OrderItemTrack::create([
                 'order_item_id' => $orderItem->id,
-                'stage_id' => ($assignedUser?->user_id)?$stage->id:1,
+                'stage_id' => !empty($item['washing']) ? 2 : ($assignedUser?->user_id ? $stage->id : 1),
                 'assigned_to' => $assignedUser?->user_id, // ✅ FIXED
                 'status' => 'pending'
                 ]);
@@ -129,7 +136,10 @@ public function store(Request $req)
 
         return response()->json([
             'success'=>true,
-            'message'=>'Order Created Successfully'
+            'message'=>'Order Created Successfully',
+            'order_id' => $order->id,
+            'order_no' => $order->order_no
+
         ]);
 
     } catch(\Exception $e){
@@ -183,7 +193,7 @@ public function store(Request $req)
     }
 
 
-    private function assignUser($role_id, $type_id, $stage_id=3)
+    private function assignUser($role_id, $type_id, $stage_id)
 {
     Log::info('TEST LOG WORKING');
     Log::info('Assigning User for Role ID: '.$role_id.', Type ID: '.$type_id.', Stage ID: '.$stage_id);
@@ -645,5 +655,95 @@ public function getOrderImages($id)
         ]);
     }
 }
+
+public function printDetails($id)
+{
+    try {
+
+        $order = Order::with([
+
+            'customer',
+
+            'items.type',
+
+            'items.tracks.stage',
+
+            'items.tracks.tailor'
+
+        ])->find($id);
+
+        // ✅ order not found
+        if(!$order){
+
+            return response()->json([
+
+                'success' => false,
+
+                'message' => 'Order not found'
+
+            ]);
+        }
+
+        // ✅ format measurements
+        foreach($order->items as $item){
+
+            $measurements = $item->measurements;
+
+            $formattedMeasurements = [];
+
+            // ✅ if array
+            if(is_array($measurements)){
+
+                foreach($measurements as $key => $m){
+
+                    // 👉 measurement master
+                    $master = Measurement::find($key);
+
+                    $formattedMeasurements[] = [
+
+                        'id' => $key,
+
+                        // ✅ always from DB
+                        'field_name'
+                            => $master->field_name ?? '',
+
+                        'display_name'
+                            => $master->display_name ?? '',
+
+                        // ✅ value from order
+                        'value'
+                            => $m['value'] ?? ''
+
+                    ];
+                }
+            }
+
+            // 👉 replace
+            $item->formatted_measurements
+                = $formattedMeasurements;
+        }
+
+        return response()->json([
+
+            'success' => true,
+
+            'data' => $order
+
+        ]);
+
+    } catch(\Exception $e){
+
+        return response()->json([
+
+            'success' => false,
+
+            'message' => $e->getMessage()
+
+        ]);
+    }
+}
+
+
+
 
 }

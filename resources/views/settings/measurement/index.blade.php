@@ -6,12 +6,12 @@
     <!-- Header -->
     <div class="flex items-center justify-between px-6 mb-4">
         <h3 class="text-lg font-semibold text-gray-800">
-            Type Management
+            Measurement Management
         </h3>
 
        <button onclick="openModal()"
     class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
-    + Add Types
+    + Add
 </button>
 
 
@@ -34,31 +34,48 @@
            <table class="min-w-full mt-6" id="typetable">
     <thead style="background-color: lightgrey;">
         <tr class="border-y">
-            <th class="px-4 py-3 text-left text-gray-500 text-sm">Type</th>
-            <th class="px-4 py-3 text-left text-gray-500 text-sm">Status</th>
-            <th class="px-4 py-3 text-left text-gray-500 text-sm">Icons</th>
-            <th class="px-4 py-3 text-left text-gray-500 text-sm">Added By</th>
-            <th class="px-4 py-3 text-left text-gray-500 text-sm">Added Date</th>
-            <th class="px-4 py-3 text-right text-gray-500 text-sm">Action</th>
+
+        <th class="px-4 py-3 text-left text-gray-500 text-sm">Type</th>
+        <th class="px-4 py-3 text-left text-gray-500 text-sm">Field Name</th>
+        <th class="px-4 py-3 text-left text-gray-500 text-sm">Display Name</th>
+        <th class="px-4 py-3 text-left text-gray-500 text-sm">Status</th>
+        <th class="px-4 py-3 text-left text-gray-500 text-sm">Created Date</th>
+        <th class="px-4 py-3 text-right text-gray-500 text-sm">Action</th>
         </tr>
     </thead>
 
     <tbody class="divide-y">
 
-        @foreach ($types as $typevalues )
+        @foreach($measurements as $m)
 
+<tr>
 
-        <tr>
-            <td class="px-4 py-4 font-medium">{{ ucfirst($typevalues->type) }}</td>
-            <td class="px-4 py-4">
+    <td class="px-4 py-4 font-medium">
+        {{ $m->type->type ?? '-' }}
+    </td>
 
- <div x-data="{ switcherToggle: {{ json_encode($typevalues->status == 'active') }} }">
+    <td class="px-4 py-4">
+        {{ $m->field_name }}
+    </td>
+
+    <td class="px-4 py-4">
+        {{ $m->display_name }}
+    </td>
+
+    <!-- <td class="px-4 py-4">
+
+        {{ ucfirst($m->status) }}
+
+    </td> -->
+
+    <td>
+                            <div x-data="{ switcherToggle: {{ json_encode($m->status == 'active') }} }">
     <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-gray-700 select-none">
 
         <div class="relative">
             <input type="checkbox" class="sr-only"
                 x-model="switcherToggle"
-                @change="updateStatus({{ $typevalues->id }}, switcherToggle)"
+                @change="updateStatus({{ $m->id }}, switcherToggle)"
             />
 
             <div class="block h-6 w-11 rounded-full"
@@ -74,24 +91,33 @@
 
     </label>
 </div>
+                        </td>
+
+    <td class="px-4 py-4">
+
+        {{ $m->created_at->format('d-m-Y') }}
+
+    </td>
 
 
-</td>
-            <td class="px-4 py-4">{!! $typevalues->description !!}</td>
 
-            <td class="px-4 py-4">{{ $typevalues->created_by }}</td>
-            <td class="px-4 py-4">{{ ($typevalues->created_at)?$typevalues->created_at->format('d-m-Y'):'--' }}</td>
-            <td class="px-4 py-4 text-right space-x-2">
-               <button onclick="editType({{ $typevalues->id }})" class="text-green-600">
-    <svg class="fill-current" width="21" height="21" viewBox="0 0 21 21">
-        <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M17.0911 3.53206C16.2124 2.65338 14.7878 2.65338 13.9091 3.53206L5.6074 11.8337C5.29899 12.1421 5.08687 12.5335 4.99684 12.9603L4.26177 16.445C4.20943 16.6931 4.286 16.9508 4.46529 17.1301C4.64458 17.3094 4.90232 17.3859 5.15042 17.3336L8.63507 16.5985C9.06184 16.5085 9.45324 16.2964 9.76165 15.988L18.0633 7.68631C18.942 6.80763 18.942 5.38301 18.0633 4.50433L17.0911 3.53206Z" />
-    </svg>
-</button>
+    <td class="px-4 py-4 text-right space-x-2">
 
-            </td>
-        </tr>
- @endforeach
+
+        <a href="#"
+            onclick="editMeasurement({{ $m->id }})">
+
+            <svg class="fill-current" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.0911 3.53206C16.2124 2.65338 14.7878 2.65338 13.9091 3.53206L5.6074 11.8337C5.29899 12.1421 5.08687 12.5335 4.99684 12.9603L4.26177 16.445C4.20943 16.6931 4.286 16.9508 4.46529 17.1301C4.64458 17.3094 4.90232 17.3859 5.15042 17.3336L8.63507 16.5985C9.06184 16.5085 9.45324 16.2964 9.76165 15.988L18.0633 7.68631C18.942 6.80763 18.942 5.38301 18.0633 4.50433L17.0911 3.53206ZM14.9697 4.59272C15.2626 4.29982 15.7375 4.29982 16.0304 4.59272L17.0027 5.56499C17.2956 5.85788 17.2956 6.33276 17.0027 6.62565L16.1043 7.52402L14.0714 5.49109L14.9697 4.59272ZM13.0107 6.55175L6.66806 12.8944C6.56526 12.9972 6.49455 13.1277 6.46454 13.2699L5.96704 15.6283L8.32547 15.1308C8.46772 15.1008 8.59819 15.0301 8.70099 14.9273L15.0436 8.58468L13.0107 6.55175Z" fill=""></path>
+                                    </svg>
+
+        </a>
+
+    </td>
+
+</tr>
+
+@endforeach
 
 
     </tbody>
@@ -122,16 +148,36 @@
         <!-- Body -->
         <div class="p-6 max-h-[80vh] overflow-y-auto">
 
-           <form id="typeForm" method="POST">
+            <form id="measurementForm" method="POST">
     @csrf
-    <input type="hidden" id="type_id">
+    <input type="hidden" id="measurement_id">
+
 
     <div class="grid grid-cols-2 gap-4">
 
         <!-- TYPE -->
         <div class="flex items-center gap-2">
             <label class="w-24 text-sm text-gray-700">Type :</label>
-            <input name="type" class="input flex-1" placeholder="Enter Type" required>
+            <select
+                    name="type_id"
+                    class="input w-full"
+                    required>
+
+                    <option value="">
+                        Select Type
+                    </option>
+
+                    @foreach($types as $type)
+
+                        <option value="{{ $type->id }}">
+
+                            {{ $type->type }}
+
+                        </option>
+
+                    @endforeach
+
+                </select>
         </div>
 
         <!-- STATUS -->
@@ -145,8 +191,39 @@
 
         <!-- COMMENTS -->
         <div class="col-span-2 flex items-start gap-2">
-            <label class="w-24 text-sm text-gray-700 mt-2">Icons</label>
-            <textarea name="comments" class="input flex-1"></textarea>
+
+
+        </div>
+
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+
+        <!-- TYPE -->
+        <div class="flex items-center gap-2">
+            <label class="w-24 text-sm text-gray-700">Field :</label>
+            <input
+                    type="text"
+                    name="field_name"
+                    class="input w-full"
+                    placeholder="Enter Field Name"
+                    required>
+        </div>
+
+        <!-- STATUS -->
+        <div class="flex items-center gap-2">
+            <label class="w-20 text-sm text-gray-700">Display Name :</label>
+             <input
+                    type="text"
+                    name="display_name"
+                    class="input w-full"
+                    placeholder="Enter Display Name"
+                    required>
+        </div>
+
+        <!-- COMMENTS -->
+        <div class="col-span-2 flex items-start gap-2">
+
 
         </div>
 
@@ -295,7 +372,7 @@ $(document).ready(function () {
 
         dom: 't<"flex justify-end mt-4"p>', // table + right pagination
 
-        pageLength: 5,
+        pageLength: 10,
         paging: true,
         ordering: true,
         info: false,
@@ -336,7 +413,7 @@ $(document).ready(function () {
 function updateStatus(id, status){
 
     $.ajax({
-        url: '/types/toggle-status',
+        url: '/measurements/toggle-status',
         type: 'POST',
         data: {
             _token: '{{ csrf_token() }}',
@@ -399,6 +476,116 @@ function editType(id){
 
 }
 </script>
+
+
+<script>
+    $(document).ready(function(){
+
+    $('#measurementForm').on('submit', function(e){
+
+        e.preventDefault();
+
+        let id = $('#measurement_id').val();
+
+        let url = id
+            ? '/measurements/' + id
+            : '/measurements';
+
+        let formData = $(this).serialize();
+
+        if(id){
+
+            formData += '&_method=PUT';
+        }
+
+        $.ajax({
+
+            url: url,
+
+            type: 'POST',
+
+            data: formData,
+
+            success: function(res){
+
+                if(res.success){
+
+                    Swal.fire({
+
+                        icon: 'success',
+
+                        title: 'Success',
+
+                        text: res.message,
+
+                        width: '320px',
+
+                        padding: '1rem',
+
+                        showConfirmButton: false,
+
+                        timer: 1200
+
+                    }).then(() => {
+
+                        location.reload();
+                    });
+
+                } else {
+
+                    Swal.fire(
+                        'Warning',
+                        res.message,
+                        'warning'
+                    );
+                }
+            },
+
+            error: function(err){
+
+                console.log(err.responseText);
+
+                Swal.fire(
+                    'Error',
+                    'Server Error',
+                    'error'
+                );
+            }
+        });
+
+    });
+
+});
+
+// Edit Measurement
+function editMeasurement(id)
+{
+    $.get('/measurements/' + id + '/edit',
+
+    function(data){
+        $('#measurement_id').val(data.id);
+
+
+        $('#measurement_id')
+            .val(data.id);
+
+        $('select[name=type_id]')
+            .val(data.type_id);
+
+        $('input[name=field_name]')
+            .val(data.field_name).prop('readonly', true);
+
+        $('input[name=display_name]')
+            .val(data.display_name);
+
+        $('select[name=status]')
+            .val(data.status);
+
+        openModal();
+    });
+}
+
+    </script>
 
 <style>
 .dataTables_paginate {

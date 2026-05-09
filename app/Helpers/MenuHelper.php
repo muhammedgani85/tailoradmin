@@ -129,6 +129,7 @@ class MenuHelper
                     ['name' => 'Bar Chart', 'path' => '/bar-chart', 'pro' => false] */
                      ['name' => 'Types', 'path' => '/types', 'pro' => false],
                       ['name' => 'Work Flow', 'path' => '/workflow', 'pro' => false],
+                      ['name' => 'Measurements', 'path' => '/measurements', 'pro' => false],
 
                 ],
             ],

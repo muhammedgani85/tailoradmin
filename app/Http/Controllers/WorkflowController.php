@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\stage;
 use Illuminate\Http\Request;
 use App\Models\Workflow;
 use App\Models\Types;
@@ -18,7 +19,7 @@ class WorkflowController extends Controller
     public function index()
     {
         try {
-            $workflows = Workflow::orderBy('id','asc')->get();
+            $workflows = stage::orderBy('id','asc')->get();
 $types = Types::where('status','active')->get();
 
 // 🔥 get mapping
