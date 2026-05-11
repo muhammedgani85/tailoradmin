@@ -109,8 +109,9 @@
                 </svg>
 
             </button>
- <input type="checkbox" id="urgent" name="urgent" class="ml-2">Urgent
+         <input type="checkbox" id="urgent" name="urgent" class="ml-2">Urgent
          <input type="checkbox" id="washing" name="washing" class="ml-2">Washing
+| Qty : <input type="text" id="no_of_qty" name="no_of_qty" style="width:10%;" class="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200" style="margin-right: 10px;">
         </div>
         <br />
 
@@ -1021,52 +1022,86 @@ function loadMeasurement(typeId)
 let cart = [];
 let editIndex = null;
 
-function saveMeasurement(){
-
+function saveMeasurement()
+{
     let measurements = {};
 
     $('#measurementSection input').each(function(){
 
-        let id = $(this).attr('name').match(/\d+/)[0];
-        let label = $(this).prev('label').text();
+        let id = $(this)
+            .attr('name')
+            .match(/\d+/)[0];
+
+        let label = $(this)
+            .prev('label')
+            .text();
 
         measurements[id] = {
+
             name: label,
+
             value: $(this).val()
         };
     });
 
+    // ✅ qty textbox
+    let qty = parseInt($('#no_of_qty').val()) || 1;
+
     let itemData = {
+
         customer: {
+
             name: $('#customer_name').val(),
+
             phone: $('#customer_phone').val(),
+
             location: $('#customer_location').val()
         },
+
         type_id: $('#selected_type_id').val(),
+
         type_name: $('#selectedTypeName').text(),
+
         measurements: measurements,
+
         correctionnotes: $('#notes').val(),
-        'urgent': $('#urgent').is(':checked'),
-        'washing': $('#washing').is(':checked')
+
+        urgent: $('#urgent').is(':checked'),
+
+        washing: $('#washing').is(':checked')
     };
 
-    // 👉 UPDATE OR ADD
+    // ✅ EDIT
     if(editIndex !== null){
 
-        cart[editIndex] = itemData; // update
+        cart[editIndex] = itemData;
 
         editIndex = null;
 
     } else {
 
-        cart.push(itemData); // new
+        // ✅ ADD MULTIPLE ITEMS
+        for(let i = 0; i < qty; i++){
+
+            cart.push({
+
+                ...itemData
+            });
+        }
     }
 
     openCartModal();
 
-    // 👉 reset form
+    // ✅ RESET
     $('#measurementSection').html('');
+
     $('#notes').val('');
+
+    $('#urgent').prop('checked', false);
+
+    $('#washing').prop('checked', false);
+
+    $('#no_of_qty').val('');
 }
 
 

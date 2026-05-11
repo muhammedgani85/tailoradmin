@@ -138,6 +138,7 @@
             <p class="text-xs text-gray-500 mt-1 flatpickr-input active:bg-transparent">
                  St.Dt :{{ ($item->started_at!=NULL)? date('d-m-y H:i',strtotime($item->started_at)) : 'Not Start' }}
             </p>
+           <p class="text-xs text-gray-500 mt-1 flatpickr-input active:bg-transparent">Dly.Dt : {{ ($item->delivery_date && $item->delivery_date != '0000-00-00' && $item->delivery_date != '0000-00-00 00:00:00') ? date('d-m-y', strtotime($item->delivery_date)) : 'Not Assigned' }}</p>
 
             {{-- NOTES --}}
             <!-- @if($item->notes)

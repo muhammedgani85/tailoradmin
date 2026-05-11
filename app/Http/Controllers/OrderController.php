@@ -55,18 +55,38 @@ public function store(Request $req)
         $next = $last ? intval(substr($last->order_no, 2)) + 1 : 1;
         $orderNo = 'OR'.str_pad($next, 3, '0', STR_PAD_LEFT);
 
+       $deliverydate = DB::table('delivery_dates')->where('status', 'active')->orderBy('id', 'asc')->first();
+
+       $delivery_date = now()->addDays($deliverydate->days)->format('Y-m-d');
+
+       Log::info('Calculated Delivery Date: '.$delivery_date);
+
+
+         if(!$deliverydate){
+            throw new \Exception('No active delivery date found');
+        }
+
+         $deliveryDays = $deliverydate->days;
+
+         $estimatedDelivery = now()->addDays($deliveryDays);
+
+         Log::info('Estimated Delivery Date: '.$estimatedDelivery);
+
         // 🔥 Create Order
         $order = Order::create([
             'order_no' => $orderNo,
             'customer_id' => $req->customer_id,
             'phone' => $req->phone,
             'order_date' => now(),
+            'delivery_date' => $delivery_date,
             'status' => 'Order Received',
             'created_by' => 1
         ]);
 
         // 🔥 Get all workflow stages
         $stages = stage::orderBy('id')->where('id',3)->get();
+
+        //Log::info('Workflow Stages Retrieved: '.dd($stages));
 
         // 🔥 Loop items
 
@@ -78,7 +98,7 @@ public function store(Request $req)
                 'type_id' => $item['type_id'],
                 'measurements' => $item['measurements'],
                 'notes' => $item['correctionnotes'] ?? null,
-                'urgent' => isset($item['urgent']) && $item['urgent'] == true ? 1 : 0,
+                'urgent' => filter_var($item['urgent'] ?? false,FILTER_VALIDATE_BOOLEAN),
 
             ]);
 
@@ -88,8 +108,17 @@ public function store(Request $req)
                 if($stage->name == 'Washing' && empty($item['washing'])){
                 continue;
                 }
-                $stage_id = !empty($item['washing']) ? 2 : $stage->id;
-                $role_id = !empty($item['washing']) ? 1 : $stage->role_id;
+                $hasWashing = filter_var(
+                    $item['washing'] ?? false,
+                    FILTER_VALIDATE_BOOLEAN
+                );
+
+                log::info('Processing Item: '.$orderItem->item_no.', Stage: '.$stage->name.', Washing Required: '.($hasWashing ? 'Yes' : 'No'));
+
+                $stage_id = $hasWashing ? 2 : $stage->id;
+
+                $role_id = $hasWashing ? 1 : $stage->role_id;
+                Log::info('Processing Stage: '.$stage->name.', Role ID: '.$role_id.', Type ID: '.$item['type_id'].', Stage ID: '.$stage_id);
                 $assignedUser = $this->assignUser(
                 $role_id,
 
@@ -100,7 +129,7 @@ public function store(Request $req)
 
                 OrderItemTrack::create([
                 'order_item_id' => $orderItem->id,
-                'stage_id' => !empty($item['washing']) ? 2 : ($assignedUser?->user_id ? $stage->id : 1),
+                'stage_id' => $stage_id,
                 'assigned_to' => $assignedUser?->user_id, // ✅ FIXED
                 'status' => 'pending'
                 ]);
@@ -115,22 +144,50 @@ public function store(Request $req)
         }
 
         // 🔥 Save Images
-        if($req->images){
-            foreach($req->images as $img){
+       if($req->images){
 
-                $image = str_replace('data:image/png;base64,', '', $img['src']);
-                $image = base64_decode($image);
+    foreach($req->images as $img){
 
-                $fileName = 'order_'.time().'_'.Str::random(5).'.png';
+        // ✅ get mime type
+        preg_match(
+            '/^data:image\/(\w+);base64,/',
+            $img['src'],
+            $matches
+        );
 
-                file_put_contents($path.'/'.$fileName, $image);
+        // ✅ extension
+        $extension = $matches[1] ?? 'png';
 
-                OrderImage::create([
-                    'order_id' => $order->id,
-                    'image_path' => 'uploads/'.$fileName
-                ]);
-            }
-        }
+        // ✅ remove header
+        $image = preg_replace(
+            '/^data:image\/\w+;base64,/',
+            '',
+            $img['src']
+        );
+
+        $image = base64_decode($image);
+
+        // ✅ filename
+        $fileName = 'order_'
+            .time().'_'
+            .Str::random(5)
+            .'.'.$extension;
+
+        // ✅ save
+        file_put_contents(
+            $path.'/'.$fileName,
+            $image
+        );
+
+        // ✅ insert
+        OrderImage::create([
+
+            'order_id' => $order->id,
+
+            'image_path' => 'uploads/'.$fileName
+        ]);
+    }
+}
 
         DB::commit();
 
@@ -289,48 +346,106 @@ public function tailorwork($id)
         $orders = DB::table('order_item_tracks as oit')
 
             ->join('order_items as oi', 'oi.id', '=', 'oit.order_item_id')
+
             ->join('orders as o', 'o.id', '=', 'oi.order_id')
+
             ->join('types as t', 't.id', '=', 'oi.type_id')
+
             ->join('stages as w', 'w.id', '=', 'oit.stage_id')
+
             ->join('tailors as u', 'u.id', '=', 'oit.assigned_to')
-           /*  ->join('order_images as oim', 'oim.order_id', '=', 'oit.order_item_id') */
 
             ->where('oit.assigned_to', $id)
 
-            ->whereIn('oit.status', ['pending', 'in_progress'])
+            ->whereIn('oit.status', [
+                'pending',
+                'in_progress'
+            ])
+
+            // ✅ urgent first
+            ->orderByDesc('oi.urgent')
+
+            // ✅ latest next
+            ->orderBy('oit.id', 'desc')
 
             ->select(
+
                 'oit.id as track_id',
+
                 'oit.status',
+
                 'oit.created_at as assigned_date',
-                 'oi.notes as correction_notes',
+
+                'oi.notes as correction_notes',
 
                 'oi.item_no',
 
                 'o.order_no',
+
                 'o.order_date',
 
                 't.type',
 
                 'w.name as stage_name',
-                'u.name as tailor_name',
-                'oi.measurements'
-                /* 'oim.image_path' */
-            )
 
-            ->orderBy('oit.id', 'desc')
+                'u.name as tailor_name',
+
+                'oi.measurements',
+
+                'oi.urgent'
+
+            )
 
             ->get();
 
+        // ✅ format measurements
+        foreach($orders as $order){
+
+            $measurements = json_decode(
+                $order->measurements,
+                true
+            );
+
+            $formatted = [];
+
+            if(is_array($measurements)){
+
+                foreach($measurements as $key => $m){
+
+                    $master = DB::table('measurements')
+                        ->where('id', $key)
+                        ->first();
+
+                    $formatted[] = [
+
+                        'field_name'
+                            => $master->field_name ?? '',
+
+                        'display_name'
+                            => $master->display_name ?? '',
+
+                        'value'
+                            => $m['value'] ?? ''
+                    ];
+                }
+            }
+
+            $order->measurements = $formatted;
+        }
+
         return response()->json([
+
             'success' => true,
+
             'data' => $orders
         ]);
 
     } catch(\Exception $e){
 
         return response()->json([
+
             'success' => false,
+
             'message' => $e->getMessage()
         ]);
     }
@@ -465,6 +580,7 @@ public function completeWork($id)
             $nextStage->role_id,
             $orderItem->type_id,
             $nextStage->id
+
         );
 
         // ✅ insert next stage
@@ -505,15 +621,67 @@ public function completeWork($id)
 public function orderList()
 {
     $orders = Order::with([
+
         'customer',
+
         'items.tracks.stage',
+
         'items.tracks.tailor',
+
         'items.type'
+
     ])
+
     ->latest()
+
     ->get();
 
-    return view('orders.orderlist', compact('orders'));
+    // ✅ append counts
+    foreach($orders as $order){
+
+        $inProgress = 0;
+
+        $completed = 0;
+
+        foreach($order->items as $item){
+
+            foreach($item->tracks as $track){
+
+                // ✅ in progress
+                if($track->status == 'in_progress'){
+
+                    $inProgress++;
+                }
+
+                // ✅ completed
+                if($track->status == 'ready for delivery'){
+
+                    $completed++;
+                }
+            }
+        }
+
+        // ✅ order wise counts
+        $order->in_progress_count = $inProgress;
+
+        $order->completed_count = $completed;
+    }
+
+    // ✅ overall counts
+    $totalInProgress = $orders->sum('in_progress_count');
+
+    $totalCompleted = $orders->sum('completed_count');
+
+    return view(
+
+        'orders.orderlist',
+
+        compact(
+            'orders',
+            'totalInProgress',
+            'totalCompleted'
+        )
+    );
 }
 
 public function getStageTailors($trackId)
@@ -644,7 +812,16 @@ public function getOrderImages($id)
 
         return response()->json([
             'success' => true,
-            'data' => $images
+            'data' => $images->map(function($img){
+
+        return [
+
+            'id' => $img->id,
+
+            'image_path' => $img->image_path
+
+        ];
+    })
         ]);
 
     } catch(\Exception $e){

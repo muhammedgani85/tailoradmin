@@ -167,7 +167,13 @@ function loadOrders()
                         <div>
 
                             <h3 class="font-semibold text-gray-800">
-                                ${item.item_no}
+
+                            ${item.item_no}
+
+                            ${item.urgent
+                            ? '<span style="color:red;font-weight:bold;">( Urgent )</span>'
+                            : ''}
+
                             </h3>
                             <p class="text-xs text-gray-500">
                                 Name : ${item.tailor_name}
@@ -217,33 +223,35 @@ function loadOrders()
         Measurements
     </p>
 
-    <table class="w-full text-xs border border-gray-200 rounded overflow-hidden">
+   <table class="w-full text-xs border border-gray-300 border-collapse">
 
-        <tbody>
+    <tbody>
 
-            ${Object.values(
-                typeof item.measurements === 'string'
-                ? JSON.parse(item.measurements)
-                : item.measurements
-            ).map(m => `
+        ${item.measurements.map(m => `
 
-                <tr class="border-b">
+            <tr class="border border-gray-300">
 
-                    <td class="px-2 py-1 bg-gray-50 font-medium">
-                        ${m.name}
-                    </td>
+                <td class="px-2 py-1 font-medium border border-gray-300">
 
-                    <td class="px-2 py-1">
-                        ${m.value}
-                    </td>
+                    ${m.display_name || ''}
 
-                </tr>
+                    (${m.field_name || ''})
 
-            `).join('')}
+                </td>
 
-        </tbody>
+                <td class="px-2 py-1 font-semibold border border-gray-300">
 
-    </table>
+                    ${m.value || ''}
+
+                </td>
+
+            </tr>
+
+        `).join('')}
+
+    </tbody>
+
+</table>
 
 </div>
                         <div class="mt-2">

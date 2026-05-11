@@ -71,7 +71,8 @@ public function  taskkanban()
                 'u.name as tailor_name',
                 'oi.urgent',
                 'oit.created_at',
-                'oit.started_at'
+                'oit.started_at',
+                'o.delivery_date'
 
             )
             ->get();

@@ -8,19 +8,19 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
     <!-- Metric Item Start -->
     <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]" >
-      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Total Orders</p>
+      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Total</p>
 
       <div class="flex items-end justify-between mt-3">
         <div>
-          <h4 class="text-2xl font-bold text-gray-800 dark:text-white/90">24.7K</h4>
+          <h4 class="text-2xl font-bold text-gray-800 dark:text-white/90">{{ count($orders) }}</h4>
         </div>
 
         <div class="flex items-center gap-1">
-          <span class="flex items-center gap-1 rounded-full bg-success-50 px-2 py-0.5 text-theme-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
+          <!-- <span class="flex items-center gap-1 rounded-full bg-success-50 px-2 py-0.5 text-theme-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
             +20%
           </span>
 
-          <span class="text-gray-500 text-theme-xs dark:text-gray-400"> Vs last month </span>
+          <span class="text-gray-500 text-theme-xs dark:text-gray-400"> Vs last month </span> -->
         </div>
       </div>
     </div>
@@ -28,19 +28,23 @@
 
     <!-- Metric Item Start -->
     <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-      <p class="text-gray-500 text-theme-sm dark:text-gray-400">In Progree Order</p>
+      <p class="text-gray-500 text-theme-sm dark:text-gray-400">In Progres </p>
 
       <div class="flex items-end justify-between mt-3">
         <div>
-          <h4 class="text-2xl font-bold text-gray-800 dark:text-white/90">55.9K</h4>
+          <h4 class="text-2xl font-bold text-gray-800 dark:text-white/90">
+
+    {{ $totalInProgress }}
+
+</h4>
         </div>
 
         <div class="flex items-center gap-1">
-          <span class="flex items-center gap-1 rounded-full bg-success-50 px-2 py-0.5 text-theme-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
+          <!-- <span class="flex items-center gap-1 rounded-full bg-success-50 px-2 py-0.5 text-theme-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
             +4%
-          </span>
+          </span> -->
 
-          <span class="text-gray-500 text-theme-xs dark:text-gray-400"> Vs last month </span>
+          <!-- <span class="text-gray-500 text-theme-xs dark:text-gray-400"> Vs last month </span> -->
         </div>
       </div>
     </div>
@@ -48,19 +52,19 @@
 
     <!-- Metric Item Start -->
     <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Completed Order</p>
+      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Completed</p>
 
       <div class="flex items-end justify-between mt-3">
         <div>
-          <h4 class="text-2xl font-bold text-gray-800 dark:text-white/90">54%</h4>
+          <h4 class="text-2xl font-bold text-gray-800 dark:text-white/90">{{ $totalCompleted }}</h4>
         </div>
 
         <div class="flex items-center gap-1">
-          <span class="flex items-center gap-1 rounded-full bg-error-50 px-2 py-0.5 text-theme-xs font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500">
+          <!-- <span class="flex items-center gap-1 rounded-full bg-error-50 px-2 py-0.5 text-theme-xs font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500">
             -1.59%
-          </span>
+          </span> -->
 
-          <span class="text-gray-500 text-theme-xs dark:text-gray-400"> Vs last month </span>
+          <!-- <span class="text-gray-500 text-theme-xs dark:text-gray-400"> Vs last month </span> -->
         </div>
       </div>
     </div>
@@ -154,7 +158,7 @@
             <th class="px-4 py-3 text-left text-gray-500 text-sm">Status</th>
              <th class="px-4 py-3 text-left text-gray-500 text-sm">Doc</th>
 
-            <th class="px-4 py-3 text-right text-gray-500 text-sm">Action</th>
+            <th class="px-4 py-3 text-right text-gray-500 text-sm">Notes</th>
         </tr>
     </thead>
 
@@ -181,12 +185,14 @@
     </td>
 
     <td class="px-4 py-4">
-        {{ date('d M Y', strtotime($order->order_date)) }}
+        {{ date('d-m-y', strtotime($order->order_date)) }}
     </td>
 
-    <td class="px-4 py-4">
-        {{ $order->delivery_date ?? '-' }}
-    </td>
+    <td class="px-4 py-4 {{ ($order->delivery_date && $order->delivery_date != '0000-00-00' && $order->delivery_date != '0000-00-00 00:00:00' && strtotime($order->delivery_date) < time()) ? 'text-red-600 font-semibold' : '' }}">
+
+    {{ ($order->delivery_date && $order->delivery_date != '0000-00-00' && $order->delivery_date != '0000-00-00 00:00:00') ? date('d-m-y', strtotime($order->delivery_date)) : 'Not Assigned' }}
+
+</td>
 
     <td class="px-4 py-4">
         {{ $order->items->count() }} Items
@@ -281,7 +287,7 @@
         @else
 
             <span class="text-green-600">
-                On Time
+               {{ ($days > 2) ?'Delay' : 'On Time' }}
             </span>
 
         @endif
@@ -451,7 +457,7 @@
             </button>
 
             <button
-                class="px-4 py-2 bg-blue-600 text-black rounded-lg text-sm hover:bg-blue-700">
+                class="px-4 py-2 bg-blue-600 text-black rounded-lg text-sm hover:bg-blue-700" style="background-color: #3b82f6;">
                 Save
             </button>
         </div>
@@ -633,7 +639,7 @@ function openTailorModal(trackId)
 
                         <button
                             onclick="assignTailor(${t.id})"
-                            class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm" style="background-color: #3b82f6;">
 
                             Assign
 
@@ -735,8 +741,9 @@ function openOrderImages(orderId)
 
             <!-- IMAGE -->
             <img
-                src="/${img.image_path}"
-                onclick="openImagePopup('/${img.image_path}')"
+                   src="/${img.image_path}"
+                    onclick="openImagePopup('/${img.image_path}')"
+
                 style="
                     width:100%;
                     height:300px;
