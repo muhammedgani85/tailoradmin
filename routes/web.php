@@ -252,6 +252,12 @@ Route::get('/stage-tailors/{trackId}',[OrderController::class, 'getStageTailors'
 
 Route::post('/reassign-tailor',[OrderController::class, 'reassignTailor']);
 
+Route::get('/deliverylist',[OrderController::class, 'deliveryList'])->name('deliverylist');
+
+
+
+
+
 // Measurement Routes
 
 Route::resource('measurements',MeasurementController::class);

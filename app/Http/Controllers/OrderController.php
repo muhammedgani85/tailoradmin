@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
+use App\Models\Customer;
 use App\Models\State;
 use App\Models\District;
 use App\Models\Measurement;
@@ -15,6 +16,7 @@ use App\Models\OrderItemTrack;
 use App\Models\Workflow;
 use App\Models\OrderImage;
 use App\Models\stage;
+use App\Models\Tailors;
 use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\Log;
@@ -618,9 +620,9 @@ public function completeWork($id)
     }
 }
 
-public function orderList()
+public function orderList(Request $request)
 {
-    $orders = Order::with([
+    $query = Order::with([
 
         'customer',
 
@@ -630,11 +632,94 @@ public function orderList()
 
         'items.type'
 
-    ])
+    ]);
 
-    ->latest()
+    // ✅ customer filter
+    if($request->customer_id){
 
-    ->get();
+        $query->where(
+            'customer_id',
+            $request->customer_id
+        );
+    }
+
+    // ✅ due filter
+    if($request->due){
+
+        if($request->due == 'today'){
+
+            $query->whereDate(
+                'delivery_date',
+                today()
+            );
+        }
+
+        if($request->due == 'tomorrow'){
+
+            $query->whereDate(
+                'delivery_date',
+                today()->addDay()
+            );
+        }
+
+        if($request->due == 'week'){
+
+            $query->whereBetween(
+
+                'delivery_date',
+
+                [
+                    now()->startOfWeek(),
+                    now()->endOfWeek()
+                ]
+            );
+        }
+
+        if($request->due == 'month'){
+
+            $query->whereMonth(
+                'delivery_date',
+                now()->month
+            );
+        }
+    }
+
+    // ✅ date range
+    if($request->from_date && $request->to_date){
+
+        $query->whereBetween(
+
+            'delivery_date',
+
+            [
+                $request->from_date,
+                $request->to_date
+            ]
+        );
+    }
+
+    // ✅ status filter
+    if($request->status){
+
+        $query->whereHas(
+
+            'items.tracks',
+
+            function($q) use ($request){
+
+                $q->where(
+                    'status',
+                    $request->status
+                );
+            }
+        );
+    }
+
+    $orders = $query
+
+        ->latest()
+
+        ->get();
 
     // ✅ append counts
     foreach($orders as $order){
@@ -647,13 +732,11 @@ public function orderList()
 
             foreach($item->tracks as $track){
 
-                // ✅ in progress
                 if($track->status == 'in_progress'){
 
                     $inProgress++;
                 }
 
-                // ✅ completed
                 if($track->status == 'ready for delivery'){
 
                     $completed++;
@@ -661,24 +744,56 @@ public function orderList()
             }
         }
 
-        // ✅ order wise counts
         $order->in_progress_count = $inProgress;
 
         $order->completed_count = $completed;
     }
 
-    // ✅ overall counts
-    $totalInProgress = $orders->sum('in_progress_count');
+    // ✅ totals
+    $totalInProgress = $orders->sum(
+        'in_progress_count'
+    );
 
-    $totalCompleted = $orders->sum('completed_count');
+    $totalCompleted = $orders->sum(
+        'completed_count'
+    );
+
+    // ✅ dropdown customers
+    $customers = Customer::whereIn(
+
+        'id',
+
+        Order::select('customer_id')
+            ->distinct()
+
+    )
+
+    ->orderBy('name')
+
+    ->get();
+
+
+
+    // ✅ dropdown statuses
+    $statuses = DB::table('order_item_tracks')
+        ->select('status')
+        ->distinct()
+        ->pluck('status');
 
     return view(
 
-        'orders.orderlist',
+        'delivery.deliverylist',
 
         compact(
+
             'orders',
+
+            'customers',
+
+            'statuses',
+
             'totalInProgress',
+
             'totalCompleted'
         )
     );
@@ -918,6 +1033,156 @@ public function printDetails($id)
 
         ]);
     }
+}
+
+
+
+
+public function deliveryList(Request $request)
+{
+    $query = Order::with([
+
+        'customer',
+
+        'items.tracks.stage',
+
+        'items.tracks.tailor',
+
+        'items.type'
+
+    ])
+
+    // ✅ only completed + stage 12
+    ->whereHas(
+
+        'items.tracks',
+
+        function($q){
+
+            $q->whereRaw(
+                    'LOWER(status) = ?',
+                    ['completed']
+                )
+
+                ->where(
+                    'stage_id',
+                    12
+                );
+        }
+    );
+
+    $orders = $query
+
+        ->latest()
+
+        ->get();
+
+    // ✅ ready count
+    foreach($orders as $order){
+
+        $ready = 0;
+
+        foreach($order->items as $item){
+
+            foreach($item->tracks as $track){
+
+                if(
+
+                    strtolower(trim($track->status))
+                        == 'completed'
+
+                    &&
+
+                    $track->stage_id == 12
+
+                ){
+
+                    $ready++;
+                }
+            }
+        }
+
+        $order->ready_count = $ready;
+    }
+
+    // ✅ total ready
+    $totalReady = $orders->sum(
+        'ready_count'
+    );
+
+    // ✅ metrics
+    $totalInProgress = 0;
+
+    $totalCompleted = 0;
+
+    // ✅ statuses
+    $statuses = DB::table('order_item_tracks')
+
+        ->select('status')
+
+        ->whereRaw(
+            'LOWER(status) = ?',
+            ['completed']
+        )
+
+        ->where(
+            'stage_id',
+            12
+        )
+
+        ->distinct()
+
+        ->pluck('status');
+
+    // ✅ customers
+    $customers = Customer::whereIn(
+
+            'id',
+
+            Order::whereHas(
+
+                'items.tracks',
+
+                function($q){
+
+                    $q->whereRaw(
+                            'LOWER(status) = ?',
+                            ['completed']
+                        )
+
+                        ->where(
+                            'stage_id',
+                            12
+                        );
+                }
+
+            )->select('customer_id')
+
+        )
+
+        ->orderBy('name')
+
+        ->get();
+
+    return view(
+
+        'delivery.deliverylist',
+
+        compact(
+
+            'orders',
+
+            'customers',
+
+            'totalReady',
+
+            'statuses',
+
+            'totalInProgress',
+
+            'totalCompleted'
+        )
+    );
 }
 
 

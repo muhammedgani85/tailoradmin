@@ -84,6 +84,7 @@
     <h3 class="text-lg font-semibold text-gray-800">
         Order Management
     </h3>
+<form method="GET">
 
     <!-- RIGHT SIDE -->
     <div class="flex items-center gap-3 flex-wrap">
@@ -92,54 +93,103 @@
         <!-- Due Dropdown -->
 
 
-         <select
-            class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
-            <option value="">All Due</option>
-            <option>Today</option>
-            <option>Tomorrow</option>
-            <option>This Week</option>
-            <option>This Month</option>
+         <select name="due"
+        class="px-3 py-2 text-sm border border-gray-200 rounded-lg">
 
-        </select>
+        <option value="">All Due</option>
+
+        <option value="today">Today</option>
+
+        <option value="tomorrow">Tomorrow</option>
+
+        <option value="week">This Week</option>
+
+        <option value="month">This Month</option>
+
+    </select>
 
         <!-- CUSTOMER DROPDOWN -->
-        <select
-            class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
-            <option value="">All Customers</option>
-            <option>Gani - 9876543210</option>
-            <option>Ravi - 9123456780</option>
-            <option>Kumar - 9988776655</option>
-            <option>Suresh - 9012345678</option>
-        </select>
+        <select name="customer_id"
+        class="px-3 py-2 text-sm border border-gray-200 rounded-lg">
+
+        <option value="">All Customers</option>
+
+        @foreach($customers as $customer)
+
+            <option
+                value="{{ $customer->id }}"
+
+                {{ request('customer_id') == $customer->id ? 'selected' : '' }}>
+
+                {{ $customer->name }} - {{ $customer->phone }}
+
+            </option>
+
+        @endforeach
+
+    </select>
 
         <!-- STATUS DROPDOWN -->
-        <select
-            class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
-            <option value="">All Status</option>
-            <option>In Progress</option>
-            <option>Stitching</option>
-            <option>Ironing</option>
-            <option>Completed</option>
-            <option>Urgent</option>
-        </select>
+       <!--  <select name="status"
+        class="px-3 py-2 text-sm border border-gray-200 rounded-lg">
+
+        <option value="">All Status</option>
+
+        @foreach($statuses as $status)
+
+            <option
+                value="{{ $status }}"
+
+                {{ request('status') == $status ? 'selected' : '' }}>
+
+                {{ ucfirst(str_replace('_',' ', $status)) }}
+
+            </option>
+
+        @endforeach
+
+    </select> -->
 
         <!-- DATE RANGE -->
-        <div class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-2 py-1">
+    <div class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-2 py-1">
 
-            <input type="date"
-                class="px-2 py-1 text-sm bg-white border border-gray-200 rounded-md focus:ring-1 focus:ring-brand-300">
+    <input
+        type="text"
+        name="from_date" id="from_date"
+        value="{{ request('from_date') }}"
+        placeholder="YYYY-MM-DD"
+        onfocus="this.type='date'"
+        class="px-2 py-1 text-sm bg-white border border-gray-200 rounded-md">
 
-            <span class="text-gray-400 text-sm">to</span>
+    <span class="text-gray-400 text-sm">
+        to
+    </span>
 
-            <input type="date"
-                class="px-2 py-1 text-sm bg-white border border-gray-200 rounded-md focus:ring-1 focus:ring-brand-300">
+    <input
+        type="text"
+        name="to_date" id="to_date"
+        value="{{ request('to_date') }}"
+        placeholder="YYYY-MM-DD"
+        onfocus="this.type='date'"
+        class="px-2 py-1 text-sm bg-white border border-gray-200 rounded-md">
 
-        </div>
+</div>
+
+    <!-- BUTTON -->
+    <button
+        type="submit"
+        class="px-4 py-2 bg-brand-500 text-white rounded-lg">
+
+        Search
+
+    </button>
 
         <!-- ADD ORDER BUTTON -->
 
 
     </div>
+
+</form>
 
 </div>
 
@@ -1144,4 +1194,18 @@ function printBlock(btn)
 }
 
 </script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<input type="text" id="from_date" name="from_date">
+
+<script>
+flatpickr("#from_date", {
+    dateFormat: "Y-m-d"
+});
+flatpickr("#to_date", {
+    dateFormat: "Y-m-d"
+});
+</script>
+
 @endsection

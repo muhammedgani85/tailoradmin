@@ -55,73 +55,7 @@
 </div>
 
     <div class="space-y-6">
-<div class="col-span-12">
-    <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-    <!-- Metric Item Start -->
-    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]" >
-      <p class="text-gray-500 text-theme-sm dark:text-gray-400">BackLog</p>
 
-      <div class="flex items-end justify-between mt-3">
-        <div>
-          <h4 class="text-2xl font-bold text-gray-800 dark:text-white/90">24.7K</h4>
-        </div>
-
-        <div class="flex items-center gap-1">
-          <span class="flex items-center gap-1 rounded-full bg-success-50 px-2 py-0.5 text-theme-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
-            +20%
-          </span>
-
-          <span class="text-gray-500 text-theme-xs dark:text-gray-400"> Vs last month </span>
-        </div>
-      </div>
-    </div>
-    <!-- Metric Item End -->
-
-    <!-- Metric Item Start -->
-    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Delivered</p>
-
-      <div class="flex items-end justify-between mt-3">
-        <div>
-          <h4 class="text-2xl font-bold text-gray-800 dark:text-white/90">55.9K</h4>
-        </div>
-
-        <div class="flex items-center gap-1">
-          <span class="flex items-center gap-1 rounded-full bg-success-50 px-2 py-0.5 text-theme-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
-            +4%
-          </span>
-
-          <span class="text-gray-500 text-theme-xs dark:text-gray-400"> Vs last month </span>
-        </div>
-      </div>
-    </div>
-    <!-- Metric Item End -->
-
-    <!-- Metric Item Start -->
-    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-      <p class="text-gray-500 text-theme-sm dark:text-gray-400">Pending for Delivery</p>
-
-      <div class="flex items-end justify-between mt-3">
-        <div>
-          <h4 class="text-2xl font-bold text-gray-800 dark:text-white/90">54%</h4>
-        </div>
-
-        <div class="flex items-center gap-1">
-          <span class="flex items-center gap-1 rounded-full bg-error-50 px-2 py-0.5 text-theme-xs font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500">
-            -1.59%
-          </span>
-
-          <span class="text-gray-500 text-theme-xs dark:text-gray-400"> Vs last month </span>
-        </div>
-      </div>
-    </div>
-    <!-- Metric Item End -->
-
-    <!-- Metric Item Start -->
-
-    <!-- Metric Item End -->
-  </div>
-</div>
 
 
         <div class="rounded-2xl border border-gray-200 bg-white pt-4">
@@ -154,176 +88,293 @@
 
     <tbody class="divide-y">
 
-    <!-- ================= ORDER 1 ================= -->
-    <tr>
-        <td class="px-4 py-4 font-medium">
-            <button onclick="toggleRow(this)" class="mr-2 text-blue-600">▶</button>
-            ORD001
-        </td>
-        <td class="px-4 py-4">CUS001</td>
-        <td class="px-4 py-4">04 Apr 2026</td>
-        <td class="px-4 py-4">06 Apr 2026</td>
-        <td class="px-4 py-4">3 Items</td>
-        <td class="px-4 py-4">
-            <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
-                Ready For Delivery
-            </span>
-        </td>
-        <td class="px-4 py-4 text-right">
-            <button onclick="openDeliveryModal(this)"
-                class="">
-                 <svg class="fill-current" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.0911 3.53206C16.2124 2.65338 14.7878 2.65338 13.9091 3.53206L5.6074 11.8337C5.29899 12.1421 5.08687 12.5335 4.99684 12.9603L4.26177 16.445C4.20943 16.6931 4.286 16.9508 4.46529 17.1301C4.64458 17.3094 4.90232 17.3859 5.15042 17.3336L8.63507 16.5985C9.06184 16.5085 9.45324 16.2964 9.76165 15.988L18.0633 7.68631C18.942 6.80763 18.942 5.38301 18.0633 4.50433L17.0911 3.53206ZM14.9697 4.59272C15.2626 4.29982 15.7375 4.29982 16.0304 4.59272L17.0027 5.56499C17.2956 5.85788 17.2956 6.33276 17.0027 6.62565L16.1043 7.52402L14.0714 5.49109L14.9697 4.59272ZM13.0107 6.55175L6.66806 12.8944C6.56526 12.9972 6.49455 13.1277 6.46454 13.2699L5.96704 15.6283L8.32547 15.1308C8.46772 15.1008 8.59819 15.0301 8.70099 14.9273L15.0436 8.58468L13.0107 6.55175Z" fill=""></path>
-                                    </svg>
-            </button>
-        </td>
-    </tr>
+@foreach($orders as $order)
 
-    <!-- ORDER 1 ITEMS -->
-    <tr class="hidden bg-gray-50">
-        <td colspan="7">
-            <div class="p-4">
+@php
 
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="text-gray-500 text-left">
-                            <th><input type="checkbox" onclick="toggleAll(this)"></th>
-                            <th>Sub Order</th>
-                            <th>Item</th>
-                            <th>Type</th>
-                            <th>Tailor</th>
-                            <th>Start</th>
-                            <th>Delivery</th>
-                            <th>Status</th>
-                            <th>Delay</th>
-                            <th>Notes</th>
-                        </tr>
-                    </thead>
+    $totalItems = $order->items->count();
 
-                    <tbody>
-                        <tr class="border-t">
-                            <td><input type="checkbox" class="itemCheckbox"></td>
-                            <td class="text-blue-600">ORD001-1</td>
-                            <td>Shirt</td>
-                            <td>Full Sleeve</td>
-                            <td>Ravi</td>
-                            <td>02 Apr</td>
-                            <td>08 Apr</td>
-                            <td><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs">Stitching</span></td>
-                            <td><span class="text-red-600">2 Days</span></td>
-                            <td>-</td>
-                        </tr>
+    $readyItems = 0;
 
-                        <tr class="border-t">
-                            <td><input type="checkbox" class="itemCheckbox"></td>
-                            <td class="text-blue-600">ORD001-2</td>
-                            <td>Pant</td>
-                            <td>Formal</td>
-                            <td>Kumar</td>
-                            <td>01 Apr</td>
-                            <td>07 Apr</td>
-                            <td><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Completed</span></td>
-                            <td><span class="text-green-600">On Time</span></td>
-                            <td>-</td>
-                        </tr>
-                    </tbody>
-                </table>
+    foreach($order->items as $item){
 
-            </div>
-        </td>
-    </tr>
+        foreach($item->tracks as $track){
 
+            if($track->status == 'completed'){
 
-    <!-- ================= ORDER 2 ================= -->
-    <tr>
-        <td class="px-4 py-4 font-medium">
-            <button onclick="toggleRow(this)" class="mr-2 text-blue-600">▶</button>
-            ORD002
-        </td>
-        <td class="px-4 py-4">CUS002</td>
-        <td class="px-4 py-4">05 Apr 2026</td>
-        <td class="px-4 py-4">07 Apr 2026</td>
-        <td class="px-4 py-4">2 Items</td>
-        <td class="px-4 py-4">
-            <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-700">
-                Pending (1 Item)
-            </span>
-        </td>
-        <td class="px-4 py-4 text-right">
-            <button onclick="openDeliveryModal(this)"
-                class="">
-                <svg class="fill-current" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.0911 3.53206C16.2124 2.65338 14.7878 2.65338 13.9091 3.53206L5.6074 11.8337C5.29899 12.1421 5.08687 12.5335 4.99684 12.9603L4.26177 16.445C4.20943 16.6931 4.286 16.9508 4.46529 17.1301C4.64458 17.3094 4.90232 17.3859 5.15042 17.3336L8.63507 16.5985C9.06184 16.5085 9.45324 16.2964 9.76165 15.988L18.0633 7.68631C18.942 6.80763 18.942 5.38301 18.0633 4.50433L17.0911 3.53206ZM14.9697 4.59272C15.2626 4.29982 15.7375 4.29982 16.0304 4.59272L17.0027 5.56499C17.2956 5.85788 17.2956 6.33276 17.0027 6.62565L16.1043 7.52402L14.0714 5.49109L14.9697 4.59272ZM13.0107 6.55175L6.66806 12.8944C6.56526 12.9972 6.49455 13.1277 6.46454 13.2699L5.96704 15.6283L8.32547 15.1308C8.46772 15.1008 8.59819 15.0301 8.70099 14.9273L15.0436 8.58468L13.0107 6.55175Z" fill=""></path>
-                                    </svg>
-            </button>
-        </td>
-    </tr>
+                $readyItems++;
+            }
+        }
+    }
 
-    <!-- ORDER 2 ITEMS -->
-    <tr class="hidden bg-gray-50">
-        <td colspan="7">
-            <div class="p-4">
+@endphp
 
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="text-gray-500 text-left">
-                            <th><input type="checkbox" onclick="toggleAll(this)"></th>
-                            <th>Sub Order</th>
-                            <th>Item</th>
-                            <th>Type</th>
-                            <th>Tailor</th>
-                            <th>Start</th>
-                            <th>Delivery</th>
-                            <th>Status</th>
-                            <th>Delay</th>
-                            <th>Notes</th>
-                        </tr>
-                    </thead>
+<tr>
 
-                    <tbody>
+    <td class="px-4 py-4 font-medium">
 
-                        <!-- Delivered Item -->
-                        <tr class="border-t bg-green-50">
-                            <td><input type="checkbox" class="itemCheckbox"></td>
-                            <td class="text-blue-600">ORD002-1</td>
-                            <td>Shirt</td>
-                            <td>Half Sleeve</td>
-                            <td>Ravi</td>
-                            <td>02 Apr</td>
-                            <td>06 Apr</td>
-                            <td>
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">
-                                    Delivered
-                                </span>
-                            </td>
-                            <td><span class="text-green-600">Done</span></td>
-                            <td>-</td>
-                        </tr>
+        <button onclick="toggleRow(this)"
+            class="mr-2 text-blue-600">
 
-                        <!-- Pending Item -->
-                        <tr class="border-t bg-red-50">
-                            <td><input type="checkbox" class="itemCheckbox"></td>
-                            <td class="text-blue-600">ORD002-2</td>
-                            <td>Pant</td>
-                            <td>Formal</td>
-                            <td>Kumar</td>
-                            <td>03 Apr</td>
-                            <td>07 Apr</td>
-                            <td>
-                                <span class="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs">
-                                    Pending
-                                </span>
-                            </td>
-                            <td><span class="text-red-600">1 Day</span></td>
-                            <td>Delay in stitching</td>
-                        </tr>
+            ▶
 
-                    </tbody>
-                </table>
+        </button>
 
-            </div>
-        </td>
-    </tr>
+        {{ $order->order_no }}
+
+    </td>
+
+    <td class="px-4 py-4">
+
+        {{ $order->customer->phone ?? '-' }}
+
+    </td>
+
+    <td class="px-4 py-4">
+
+        {{ date('d M Y', strtotime($order->order_date)) }}
+
+    </td>
+
+    <td class="px-4 py-4">
+
+        {{ ($order->delivery_date && $order->delivery_date != '0000-00-00' && $order->delivery_date != '0000-00-00 00:00:00') ? date('d M Y', strtotime($order->delivery_date)) : 'Not Assigned' }}
+
+    </td>
+
+    <td class="px-4 py-4">
+
+        {{ $totalItems }} Items
+
+    </td>
+
+    <td class="px-4 py-4">
+
+        <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+
+            Ready For Delivery
+            ({{ $readyItems }})
+
+        </span>
+
+    </td>
+
+    <td class="px-4 py-4 text-right">
+
+        <button onclick="openDeliveryModal(this)">
+
+            <svg class="fill-current" width="21" height="21" viewBox="0 0 21 21" fill="none">
+
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M17.0911 3.53206C16.2124 2.65338 14.7878 2.65338 13.9091 3.53206L5.6074 11.8337C5.29899 12.1421 5.08687 12.5335 4.99684 12.9603L4.26177 16.445C4.20943 16.6931 4.286 16.9508 4.46529 17.1301C4.64458 17.3094 4.90232 17.3859 5.15042 17.3336L8.63507 16.5985C9.06184 16.5085 9.45324 16.2964 9.76165 15.988L18.0633 7.68631C18.942 6.80763 18.942 5.38301 18.0633 4.50433L17.0911 3.53206Z"
+                    fill="">
+
+                </path>
+
+            </svg>
+
+        </button>
+
+    </td>
+
+</tr>
+
+{{-- ACCORDION --}}
+<tr class="hidden bg-gray-50">
+
+<td colspan="7">
+
+<div class="p-4">
+
+<table class="w-full text-sm">
+
+<thead>
+
+<tr class="text-gray-500 text-left">
+
+    <th>
+        <input type="checkbox"
+            onclick="toggleAll(this)">
+    </th>
+
+    <th>Sub Order</th>
+
+    <th>Item</th>
+
+    <th>Type</th>
+
+    <th>Tailor</th>
+
+    <th>Order Date</th>
+
+    <th>Delivery</th>
+
+    <th>Status</th>
+
+    <th>Delay</th>
+
+    <th>Notes</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+@foreach($order->items as $item)
+
+    @php
+
+        // ✅ completed stage 12 tracks
+        $tracks = $item->tracks
+
+            ->where('status', 'completed')
+
+            ->where('stage_id', 12);
+
+    @endphp
+
+    @foreach($tracks as $track)
+
+        @php
+
+            $isDelayed = false;
+
+            if(
+                $order->delivery_date &&
+                $order->delivery_date != '0000-00-00'
+            ){
+
+                $isDelayed =
+                    strtotime($order->delivery_date) < time();
+            }
+
+        @endphp
+
+        <tr class="border-t {{ $isDelayed ? 'bg-red-50' : 'bg-green-50' }}">
+
+            <!-- CHECKBOX -->
+            <td>
+
+                <input type="checkbox"
+                    class="itemCheckbox">
+
+            </td>
+
+            <!-- SUB ORDER -->
+            <td class="text-blue-600 font-medium">
+
+                {{ $item->item_no }}
+
+            </td>
+
+            <!-- ITEM -->
+            <td>
+
+                {{ $item->type->type ?? '-' }}
+
+            </td>
+
+            <!-- TYPE -->
+            <td>
+
+                {{ $item->type->type ?? '-' }}
+
+            </td>
+
+            <!-- TAILOR -->
+            <td>
+
+                {{ $track->tailor->name ?? '-' }}
+
+            </td>
+
+            <!-- ORDER DATE -->
+            <td>
+
+                {{ date('d M', strtotime($order->order_date)) }}
+
+            </td>
+
+            <!-- DELIVERY DATE -->
+            <td>
+
+                {{
+
+                    (
+                        $order->delivery_date &&
+                        $order->delivery_date != '0000-00-00'
+                    )
+
+                    ? date(
+                        'd M',
+                        strtotime($order->delivery_date)
+                    )
+
+                    : '-'
+
+                }}
+
+            </td>
+
+            <!-- STATUS -->
+            <td>
+
+                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">
+
+                    Completed
+
+                </span>
+
+            </td>
+
+            <!-- DELAY -->
+            <td>
+
+                @if($isDelayed)
+
+                    <span class="text-red-600 font-medium">
+
+                        Delayed
+
+                    </span>
+
+                @else
+
+                    <span class="text-green-600 font-medium">
+
+                        On Time
+
+                    </span>
+
+                @endif
+
+            </td>
+
+            <!-- NOTES -->
+            <td>
+
+                {{ $item->notes ?? '-' }}
+
+            </td>
+
+        </tr>
+
+    @endforeach
+
+@endforeach
+
+</tbody>
+
+</table>
+
+</div>
+
+</td>
+
+</tr>
+
+@endforeach
 
 </tbody>
 </table>
