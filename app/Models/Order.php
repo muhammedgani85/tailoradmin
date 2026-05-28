@@ -23,7 +23,7 @@ class Order extends Model
 }
 public function stage()
 {
-    return $this->belongsTo(Stage::class, 'stage_id');
+    return $this->belongsTo(stage::class, 'stage_id');
 }
 
 }
