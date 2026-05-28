@@ -21,5 +21,9 @@ class Order extends Model
 {
     return $this->belongsTo(Customer::class);
 }
+public function stage()
+{
+    return $this->belongsTo(Stage::class, 'stage_id');
+}
 
 }
