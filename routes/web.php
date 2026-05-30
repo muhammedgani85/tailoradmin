@@ -236,7 +236,7 @@ Route::get('types/{id}/corrections', [correctionnotesController::class, 'getCorr
 
 Route::get('tailororder', [OrderController::class, 'tailororder'])->name('tailororder');
 
-Route::get('/tailor/works/{id}', [OrderController::class, 'tailorwork'])->name('tailor.works');
+Route::get('/tailor/works/{id}/{order_no}', [OrderController::class, 'tailorwork'])->name('tailor.works');
 Route::post('/track/start/{id}',[OrderController::class, 'startWork'])->name('track.start');
 
 Route::post('/track/complete/{id}',[OrderController::class, 'completeWork'])->name('track.complete');

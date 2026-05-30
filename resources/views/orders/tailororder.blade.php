@@ -27,6 +27,10 @@
             placeholder="Enter Tailor ID"
             class="flex-1 px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-200">
 
+            <input type="text" id="order_no"
+            placeholder="Enter Order No"
+            class="flex-1 px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-200">
+
         <button onclick="loadOrders()"
             class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
             Load
@@ -106,9 +110,11 @@ function loadOrders()
 {
     let id = document.getElementById('tailorId').value;
 
+    let orderNo = document.getElementById('order_no').value;
 
-    if(!id){
-        alert('Enter Employee ID');
+
+    if(!id || !orderNo){
+        alert('Enter both Employee ID and Order No');
         return;
     }
 
@@ -118,7 +124,7 @@ function loadOrders()
         </div>
     `);
 
-    $.get('/tailor/works/' + id, function(res){
+   $.get('/tailor/works/' + id + '/' + orderNo,  function(res){
 
         if(!res.success){
             alert(res.message);
@@ -301,9 +307,11 @@ function loadOrders()
 function startWork(btn, id){
 
     let card = btn.closest('.bg-white');
+    let tailor_id = document.getElementById('tailorId').value;
 
     $.post('/track/start/' + id, {
-        _token: '{{ csrf_token() }}'
+        _token: '{{ csrf_token() }}',
+         tailor_id: tailor_id
     }, function(res){
 
         if(res.success){

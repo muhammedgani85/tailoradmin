@@ -341,7 +341,7 @@ public function tailororder()
 }
 
 
-public function tailorwork($id)
+public function tailorwork($id, $order_no)
 {
     try {
 
@@ -357,8 +357,8 @@ public function tailorwork($id)
 
             ->join('tailors as u', 'u.id', '=', 'oit.assigned_to')
 
-            ->where('oit.assigned_to', $id)
-
+           // ->where('oit.assigned_to', $id)
+            ->where('oi.item_no', $order_no)
             ->whereIn('oit.status', [
                 'pending',
                 'in_progress'
@@ -453,14 +453,17 @@ public function tailorwork($id)
     }
 }
 
-public function startWork($id)
+public function startWork(Request $request, $id)
 {
+
     try {
+        $tailor_id = $request->tailor_id;
 
         $track = OrderItemTrack::findOrFail($id);
 
         $track->update([
             'status' => 'in_progress',
+            'assigned_to' => $tailor_id,
             'started_at' => now()
         ]);
 
