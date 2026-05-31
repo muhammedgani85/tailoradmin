@@ -785,7 +785,7 @@ public function orderList(Request $request)
 
     return view(
 
-        'delivery.deliverylist',
+        'orders.orderlist',
 
         compact(
 

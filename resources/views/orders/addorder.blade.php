@@ -1832,8 +1832,13 @@ window.printBlock = function(btn)
 
     let win = window.open('', '_blank');
 
-    alert('Window Opened'+block);
-    alert(block.innerHTML);
+    win.document.write(
+        '<html><body>' +
+        block.outerHTML +
+        '</body></html>'
+    );
+
+    win.document.close();
 
 
 };
