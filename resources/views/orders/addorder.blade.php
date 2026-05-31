@@ -1820,7 +1820,28 @@ function closePrintModal()
 
 </script>
 
+<script>
+    window.printBlock = function(btn)
+{
+    let block = btn.closest('.print-block');
 
+    let win = window.open('', '', 'width=1000,height=700');
+
+    win.document.write(`
+        <html>
+        <body>
+            ${block.outerHTML}
+        </body>
+        </html>
+    `);
+
+    win.document.close();
+
+    setTimeout(() => {
+        win.print();
+    }, 500);
+}
+</script>
 
 
 
