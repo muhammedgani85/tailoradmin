@@ -1818,63 +1818,67 @@ function closePrintModal()
 }
 
 
+
+
 </script>
 
 <script>
 
-function printBlock(btn)
+window.printBlock = function(btn)
 {
     try {
 
         let block = btn.closest('.print-block');
 
-        let win = window.open('', '', 'width=1000,height=700');
+        let win = window.open('', '_blank');
+
+        win.document.open();
 
         win.document.write(`
-
             <html>
-                <head>
-                    <title>Print</title>
-                    <style>
-                        @media print {
-                            @page {
-                                margin: 20mm;
-                            }
-                            body {
-                                font-family: Arial, sans-serif;
-                                font-size: 12px;
-                                color: #000;
-                            }
-                            .print-block {
-                                border: 1px solid #000;
-                                padding: 10px;
-                                margin-bottom: 20px;
-                            }
-                            .print-block table {
-                                width: 100%;
-                                border-collapse: collapse;
-                            }
-                            .print-block th, .print-block td {
-                                border: 1px solid #000;
-                                padding: 5px;
-                            }
-                            .print-block th {
-                                background-color: #f0f0f0;
-                                font-weight: bold;
-                            }
-                        }
-                    </style>
-                </head>
-                <body>
-                    ${block.innerHTML}
-                </body>
-            </html>
+            <head>
+                <title>Print</title>
 
+                <style>
+                    body{
+                        font-family: Arial, sans-serif;
+                        padding:20px;
+                    }
+
+                    table{
+                        width:100%;
+                        border-collapse:collapse;
+                    }
+
+                    td,th{
+                        border:1px solid #ddd;
+                        padding:8px;
+                    }
+                </style>
+
+            </head>
+
+            <body>
+
+                ${block.outerHTML}
+
+            </body>
+
+            </html>
         `);
 
+        win.document.close();
 
+        setTimeout(function(){
 
-    } catch(e){
+            win.focus();
+
+            win.print();
+
+        },1000);
+
+    }
+    catch(e){
 
         console.error(e);
 
