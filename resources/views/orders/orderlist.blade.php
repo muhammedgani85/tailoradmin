@@ -1128,70 +1128,7 @@ function closePrintModal()
         .addClass('hidden');
 }
 
-function printBlock(btn)
-{
-    let block = btn.closest('.print-block');
 
-    let win = window.open('', '', 'width=1000,height=700');
-
-    win.document.write(`
-
-        <html>
-
-        <head>
-
-            <title>Print</title>
-
-            <style>
-
-                body{
-                    font-family:Arial;
-                    padding:20px;
-                }
-
-                table{
-                    width:100%;
-                    border-collapse:collapse;
-                }
-
-                td{
-                    border:1px solid #ddd;
-                    padding:8px;
-                    vertical-align:top;
-                }
-
-                .bg-gray-50{
-                    background:#f9fafb;
-                }
-
-                .font-semibold{
-                    font-weight:bold;
-                }
-
-            </style>
-
-        </head>
-
-        <body>
-
-            ${block.outerHTML}
-
-        </body>
-
-        </html>
-
-    `);
-
-    win.document.close();
-
-    win.focus();
-
-    setTimeout(() => {
-
-        win.print();
-
-    }, 500);
-}
 
 </script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
