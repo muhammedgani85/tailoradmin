@@ -1832,19 +1832,9 @@ window.printBlock = function(btn)
 
     let win = window.open('', '_blank');
 
-    /* win.document.write(
-        '<html><body>' +
-        block.outerHTML +
-        '</body></html>'
-    );
+    alert('Window Opened'+block);
 
-    win.document.close();
 
-    setTimeout(function(){
-
-        win.print();
-
-    },1000); */
 };
 
 </script>
