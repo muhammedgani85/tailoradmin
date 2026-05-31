@@ -677,7 +677,32 @@ class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/
     box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
 }
 </style>
+<script>
 
+window.printBlock = function(btn)
+{
+    alert('Print Function Loaded');
+
+    let block = btn.closest('.print-block');
+
+    let win = window.open('', '_blank');
+
+    win.document.write(
+        '<html><body>' +
+        block.outerHTML +
+        '</body></html>'
+    );
+
+    win.document.close();
+
+    setTimeout(function(){
+
+        win.print();
+
+    },1000);
+};
+
+</script>
 
     <!-- Cart Modal End -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -1822,36 +1847,7 @@ function closePrintModal()
 
 </script>
 
-@section('scripts')
 
-<script>
-
-window.printBlock = function(btn){
-
-    let block = btn.closest('.print-block');
-
-    let printWindow = window.open('', '_blank');
-
-    printWindow.document.write(
-        '<html><head><title>Print</title></head><body>' +
-        block.outerHTML +
-        '</body></html>'
-    );
-
-    printWindow.document.close();
-
-    setTimeout(function(){
-
-        printWindow.focus();
-
-        printWindow.print();
-
-    }, 1000);
-};
-
-</script>
-
-@endsection
 
 
     @endsection
