@@ -1833,6 +1833,7 @@ window.printBlock = function(btn)
     let win = window.open('', '_blank');
 
     alert('Window Opened'+block);
+    alert(block.innerHTML);
 
 
 };
