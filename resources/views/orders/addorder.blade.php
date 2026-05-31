@@ -1823,7 +1823,30 @@ function closePrintModal()
 </script>
 
 <script>
-    alert("checking");
+
+window.printBlock = function(btn)
+{
+    alert('Print Function Loaded');
+
+    let block = btn.closest('.print-block');
+
+    let win = window.open('', '_blank');
+
+    /* win.document.write(
+        '<html><body>' +
+        block.outerHTML +
+        '</body></html>'
+    );
+
+    win.document.close();
+
+    setTimeout(function(){
+
+        win.print();
+
+    },1000); */
+};
+
 </script>
 
 
