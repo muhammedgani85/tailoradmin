@@ -1826,7 +1826,7 @@ function closePrintModal()
     window.printBlock = function(btn)
     {
 
-    alert( ' Brother Printer Identify');
+    alert('Brother Printer Identify');
        /*  let block = btn.closest('.print-block');
 
         let win = window.open('', '', 'width=1000,height=700');
