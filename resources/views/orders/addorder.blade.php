@@ -1830,16 +1830,7 @@ function printBlock(btn)
 
         let win = window.open('', '', 'width=1000,height=700');
 
-        win.document.write(`
-            <html>
-            <head>
-                <title>Print</title>
-            </head>
-            <body>
-                ${block.outerHTML}
-            </body>
-            </html>
-        `);
+
 
 
 
