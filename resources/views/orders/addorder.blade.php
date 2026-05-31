@@ -1850,8 +1850,8 @@ function closePrintModal()
 
             win.print();
 
-        }, 500);
-    }; */
+        }, 500); */
+    };
 
 });
 </script>
