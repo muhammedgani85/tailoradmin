@@ -1821,9 +1821,9 @@ function closePrintModal()
 </script>
 
 <script>
-   function printBlock(btn)
+
+function printBlock(btn)
 {
-    alert('Preparing to print...');
     try {
 
         let block = btn.closest('.print-block');
@@ -1845,18 +1845,9 @@ function closePrintModal()
 
         setTimeout(function(){
 
-            try {
+            win.focus();
 
-                win.focus();
-
-                win.print();
-
-            } catch(e){
-
-                console.error('Print Error:', e);
-
-                alert(e.message);
-            }
+            win.print();
 
         }, 1500);
 
@@ -1867,8 +1858,8 @@ function closePrintModal()
         alert(e.message);
     }
 }
-</script>
 
+</script>
 
 
     @endsection
