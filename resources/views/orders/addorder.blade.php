@@ -1816,7 +1816,7 @@ function closePrintModal()
 }
 
 function printBlock(btn)
-{
+{ 
     let block = btn.closest('.print-block');
 
     let win = window.open('', '', 'width=1000,height=700');
