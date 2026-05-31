@@ -260,10 +260,10 @@ public function newstore(Request $req)
             'relation' => $req->relation,
             'family_id' => $family_id,
             'phone' => $req->phone,
-            'state' => $req->state ? $req->state : $existing->stage,
-            'city' => $req->city ? $req->city : $existing->city,
-            'district' => $req->district ? $req->district : $existing->district,
-            'address' => $req->address ? $req->address : $existing->address,
+            'state' => $req->state ? $req->state : NULL,
+            'city' => $req->city ? $req->city : NULL,
+            'district' => $req->district ? $req->district : NULL,
+            'address' => $req->address ? $req->address : NULL,
             'status' => 'active',
             'created_by' => 1
         ]);
