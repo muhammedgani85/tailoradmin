@@ -1830,7 +1830,47 @@ function printBlock(btn)
 
         let win = window.open('', '', 'width=1000,height=700');
 
+        win.document.write(`
 
+            <html>
+                <head>
+                    <title>Print</title>
+                    <style>
+                        @media print {
+                            @page {
+                                margin: 20mm;
+                            }
+                            body {
+                                font-family: Arial, sans-serif;
+                                font-size: 12px;
+                                color: #000;
+                            }
+                            .print-block {
+                                border: 1px solid #000;
+                                padding: 10px;
+                                margin-bottom: 20px;
+                            }
+                            .print-block table {
+                                width: 100%;
+                                border-collapse: collapse;
+                            }
+                            .print-block th, .print-block td {
+                                border: 1px solid #000;
+                                padding: 5px;
+                            }
+                            .print-block th {
+                                background-color: #f0f0f0;
+                                font-weight: bold;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${block.innerHTML}
+                </body>
+            </html>
+
+        `);
 
 
 
