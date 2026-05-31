@@ -1818,12 +1818,6 @@ function closePrintModal()
 }
 
 
-
-
-</script>
-
-<script>
-
 window.printBlock = function(btn)
 {
     try {
@@ -1887,6 +1881,8 @@ window.printBlock = function(btn)
 }
 
 </script>
+
+
 
 
     @endsection
