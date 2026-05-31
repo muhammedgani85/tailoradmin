@@ -1821,16 +1821,52 @@ function closePrintModal()
 </script>
 
 <script>
-    $(document).ready(function () {
+   function printBlock(btn)
+{
+    alert('Preparing to print...');
+    try {
 
-    window.printBlock = function(btn)
-    {
+        let block = btn.closest('.print-block');
 
-    alert('Brother Printer Identify');
+        let win = window.open('', '', 'width=1000,height=700');
 
+        win.document.write(`
+            <html>
+            <head>
+                <title>Print</title>
+            </head>
+            <body>
+                ${block.outerHTML}
+            </body>
+            </html>
+        `);
+
+        win.document.close();
+
+        setTimeout(function(){
+
+            try {
+
+                win.focus();
+
+                win.print();
+
+            } catch(e){
+
+                console.error('Print Error:', e);
+
+                alert(e.message);
+            }
+
+        }, 1500);
+
+    } catch(e){
+
+        console.error(e);
+
+        alert(e.message);
     }
-
-});
+}
 </script>
 
 
