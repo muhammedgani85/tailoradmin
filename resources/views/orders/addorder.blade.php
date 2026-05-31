@@ -1827,31 +1827,8 @@ function closePrintModal()
     {
 
     alert('Brother Printer Identify');
-       /*  let block = btn.closest('.print-block');
 
-        let win = window.open('', '', 'width=1000,height=700');
-
-        win.document.write(`
-            <html>
-            <head>
-                <title>Print</title>
-            </head>
-            <body>
-                ${block.outerHTML}
-            </body>
-            </html>
-        `);
-
-        win.document.close();
-
-        win.focus();
-
-        setTimeout(function(){
-
-            win.print();
-
-        }, 500); */
-    };
+    }
 
 });
 </script>
