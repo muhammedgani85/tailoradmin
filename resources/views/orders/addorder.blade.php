@@ -1841,15 +1841,7 @@ function printBlock(btn)
             </html>
         `);
 
-        win.document.close();
 
-        setTimeout(function(){
-
-            win.focus();
-
-            win.print();
-
-        }, 1500);
 
     } catch(e){
 
