@@ -144,7 +144,7 @@
                 </h4>
 
                 <div id="cartContent" class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
-                   
+
                 </div>
             </div>
 
@@ -825,32 +825,46 @@ $(document).ready(function(){
 
             success: function(res){
 
-                if(typeof res === 'string'){
-                    res = JSON.parse(res);
-                }
+    if(typeof res === 'string'){
+        res = JSON.parse(res);
+    }
 
-                // 🔴 ERROR
-                if(res.success === false){
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: res.message,
-                        width: '300px',
-                        padding: '1rem'
-                    });
-                    return;
-                }
+    if(res.success === false){
 
-                // ✅ SUCCESS
-                Swal.fire({
-                    icon: 'success',
-                    title: id ? 'Updated' : 'Saved',
-                    text: res.message,
-                    width: '300px',
-                    padding: '1rem',
-                    confirmButtonText: 'OK'
-                }).then(() => location.reload());
-            },
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: res.message
+        });
+
+        return;
+    }
+
+    Swal.fire({
+        icon: 'success',
+        title: id ? 'Updated' : 'Saved',
+        text: res.message
+    }).then(() => {
+
+    //console.log(res.customer);
+
+        // ✅ auto select customer
+
+        $('#custName').text(res.customer.name);
+    $('#custPhone').text( res.customer.phone);
+    $('#customer_id').val(res.customer.id);
+    $('#customer_name').val(res.customer.name);
+    $('#customer_phone').val(res.customer.phone);
+    $('#customer_location').val((res.customer.city ?? '') + ', ' + (res.customer.district ?? ''));
+    $('#custLocation').text((res.customer.city ?? '') + ', ' + (res.customer.district ?? ''));
+
+document.getElementById('searchModal').classList.add('hidden');
+        // ✅ close modal
+        closeModal();
+
+    });
+
+},
 
             error: function(err){
                 console.log(err.responseText);

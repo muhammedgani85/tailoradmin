@@ -255,6 +255,7 @@ public function newstore(Request $req)
             $family_id = Customer::max('id') + 1; // simple group id
         }
 
+        $customer =
         Customer::create([
             'name' => $req->name,
             'relation' => $req->relation,
@@ -272,7 +273,8 @@ public function newstore(Request $req)
 
         return response()->json([
             'success'=>true,
-            'message'=>'Saved successfully'
+            'message'=>'Saved successfully',
+            'customer' => $customer
         ]);
 
     } catch(\Exception $e){
