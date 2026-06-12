@@ -1242,10 +1242,44 @@ window.printBlock = function(btn)
 
 <script>
 
-window.printBlock = function(btn){
+window.printBlock = function(btn)
+{
+    alert('Function Called');
 
-    alert('Print Working');
+    let block = btn.closest('.print-block');
 
+    if(!block){
+
+        alert('Print block not found');
+
+        return;
+    }
+
+    let win = window.open('', '_blank');
+
+    if(!win){
+
+        alert('Popup blocked');
+
+        return;
+    }
+
+    win.document.write(
+        '<html>' +
+        '<head><title>Print</title></head>' +
+        '<body>' +
+        block.outerHTML +
+        '</body>' +
+        '</html>'
+    );
+
+    win.document.close();
+
+    setTimeout(function(){
+
+        win.print();
+
+    },1000);
 };
 
 </script>
