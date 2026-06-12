@@ -638,6 +638,22 @@ public function orderList(Request $request)
     ]);
 
     // ✅ customer filter
+    if($request->customer_phone){
+
+        $query->where(
+            'phone',
+            $request->customer_phone
+        );
+    }
+
+    if($request->order_id){
+
+        $query->where(
+            'order_no',
+            $request->order_id
+        );
+    }
+
     if($request->customer_id){
 
         $query->where(

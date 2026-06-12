@@ -81,9 +81,7 @@
     <!-- Header -->
    <div class="flex items-center justify-between px-6 mb-4">
 
-    <h3 class="text-lg font-semibold text-gray-800">
-        Order Management
-    </h3>
+
 <form method="GET">
 
     <!-- RIGHT SIDE -->
@@ -108,47 +106,10 @@
 
     </select>
 
-        <!-- CUSTOMER DROPDOWN -->
-        <select name="customer_id"
-        class="px-3 py-2 text-sm border border-gray-200 rounded-lg">
+    <input type="text" name="customer_phone" placeholder="Customer Phone" class="px-3 py-2 text-sm border border-gray-200 rounded-lg" value="{{ request('customer_phone') }}">
+    <input type="text" name="order_id" placeholder="Order ID" class="px-3 py-2 text-sm border border-gray-200 rounded-lg" value="{{ request('order_id') }}">
 
-        <option value="">All Customers</option>
 
-        @foreach($customers as $customer)
-
-            <option
-                value="{{ $customer->id }}"
-
-                {{ request('customer_id') == $customer->id ? 'selected' : '' }}>
-
-                {{ $customer->name }} - {{ $customer->phone }}
-
-            </option>
-
-        @endforeach
-
-    </select>
-
-        <!-- STATUS DROPDOWN -->
-       <!--  <select name="status"
-        class="px-3 py-2 text-sm border border-gray-200 rounded-lg">
-
-        <option value="">All Status</option>
-
-        @foreach($statuses as $status)
-
-            <option
-                value="{{ $status }}"
-
-                {{ request('status') == $status ? 'selected' : '' }}>
-
-                {{ ucfirst(str_replace('_',' ', $status)) }}
-
-            </option>
-
-        @endforeach
-
-    </select> -->
 
         <!-- DATE RANGE -->
     <div class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-2 py-1">
@@ -181,6 +142,14 @@
         class="px-4 py-2 bg-brand-500 text-white rounded-lg">
 
         Search
+
+    </button>
+
+    <button
+        type="button" onclick="page_reload();"
+       class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
+
+        Clear
 
     </button>
 
@@ -1143,6 +1112,10 @@ flatpickr("#from_date", {
 flatpickr("#to_date", {
     dateFormat: "Y-m-d"
 });
+
+function page_reload() {
+    window.location.href = "{{ url('/orderlist') }}";
+}
 </script>
 
 @endsection
