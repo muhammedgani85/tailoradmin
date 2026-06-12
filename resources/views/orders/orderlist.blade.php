@@ -1123,64 +1123,115 @@ function page_reload() {
 
 window.printBlock = function(btn)
 {
-    let block = btn.closest('.print-block');
+    try {
 
-    let win = window.open('', '_blank');
+        console.log('Print Started');
 
-    if(!win){
+        let block = btn.closest('.print-block');
 
-        alert('Please allow popups for this site.');
+        if(!block){
 
-        return;
+            alert('Print block not found');
+
+            return;
+        }
+
+        let printWindow = window.open('', '_blank');
+
+        if(!printWindow){
+
+            alert('Popup blocked. Please allow popups for this website.');
+
+            return;
+        }
+
+        let content = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+
+                <title>Print</title>
+
+                <style>
+
+                    body{
+                        font-family: Arial, sans-serif;
+                        padding:20px;
+                        margin:0;
+                    }
+
+                    table{
+                        width:100%;
+                        border-collapse:collapse;
+                    }
+
+                    td,
+                    th{
+                        border:1px solid #ddd;
+                        padding:8px;
+                    }
+
+                    .bg-gray-50{
+                        background:#f9fafb;
+                    }
+
+                    button{
+                        display:none !important;
+                    }
+
+                    @media print {
+
+                        body{
+                            margin:0;
+                            padding:10px;
+                        }
+
+                        button{
+                            display:none !important;
+                        }
+                    }
+
+                </style>
+
+            </head>
+
+            <body>
+
+                ${block.outerHTML}
+
+            </body>
+
+            </html>
+        `;
+
+        printWindow.document.open();
+
+        printWindow.document.write(content);
+
+        printWindow.document.close();
+
+        printWindow.onload = function(){
+
+            setTimeout(function(){
+
+                printWindow.focus();
+
+                printWindow.print();
+
+                // optional
+                // printWindow.close();
+
+            }, 1000);
+
+        };
+
     }
+    catch(error){
 
-    win.document.open();
+        console.error(error);
 
-    win.document.write(`
-        <html>
-        <head>
-
-            <title>Print</title>
-
-            <style>
-
-                body{
-                    font-family: Arial, sans-serif;
-                    padding:20px;
-                }
-
-                table{
-                    width:100%;
-                    border-collapse:collapse;
-                }
-
-                td, th{
-                    border:1px solid #ddd;
-                    padding:8px;
-                }
-
-            </style>
-
-        </head>
-
-        <body>
-
-            ${block.outerHTML}
-
-        </body>
-
-        </html>
-    `);
-
-    win.document.close();
-
-    setTimeout(function(){
-
-        win.focus();
-
-        win.print();
-
-    }, 1000);
+        alert(error.message);
+    }
 };
 
 </script>
