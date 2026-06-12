@@ -42,7 +42,7 @@
                 type="text"
                 id="delivery_date"
                 value="{{ request('delivery_date') }}"
-                placeholder="Select Date Range"
+                placeholder="Select Delivery Date Range"
                 class="bg-transparent border-0 focus:ring-0 text-sm w-56">
 
             <button
