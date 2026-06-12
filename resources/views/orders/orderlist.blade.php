@@ -943,13 +943,13 @@ function openPrintModal(orderId)
 
                     </div>
 
-                    <button
-                        onclick="printBlock(this)"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm" style="background-color: #0000FF;">
+                   <button
+    type="button"
+    class="print-btn px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
 
-                        Print
+    Print
 
-                    </button>
+</button>
 
                 </div>
 
@@ -1240,48 +1240,33 @@ window.printBlock = function(btn)
 
 @section('scripts')
 
+
+
 <script>
 
-window.printBlock = function(btn)
-{
-    alert('Function Called');
+document.addEventListener('click', function(e){
 
-    let block = btn.closest('.print-block');
+    if(e.target.classList.contains('print-btn')){
 
-    if(!block){
+        let block = e.target.closest('.print-block');
 
-        alert('Print block not found');
+        let win = window.open('', '_blank');
 
-        return;
+        win.document.write(block.outerHTML);
+
+        win.document.close();
+
+        setTimeout(function(){
+
+            win.print();
+
+        }, 1000);
     }
 
-    let win = window.open('', '_blank');
-
-    if(!win){
-
-        alert('Popup blocked');
-
-        return;
-    }
-
-    win.document.write(
-        '<html>' +
-        '<head><title>Print</title></head>' +
-        '<body>' +
-        block.outerHTML +
-        '</body>' +
-        '</html>'
-    );
-
-    win.document.close();
-
-    setTimeout(function(){
-
-        win.print();
-
-    },1000);
-};
+});
 
 </script>
+
+
 
 @endsection
