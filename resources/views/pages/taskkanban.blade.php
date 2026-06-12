@@ -7,57 +7,58 @@
     <!-- 🔷 HEADER + DATE FILTER -->
     <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
 
+    <!-- LEFT -->
+    <div class="flex items-center gap-4">
+
         <div>
+
             <h2 class="text-xl font-semibold text-gray-800">
-                Production  Board
+                Production Board
             </h2>
+
             <p class="text-sm text-gray-500">
                 Manage tailoring workflow
             </p>
+
         </div>
 
-        <!-- Date Filter -->
-        <div class="flex items-center gap-3 bg-gray-100 hover:bg-gray-200 cursor-pointer px-4 py-2 rounded-xl">
+        <!-- DATE FILTER -->
+        <div class="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
 
-            <!-- Calendar Icon -->
             <svg xmlns="http://www.w3.org/2000/svg"
-                class="w-5 h-5 text-gray-500" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                class="w-4 h-4 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+
+                <path stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+
             </svg>
 
-            <div class="flex items-center gap-2">
+            <input
+                type="text"
+                id="delivery_date"
+                value="{{ request('delivery_date') }}"
+                placeholder="Select Date Range"
+                class="bg-transparent border-0 focus:ring-0 text-sm w-56">
 
-    <input
-        type="text"
-        id="delivery_date"
-        value="{{ request('delivery_date') }}"
-        placeholder="Select Delivery Date Range"
-        class="flatpickr-input active:bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-200 rounded-md border-gray-300">
+            <button
+                type="button"
+                id="clearDateFilter"
+                class="px-2 py-1 text-xs bg-red-500 text-white rounded">
 
-    <button
-        type="button"
-        id="clearDateFilter"
-        class="px-3 py-2 text-sm bg-red-500 text-white rounded-md">
+                Clear
 
-        Clear
-
-    </button>
-
-</div>
-
-            <!-- Arrow -->
-            <svg xmlns="http://www.w3.org/2000/svg"
-                class="w-4 h-4 text-gray-500" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M19 9l-7 7-7-7"/>
-            </svg>
+            </button>
 
         </div>
 
     </div>
+
+</div>
 
     <!-- 🧩 KANBAN BOARD -->
     <div class="flex gap-6 min-w-[1250px]">
