@@ -57,22 +57,25 @@ public function store(Request $req)
         $next = $last ? intval(substr($last->order_no, 2)) + 1 : 1;
         $orderNo = 'OR'.str_pad($next, 3, '0', STR_PAD_LEFT);
 
-       $deliverydate = DB::table('delivery_dates')->where('status', 'active')->orderBy('id', 'asc')->first();
+       // $delivery_date = null;
+        if($req->delivery_date){
+             $delivery_date = $req->delivery_date;
+        } else {
+            /* $deliverydate = DB::table('delivery_dates')->where('status', 'active')->orderBy('id', 'asc')->first();
 
-       $delivery_date = now()->addDays($deliverydate->days)->format('Y-m-d');
 
-       Log::info('Calculated Delivery Date: '.$delivery_date);
+            $delivery_date = now()->addDays($deliverydate->days + 5)->format('Y-m-d'); */
+            $delivery_date = $req->delivery_date;
+
+        }
+         Log::info('Calculated Delivery Date: '.$delivery_date);
 
 
-         if(!$deliverydate){
+         if(!$req->delivery_date){
             throw new \Exception('No active delivery date found');
         }
 
-         $deliveryDays = $deliverydate->days;
 
-         $estimatedDelivery = now()->addDays($deliveryDays);
-
-         Log::info('Estimated Delivery Date: '.$estimatedDelivery);
 
         // 🔥 Create Order
         $order = Order::create([
@@ -80,7 +83,7 @@ public function store(Request $req)
             'customer_id' => $req->customer_id,
             'phone' => $req->phone,
             'order_date' => now(),
-            'delivery_date' => $delivery_date,
+            'delivery_date' => date('Y-m-d',strtotime($req->delivery_date)),
             'status' => 'Order Received',
             'created_by' => 1
         ]);

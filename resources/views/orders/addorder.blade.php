@@ -109,11 +109,17 @@
                 </svg>
 
             </button>
-         <input type="checkbox" id="urgent" name="urgent" class="ml-2">Urgent
-         <input type="checkbox" id="washing" name="washing" class="ml-2">Washing
-| Qty : <input type="text" id="no_of_qty" name="no_of_qty" style="width:10%;" class="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200" style="margin-right: 10px;">
+
         </div>
         <br />
+        <div>
+             <input type="checkbox" id="urgent" name="urgent" class="ml-2">&nbsp;<span style='color:red;'>Urgent</span>
+         <input type="checkbox" id="washing" name="washing" class="ml-2">&nbsp;Washing
+| &nbsp;Qty : <input type="text" id="no_of_qty" name="no_of_qty" style="width:10%;" class="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200" style="margin-right: 10px;">
+ <label>&nbsp;Delivery Date : </label>
+        <input type="text" id="delivery_date" name="delivery_date" class="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200" style="width:20%;">
+</div>
+
 
                  <button class="edit-button" onclick="saveMeasurement()">
 
@@ -1048,6 +1054,7 @@ function saveMeasurement()
             phone: $('#customer_phone').val(),
 
             location: $('#customer_location').val()
+
         },
 
         type_id: $('#selected_type_id').val(),
@@ -1478,6 +1485,7 @@ function confirmOrder(){
 
     let customer_id = $('#customer_id').val();
     let phone = $('#customer_phone').val();
+    let delivery_date = $('#delivery_date').val();
 
     if(!customer_id){
         Swal.fire('Error', 'Please select customer', 'error');
@@ -1486,6 +1494,10 @@ function confirmOrder(){
 
     if(!phone){
         Swal.fire('Error', 'Phone number required', 'error');
+        return;
+    }
+    if(!delivery_date){
+        Swal.fire('Error', 'Please select delivery date', 'error');
         return;
     }
 
@@ -1513,6 +1525,7 @@ function confirmOrder(){
                     customer_id: customer_id,
                     phone: phone,
                     items: cart,
+                    delivery_date: delivery_date,
                     images: filesArray
                 },
 
@@ -1836,6 +1849,12 @@ window.printBlock = function(btn)
 };
 
 </script>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+flatpickr("#delivery_date", {
+    dateFormat: "d-m-Y",
+});
+</script>
 
     @endsection
