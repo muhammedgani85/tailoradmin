@@ -1118,4 +1118,70 @@ function page_reload() {
 }
 </script>
 
+
+<script>
+
+window.printBlock = function(btn)
+{
+    let block = btn.closest('.print-block');
+
+    let win = window.open('', '_blank');
+
+    if(!win){
+
+        alert('Please allow popups for this site.');
+
+        return;
+    }
+
+    win.document.open();
+
+    win.document.write(`
+        <html>
+        <head>
+
+            <title>Print</title>
+
+            <style>
+
+                body{
+                    font-family: Arial, sans-serif;
+                    padding:20px;
+                }
+
+                table{
+                    width:100%;
+                    border-collapse:collapse;
+                }
+
+                td, th{
+                    border:1px solid #ddd;
+                    padding:8px;
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            ${block.outerHTML}
+
+        </body>
+
+        </html>
+    `);
+
+    win.document.close();
+
+    setTimeout(function(){
+
+        win.focus();
+
+        win.print();
+
+    }, 1000);
+};
+
+</script>
 @endsection
