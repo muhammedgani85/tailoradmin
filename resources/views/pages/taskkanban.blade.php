@@ -27,9 +27,25 @@
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
 
-            <span class="text-sm text-gray-600">
-                Apr 01, 2026 - Apr 10, 2026
-            </span>
+            <div class="flex items-center gap-2">
+
+    <input
+        type="text"
+        id="delivery_date"
+        value="{{ request('delivery_date') }}"
+        placeholder="Select Delivery Date Range"
+        class="flatpickr-input active:bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-200 rounded-md border-gray-300">
+
+    <button
+        type="button"
+        id="clearDateFilter"
+        class="px-3 py-2 text-sm bg-red-500 text-white rounded-md">
+
+        Clear
+
+    </button>
+
+</div>
 
             <!-- Arrow -->
             <svg xmlns="http://www.w3.org/2000/svg"
@@ -206,5 +222,44 @@
 </div>
 
 </div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+
+flatpickr("#delivery_date", {
+
+    mode: "range",
+
+    dateFormat: "Y-m-d",
+
+    defaultDate: "{{ request('delivery_date') }}"
+        ? "{{ request('delivery_date') }}".split(' to ')
+        : null,
+
+    onClose: function(selectedDates, dateStr){
+
+        if(selectedDates.length == 2){
+
+            window.location.href =
+                "{{ route('taskkanban') }}" +
+                "?delivery_date=" +
+                encodeURIComponent(dateStr);
+        }
+    }
+
+});
+
+// ✅ Clear Filter
+$(document).on('click', '#clearDateFilter', function(){
+
+    window.location.href =
+        "{{ route('taskkanban') }}";
+
+});
+
+</script>
 
 @endsection
