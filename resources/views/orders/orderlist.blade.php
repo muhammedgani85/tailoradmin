@@ -1235,11 +1235,19 @@ window.printBlock = function(btn)
 };
 
 </script>
+
+@endsection
+
+@section('scripts')
+
 <script>
-alert('Script Loaded');
 
 window.printBlock = function(btn){
+
     alert('Print Working');
+
 };
+
 </script>
+
 @endsection
