@@ -171,6 +171,7 @@
         <tr class="border-y">
             <th class="px-4 py-3 text-left text-gray-500 text-sm">Order No</th>
             <th class="px-4 py-3 text-left text-gray-500 text-sm">Customer No</th>
+            <th class="px-4 py-3 text-left text-gray-500 text-sm">Customer Name</th>
             <th class="px-4 py-3 text-left text-gray-500 text-sm">Order Date</th>
             <th class="px-4 py-3 text-left text-gray-500 text-sm">Delivery Date</th>
             <th class="px-4 py-3 text-left text-gray-500 text-sm">Items</th>
@@ -201,6 +202,9 @@
 
     <td class="px-4 py-4">
         {{ $order->customer->phone ?? '-' }}
+    </td>
+    <td class="px-4 py-4">
+        {{ $order->customer->name ?? '-' }}
     </td>
 
     <td class="px-4 py-4">
@@ -943,13 +947,13 @@ function openPrintModal(orderId)
 
                     </div>
 
-                   <button
-    type="button"
-    class="print-btn px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
+                    <button
+                        onclick="printBlock(this)"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm" style="background-color: #0000FF;">
 
-    Print
+                        Print
 
-</button>
+                    </button>
 
                 </div>
 
@@ -1240,33 +1244,48 @@ window.printBlock = function(btn)
 
 @section('scripts')
 
-
-
 <script>
 
-document.addEventListener('click', function(e){
+window.printBlock = function(btn)
+{
+    alert('Function Called');
 
-    if(e.target.classList.contains('print-btn')){
+    let block = btn.closest('.print-block');
 
-        let block = e.target.closest('.print-block');
+    if(!block){
 
-        let win = window.open('', '_blank');
+        alert('Print block not found');
 
-        win.document.write(block.outerHTML);
-
-        win.document.close();
-
-        setTimeout(function(){
-
-            win.print();
-
-        }, 1000);
+        return;
     }
 
-});
+    let win = window.open('', '_blank');
+
+    if(!win){
+
+        alert('Popup blocked');
+
+        return;
+    }
+
+    win.document.write(
+        '<html>' +
+        '<head><title>Print</title></head>' +
+        '<body>' +
+        block.outerHTML +
+        '</body>' +
+        '</html>'
+    );
+
+    win.document.close();
+
+    setTimeout(function(){
+
+        win.print();
+
+    },1000);
+};
 
 </script>
-
-
 
 @endsection
