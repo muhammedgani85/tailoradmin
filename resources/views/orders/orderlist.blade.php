@@ -254,6 +254,7 @@
     <th>Stage</th>
     <th>Status</th>
     <th>Delay</th>
+    <th></th>
 
 </tr>
 
@@ -316,6 +317,7 @@
         @endif
 
     </td>
+    <td></td>
 
 </tr>
 
