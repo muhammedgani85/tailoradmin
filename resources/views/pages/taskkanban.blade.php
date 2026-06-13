@@ -85,11 +85,7 @@
 
         @php
 
-           $days = number_format(
-    \Carbon\Carbon::parse($item->created_at)
-        ->floatDiffInDays(now()),
-    2
-);
+           $days = Carbon\Carbon::parse($item->created_at)->diffInDays(now());
 
             $isDelayed = $days > 2;
 
