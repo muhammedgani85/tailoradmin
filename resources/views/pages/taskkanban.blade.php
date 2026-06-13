@@ -167,7 +167,7 @@
                 @if($isDelayed)
 
                 <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">
-                    {{ $days }} days
+                    {{ (int) $days }} days
                 </span>
 
                 @endif
