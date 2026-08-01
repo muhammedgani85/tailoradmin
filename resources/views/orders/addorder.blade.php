@@ -1776,62 +1776,82 @@ function openPrintModal(orderId)
 
                            <td colspan="5" class="p-0">
 
-                               <table class="w-full border-collapse border text-xs">
-    <tbody>
+                               <table class="w-full text-xs border border-collapse">
+<tbody>
 
-    ${(() => {
+${(() => {
 
-        const items = Object.values(measurements || {});
-        let html = '';
+    const items = Object.values(measurements || {});
+    let html = '';
 
-        for (let i = 0; i < items.length; i += 5) {
+    for (let i = 0; i < items.length; i += 5) {
 
-            html += '<tr>';
+        const rowItems = items.slice(i, i + 5);
 
-            items.slice(i, i + 5).forEach(m => {
+        html += '<tr>';
 
-                html += `
-                    <td class="border p-0 align-top">
-                        <table class="w-full border-collapse">
-                            <tr>
-                                <td class="border-b bg-gray-100 text-center font-semibold py-1">
-                                    ${m.name}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center py-3 h-10">
-                                    ${m.value ?? ''}
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                `;
-            });
+        for (let k = 0; k < rowItems.length; k++) {
 
-            // Empty cells if less than 5
-            for (let j = items.slice(i, i + 5).length; j < 5; j++) {
-                html += `
-                    <td class="border p-0">
-                        <table class="w-full">
-                            <tr>
-                                <td class="border-b bg-gray-100 py-1">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td class="py-3 h-10"></td>
-                            </tr>
-                        </table>
-                    </td>
-                `;
+            const m = rowItems[k];
+
+            // Skip empty heading
+            if (!m.name || m.name.trim() === '') {
+                continue;
             }
 
-            html += '</tr>';
+            // Collect values
+            let values = [m.value];
+
+            while (
+                k + 1 < rowItems.length &&
+                (!rowItems[k + 1].name || rowItems[k + 1].name.trim() === '')
+            ) {
+                values.push(rowItems[k + 1].value);
+                k++;
+            }
+
+            html += `
+                <td class="border p-0 align-top">
+
+                    <table class="w-full border-collapse">
+
+                        <tr>
+                            <td colspan="${values.length}"
+                                class="border-b bg-gray-100 text-center font-semibold py-1">
+                                ${
+        m.name && m.name.trim() !== ''
+            ? m.name
+            : '&nbsp;'
+    }
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            ${values.map(v => `
+                                <td class="border text-center py-2">
+                                    ${v ?? ''}
+                                </td>
+                            `).join('')}
+
+                        </tr>
+
+                    </table>
+
+                </td>
+            `;
+
         }
 
-        return html;
+        html += '</tr>';
 
-    })()}
+    }
 
-    </tbody>
+    return html;
+
+})()}
+
+</tbody>
 </table>
 
                             </td>

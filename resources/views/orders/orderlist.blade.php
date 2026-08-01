@@ -1089,7 +1089,11 @@ ${(() => {
                         <tr>
                             <td colspan="${values.length}"
                                 class="border-b bg-gray-100 text-center font-semibold py-1">
-                                ${m.name}
+                                ${
+        m.name && m.name.trim() !== ''
+            ? m.name
+            : '&nbsp;'
+    }
                             </td>
                         </tr>
 
