@@ -97,6 +97,14 @@
         </h4>
         <div id="measurementSection" style="width:100%;"></div>
 
+
+
+
+
+
+
+
+
         <div class="flex items-center gap-2">
 
             <textarea name="notes" id="notes" class="input flex-1" style="width:850px !important;"></textarea>
@@ -991,9 +999,9 @@ function loadMeasurement(typeId)
                         font-size:14px;
                         font-weight:500;
                     ">
-                        ${m.field_name}
+                        ${m.display_name}
                     </label>
-                        ( ${m.display_name} )
+
 
                     <input
                         type="text"
@@ -1767,36 +1775,65 @@ function openPrintModal(orderId)
 
                             </td>
 
-                            <td colspan="5"
-                                class="px-4 py-3">
+                           <td colspan="5" class="p-0">
 
-                                <table class="w-full text-xs border">
+                               <table class="w-full border-collapse border text-xs">
+    <tbody>
 
-                                    <tbody>
+    ${(() => {
 
-                                        ${Object.values(measurements || {}).map(m => `
+        const items = Object.values(measurements || {});
+        let html = '';
 
-                                            <tr class="border-b">
+        for (let i = 0; i < items.length; i += 5) {
 
-                                                <td class="px-2 py-2 bg-gray-50 w-[250px]">
+            html += '<tr>';
 
-                                                    ${m.name}
+            items.slice(i, i + 5).forEach(m => {
 
-                                                </td>
+                html += `
+                    <td class="border p-0 align-top">
+                        <table class="w-full border-collapse">
+                            <tr>
+                                <td class="border-b bg-gray-100 text-center font-semibold py-1">
+                                    ${m.name}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center py-3 h-10">
+                                    ${m.value ?? ''}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                `;
+            });
 
-                                                <td class="px-2 py-2">
+            // Empty cells if less than 5
+            for (let j = items.slice(i, i + 5).length; j < 5; j++) {
+                html += `
+                    <td class="border p-0">
+                        <table class="w-full">
+                            <tr>
+                                <td class="border-b bg-gray-100 py-1">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 h-10"></td>
+                            </tr>
+                        </table>
+                    </td>
+                `;
+            }
 
-                                                    ${m.value}
+            html += '</tr>';
+        }
 
-                                                </td>
+        return html;
 
-                                            </tr>
+    })()}
 
-                                        `).join('')}
-
-                                    </tbody>
-
-                                </table>
+    </tbody>
+</table>
 
                             </td>
 
