@@ -66,7 +66,7 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button onclick="confirmOrder()"
                         class="shadow-theme-xs flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
-                        <img src="https://cdn.iconscout.com/icon/free/png-512/free-cart-icon-svg-download-png-1322328.png?f=webp&w=256" />
+                        <img src="https://cdn.iconscout.com/icon/free/png-512/free-cart-icon-svg-download-png-1322328.png?f=webp&w=256" style="height:35px !important;"/>
                     </button>
 
 <input type="hidden" id="selected_type_id" name="type_id">
@@ -75,7 +75,7 @@
             </div>
 
             <button onclick="openSearchModal()"
-                class="shadow-theme-xs flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
+                class="shadow-theme-xs flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto dark:border-gray-700 dark:bg-blue-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                 <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -129,7 +129,7 @@
 </div>
 
 
-                 <button class="edit-button" onclick="saveMeasurement()">
+                 <button class="px-4 py-2 bg-brand-500 text-white rounded-lg" onclick="saveMeasurement()">
 
                             Save
                         </button>
