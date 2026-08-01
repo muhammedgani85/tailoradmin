@@ -1047,37 +1047,79 @@ function openPrintModal(orderId)
     <td colspan="5"
         class="px-4 py-3">
 
-        <table class="w-full text-xs border">
+        <table class="w-full text-xs border border-collapse">
+<tbody>
 
-            <tbody>
+${(() => {
 
-                ${(item.formatted_measurements || []).map(m => `
+    const items = Object.values(measurements || {});
+    let html = '';
 
-                    <tr class="border-b">
+    for (let i = 0; i < items.length; i += 5) {
 
-                        <td class="px-2 py-2 bg-gray-50 w-[250px]">
+        const rowItems = items.slice(i, i + 5);
 
-                            ${m.field_name}
+        html += '<tr>';
 
-                            ${m.display_name
-                                ? `(${m.display_name})`
-                                : ''}
+        for (let k = 0; k < rowItems.length; k++) {
 
-                        </td>
+            const m = rowItems[k];
 
-                        <td class="px-2 py-2">
+            // Skip empty heading
+            if (!m.name || m.name.trim() === '') {
+                continue;
+            }
 
-                            ${m.value}
+            // Collect values
+            let values = [m.value];
 
-                        </td>
+            while (
+                k + 1 < rowItems.length &&
+                (!rowItems[k + 1].name || rowItems[k + 1].name.trim() === '')
+            ) {
+                values.push(rowItems[k + 1].value);
+                k++;
+            }
 
-                    </tr>
+            html += `
+                <td class="border p-0 align-top">
 
-                `).join('')}
+                    <table class="w-full border-collapse">
 
-            </tbody>
+                        <tr>
+                            <td colspan="${values.length}"
+                                class="border-b bg-gray-100 text-center font-semibold py-1">
+                                ${m.name}
+                            </td>
+                        </tr>
 
-        </table>
+                        <tr>
+
+                            ${values.map(v => `
+                                <td class="border text-center py-2">
+                                    ${v ?? ''}
+                                </td>
+                            `).join('')}
+
+                        </tr>
+
+                    </table>
+
+                </td>
+            `;
+
+        }
+
+        html += '</tr>';
+
+    }
+
+    return html;
+
+})()}
+
+</tbody>
+</table>
 
     </td>
 

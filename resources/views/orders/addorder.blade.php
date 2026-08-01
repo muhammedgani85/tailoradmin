@@ -991,30 +991,29 @@ function loadMeasurement(typeId)
 
             html += `
 
-                <div>
+               <div style="display:flex;flex-direction:column;">
 
-                    <label style="
-                        display:block;
-                        margin-bottom:5px;
-                        font-size:14px;
-                        font-weight:500;
-                    ">
-                        ${m.display_name}
-                    </label>
+    <label style="
+        min-height:20px;
+        font-size:14px;
+        font-weight:500;
+        margin-bottom:5px;
+    ">
+        ${m.display_name || '&nbsp;'}
+    </label>
 
+    <input
+        type="text"
+        name="measurements[${m.id}]"
+        value="${m.value ?? ''}"
+        style="
+            width:100%;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            padding:10px;
+        ">
 
-                    <input
-                        type="text"
-                        name="measurements[${m.id}]"
-                        value="${m.value ?? ''}"
-                        style="
-                            width:100%;
-                            border:1px solid #d1d5db;
-                            border-radius:8px;
-                            padding:10px;
-                        ">
-
-                </div>
+</div>
 
             `;
         });
