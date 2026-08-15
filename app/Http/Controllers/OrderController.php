@@ -460,7 +460,8 @@ public function startWork(Request $request, $id)
 {
 
     try {
-        $tailor_id = $request->tailor_id;
+        $tailor_id = str_replace('E', '', $request->tailor_id);
+
 
         $track = OrderItemTrack::findOrFail($id);
 
