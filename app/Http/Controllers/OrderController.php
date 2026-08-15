@@ -344,7 +344,8 @@ public function tailororder()
 }
 
 
-public function tailorwork($id, $order_no)
+//public function tailorwork($id, $order_no)
+public function tailorwork($id)
 {
     try {
 
