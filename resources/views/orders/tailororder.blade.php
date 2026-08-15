@@ -113,8 +113,9 @@ function loadOrders()
     let orderNo = document.getElementById('order_no').value;
 
 
-    if(!id || !orderNo){
-        alert('Enter both Employee ID and Order No');
+  //  if(!id || !orderNo){
+         if(!id){
+        alert('Enter both Employee ID');
         return;
     }
 

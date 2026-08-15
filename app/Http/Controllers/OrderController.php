@@ -360,8 +360,8 @@ public function tailorwork($id, $order_no)
 
             ->join('tailors as u', 'u.id', '=', 'oit.assigned_to')
 
-           // ->where('oit.assigned_to', $id)
-            ->where('oi.item_no', $order_no)
+            ->where('oit.assigned_to', $id)
+           // ->where('oi.item_no', $order_no)
             ->whereIn('oit.status', [
                 'pending',
                 'in_progress'
