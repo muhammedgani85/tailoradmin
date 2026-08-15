@@ -114,7 +114,7 @@ function loadOrders()
 
 
   //  if(!id || !orderNo){
-         if(!id){
+    if(!id){
         alert('Enter both Employee ID');
         return;
     }
@@ -125,7 +125,8 @@ function loadOrders()
         </div>
     `);
 
-   $.get('/tailor/works/' + id + '/' + orderNo,  function(res){
+  // $.get('/tailor/works/' + id + '/' + orderNo,  function(res){
+    $.get('/tailor/works/' + id,  function(res){
 
         if(!res.success){
             alert(res.message);
