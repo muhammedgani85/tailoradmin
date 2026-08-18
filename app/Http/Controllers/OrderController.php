@@ -398,7 +398,8 @@ public function tailorwork($id)
 
                 'oi.measurements',
 
-                'oi.urgent'
+                'oi.urgent',
+                'u.roles as tailor_type_id'
 
             )
 

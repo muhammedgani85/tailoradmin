@@ -109,13 +109,10 @@
 function loadOrders()
 {
     let id = document.getElementById('tailorId').value;
-
     let orderNo = document.getElementById('order_no').value;
 
-
-  //  if(!id || !orderNo){
-    if(!id){
-        alert('Enter both Employee ID');
+    if (!id) {
+        alert('Enter Employee ID');
         return;
     }
 
@@ -125,17 +122,16 @@ function loadOrders()
         </div>
     `);
 
-  // $.get('/tailor/works/' + id + '/' + orderNo,  function(res){
-    $.get('/tailor/works/' + id,  function(res){
+    $.get('/tailor/works/' + id, function(res) {
 
-        if(!res.success){
+        if (!res.success) {
             alert(res.message);
             return;
         }
 
         let html = '';
 
-        if(res.data.length === 0){
+        if (res.data.length === 0) {
 
             html = `
                 <div class="text-gray-400">
@@ -147,9 +143,10 @@ function loadOrders()
 
             res.data.forEach(item => {
 
+                // Status Badge
                 let badge = '';
 
-                if(item.status == 'pending'){
+                if (item.status == 'pending') {
 
                     badge = `
                         <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
@@ -166,136 +163,193 @@ function loadOrders()
                     `;
                 }
 
+
+                // Measurements Section
+                let measurementsHtml = '';
+
+                if (item.tailor_type_id != 1) {
+
+                    measurementsHtml = `
+                        <div class="mt-3">
+
+                            <p class="font-semibold text-gray-700 mb-2">
+                                Measurements
+                            </p>
+
+                            <table class="w-full text-xs border border-gray-300 border-collapse">
+
+                                <tbody>
+
+                                    ${
+                                        (item.measurements || []).map(m => `
+
+                                            <tr class="border border-gray-300">
+
+                                                <td class="px-2 py-1 font-medium border border-gray-300">
+
+                                                    ${m.display_name || ''}
+
+                                                    (${m.field_name || ''})
+
+                                                </td>
+
+                                                <td class="px-2 py-1 font-semibold border border-gray-300">
+
+                                                    ${m.value || ''}
+
+                                                </td>
+
+                                            </tr>
+
+                                        `).join('')
+                                    }
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    `;
+
+                }
+
+
                 html += `
 
-                <div class="bg-white rounded-2xl shadow p-4">
+                    <div class="bg-white rounded-2xl shadow p-4">
 
-                    <div class="flex justify-between items-start">
+                        <div class="flex justify-between items-start">
 
-                        <div>
+                            <div>
 
-                            <h3 class="font-semibold text-gray-800">
+                                <h3 class="font-semibold text-gray-800">
 
-                            ${item.item_no}
+                                    ${item.item_no}
 
-                            ${item.urgent
-                            ? '<span style="color:red;font-weight:bold;">( Urgent )</span>'
-                            : ''}
+                                    ${
+                                        item.urgent
+                                        ? '<span style="color:red;font-weight:bold;">( Urgent )</span>'
+                                        : ''
+                                    }
 
-                            </h3>
-                            <p class="text-xs text-gray-500">
-                                Name : ${item.tailor_name}
+                                </h3>
+
+
+                                <p class="text-xs text-gray-500">
+
+                                    Name : ${item.tailor_name}
+
                                 </p>
 
-                            <p class="text-xs text-gray-500 mt-1">
-                                Order : ${item.order_no}
-                            </p>
 
-                            <p class="text-xs text-gray-500">
-                                Type : ${item.type}
-                            </p>
+                                <p class="text-xs text-gray-500 mt-1">
 
-                            <p class="text-xs text-gray-500">
-                                Stage : ${item.stage_name}
-                            </p>
+                                    Order : ${item.order_no}
 
-                            <p class="text-xs text-gray-500 mt-1">
-                                Assigned : ${item.assigned_date}
-                            </p>
-                        <p class="text-xs text-gray-500 mt-1">
+                                </p>
 
-                        <b>Notes :</b><br>
 
-                        ${(item.correction_notes || '')
-                        .replace(/\n/g, '<br>')}
+                                <p class="text-xs text-gray-500">
 
-                        </p>
-                        <p></p>
-                        <p>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-     width="20"
-     height="20"
-     fill="currentColor"
-     viewBox="0 0 16 16">
-    <path d="M14.002 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z"/>
-    <path d="M10.648 7.646a.5.5 0 0 1 .704 0L14 10.293V12H2v-1.293l3.646-3.647a.5.5 0 0 1 .708.002l2.294 2.293 2-1.709z"/>
-    <path d="M6.5 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-</svg>
-                        </p>
+                                    Type : ${item.type}
+
+                                </p>
+
+
+                                <p class="text-xs text-gray-500">
+
+                                    Stage : ${item.stage_name}
+
+                                </p>
+
+
+                                <p class="text-xs text-gray-500 mt-1">
+
+                                    Assigned : ${item.assigned_date}
+
+                                </p>
+
+
+                                <p class="text-xs text-gray-500 mt-1">
+
+                                    <b>Notes :</b><br>
+
+                                    ${(item.correction_notes || '')
+                                        .replace(/\n/g, '<br>')}
+
+                                </p>
+
+
+                                <p></p>
+
+
+                                <p>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        width="20"
+                                        height="20"
+                                        fill="currentColor"
+                                        viewBox="0 0 16 16">
+
+                                        <path d="M14.002 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z"/>
+
+                                        <path d="M10.648 7.646a.5.5 0 0 1 .704 0L14 10.293V12H2v-1.293l3.646-3.647a.5.5 0 0 1 .708.002l2.294 2.293 2-1.709z"/>
+
+                                        <path d="M6.5 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+
+                                    </svg>
+
+                                </p>
+
+                            </div>
+
+
+                            ${measurementsHtml}
+
+
+                            <div class="mt-2">
+                            </div>
+
+
+                            ${badge}
 
                         </div>
 
-                        <div class="mt-3">
 
-    <p class="font-semibold text-gray-700 mb-2">
-        Measurements
-    </p>
+                        <div class="mt-4 flex justify-end">
 
-   <table class="w-full text-xs border border-gray-300 border-collapse">
+                            ${
+                                item.status == 'pending'
 
-    <tbody>
+                                ?
 
-        ${item.measurements.map(m => `
+                                `<button
+                                    onclick="startWork(this, ${item.track_id})"
+                                    class="px-3 py-1 text-sm bg-green-600 text-white rounded-lg">
 
-            <tr class="border border-gray-300">
+                                    Start
 
-                <td class="px-2 py-1 font-medium border border-gray-300">
+                                </button>`
 
-                    ${m.display_name || ''}
+                                :
 
-                    (${m.field_name || ''})
+                                `<button
+                                    onclick="completeWork(this, ${item.track_id})"
+                                    class="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg">
 
-                </td>
+                                    Complete
 
-                <td class="px-2 py-1 font-semibold border border-gray-300">
+                                </button>`
+                            }
 
-                    ${m.value || ''}
-
-                </td>
-
-            </tr>
-
-        `).join('')}
-
-    </tbody>
-
-</table>
-
-</div>
-                        <div class="mt-2">
-</div>
-
-                        ${badge}
+                        </div>
 
                     </div>
 
-                    <div class="mt-4 flex justify-end">
-
-                        ${
-                            item.status == 'pending'
-
-                            ?
-
-                            `<button
-                               onclick="startWork(this, ${item.track_id})"
-                                class="px-3 py-1 text-sm bg-green-600 text-white rounded-lg">
-                                Start
-                            </button>`
-
-                            :
-
-                            `<button
-                                onclick="completeWork(this, ${item.track_id})"
-                                class="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg">
-                                Complete
-                            </button>`
-                        }
-
-                    </div>
-
-                </div>
                 `;
+
             });
+
         }
 
         $('#ordersContainer').html(html);
