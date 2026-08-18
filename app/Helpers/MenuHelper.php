@@ -40,10 +40,11 @@ class MenuHelper
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
                      ['name' => 'Add Order', 'path' => '/orders/addorder', 'pro' => false],
                     ['name' => 'Order List', 'path' => '/orderlist', 'pro' => false],
-                    ['name' => 'Print Assign Order', 'path' => '/printorder', 'pro' => false],
+
                      ['name' => 'Tailor Order', 'path' => '/tailororder', 'pro' => false],
 
                      ['name' => 'Work Balance', 'path' => '/tailors/workbalance', 'pro' => false],
+                      ['name' => 'Print Assign Order', 'path' => '/printorder', 'pro' => false],
                    /*   ['name' => 'Dues', 'path' => '/dueorders', 'pro' => false], */
 
                 ],
