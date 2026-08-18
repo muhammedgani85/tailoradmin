@@ -143,7 +143,10 @@ function loadOrders()
 
             res.data.forEach(item => {
 
-                // Status Badge
+                // =========================
+                // STATUS BADGE
+                // =========================
+
                 let badge = '';
 
                 if (item.status == 'pending') {
@@ -164,7 +167,10 @@ function loadOrders()
                 }
 
 
-                // Measurements Section
+                // =========================
+                // MEASUREMENTS
+                // =========================
+
                 let measurementsHtml = '';
 
                 if (item.tailor_type_id != 1) {
@@ -186,17 +192,12 @@ function loadOrders()
                                             <tr class="border border-gray-300">
 
                                                 <td class="px-2 py-1 font-medium border border-gray-300">
-
                                                     ${m.display_name || ''}
-
                                                     (${m.field_name || ''})
-
                                                 </td>
 
                                                 <td class="px-2 py-1 font-semibold border border-gray-300">
-
                                                     ${m.value || ''}
-
                                                 </td>
 
                                             </tr>
@@ -210,9 +211,55 @@ function loadOrders()
 
                         </div>
                     `;
-
                 }
 
+
+                // =========================
+                // NOTES + IMAGE
+                // =========================
+
+                let notesImageHtml = '';
+
+                if (item.tailor_type_id != 1) {
+
+                    notesImageHtml = `
+
+                        <p class="text-xs text-gray-500 mt-1">
+
+                            <b>Notes :</b><br>
+
+                            ${(item.correction_notes || '')
+                                .replace(/\n/g, '<br>')}
+
+                        </p>
+
+                        <p></p>
+
+                        <p>
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                viewBox="0 0 16 16">
+
+                                <path d="M14.002 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z"/>
+
+                                <path d="M10.648 7.646a.5.5 0 0 1 .704 0L14 10.293V12H2v-1.293l3.646-3.647a.5.5 0 0 1 .708.002l2.294 2.293 2-1.709z"/>
+
+                                <path d="M6.5 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+
+                            </svg>
+
+                        </p>
+
+                    `;
+                }
+
+
+                // =========================
+                // FINAL HTML
+                // =========================
 
                 html += `
 
@@ -236,79 +283,36 @@ function loadOrders()
 
 
                                 <p class="text-xs text-gray-500">
-
                                     Name : ${item.tailor_name}
-
                                 </p>
 
 
                                 <p class="text-xs text-gray-500 mt-1">
-
                                     Order : ${item.order_no}
-
                                 </p>
 
 
                                 <p class="text-xs text-gray-500">
-
                                     Type : ${item.type}
-
                                 </p>
 
 
                                 <p class="text-xs text-gray-500">
-
                                     Stage : ${item.stage_name}
-
                                 </p>
 
 
                                 <p class="text-xs text-gray-500 mt-1">
-
                                     Assigned : ${item.assigned_date}
-
                                 </p>
 
 
-                                <p class="text-xs text-gray-500 mt-1">
-
-                                    <b>Notes :</b><br>
-
-                                    ${(item.correction_notes || '')
-                                        .replace(/\n/g, '<br>')}
-
-                                </p>
-
-
-                                <p></p>
-
-
-                                <p>
-
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        width="20"
-                                        height="20"
-                                        fill="currentColor"
-                                        viewBox="0 0 16 16">
-
-                                        <path d="M14.002 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z"/>
-
-                                        <path d="M10.648 7.646a.5.5 0 0 1 .704 0L14 10.293V12H2v-1.293l3.646-3.647a.5.5 0 0 1 .708.002l2.294 2.293 2-1.709z"/>
-
-                                        <path d="M6.5 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-
-                                    </svg>
-
-                                </p>
+                                ${notesImageHtml}
 
                             </div>
 
 
                             ${measurementsHtml}
-
-
-                            <div class="mt-2">
-                            </div>
 
 
                             ${badge}
