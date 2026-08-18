@@ -253,6 +253,7 @@
     <th>Tailor</th>
     <th>Stage</th>
     <th>Status</th>
+    <th>Priority</th>
     <th>Delay</th>
     <th></th>
 
@@ -284,6 +285,9 @@
 
     <td>
         {{ ucfirst($item->tracks->last()?->status ?? '-') }}
+    </td>
+     <td>
+        {{ $item->tracks->last()->urgent == 1 ? 'Urgent' : 'Normal' }}
     </td>
 
     <td>
