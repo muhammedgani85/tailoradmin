@@ -30,8 +30,7 @@ class MenuHelper
                 'subItems' => [
 
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
-                    ['name' => 'Users List', 'path' => '/tailors', 'pro' => false],
-                     ['name' => 'Work Balance', 'path' => '/tailors/workbalance', 'pro' => false],
+                    ['name' => 'Users List', 'path' => '/tailors', 'pro' => false]
                 ],
             ],
             [
@@ -43,6 +42,8 @@ class MenuHelper
                     ['name' => 'Order List', 'path' => '/orderlist', 'pro' => false],
                     ['name' => 'Print Assign Order', 'path' => '/printorder', 'pro' => false],
                      ['name' => 'Tailor Order', 'path' => '/tailororder', 'pro' => false],
+
+                     ['name' => 'Work Balance', 'path' => '/tailors/workbalance', 'pro' => false],
                    /*   ['name' => 'Dues', 'path' => '/dueorders', 'pro' => false], */
 
                 ],
