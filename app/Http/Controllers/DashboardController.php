@@ -36,6 +36,8 @@ public function  taskkanban(Request $request)
     // ✅ Date Range Filter
     $fromDate = null;
     $toDate = null;
+    $orderNo = null;
+    $phone_no = null;
 
     if($request->filled('delivery_date')){
 
@@ -46,6 +48,11 @@ public function  taskkanban(Request $request)
         $toDate = $dates[1] ?? $dates[0];
     }
 
+    if($request->filled('order_no')){
+
+        $orderNo = $request->order_no;
+    }
+
     foreach($workflows as $workflow){
 
         $items = DB::table('order_item_tracks as oit')
@@ -53,6 +60,7 @@ public function  taskkanban(Request $request)
             ->join('order_items as oi', 'oi.id', '=', 'oit.order_item_id')
             ->join('orders as o', 'o.id', '=', 'oi.order_id')
             ->join('types as t', 't.id', '=', 'oi.type_id')
+            ->join('customers as c', 'c.id', '=', 'o.customer_id')
             ->leftJoin('tailors as u', 'u.id', '=', 'oit.assigned_to')
 
             ->where('oit.stage_id', $workflow->id)
@@ -76,6 +84,21 @@ public function  taskkanban(Request $request)
                     );
                 }
             )
+            ->when(
+                $orderNo,
+                function($query) use ($orderNo){
+
+                    $query->where('o.order_no', 'like', "%{$orderNo}%");
+                }
+            )
+            ->when(
+                $request->filled('phone_no'),
+                function($query) use ($request){
+
+                    $query->where('c.phone', 'like', "%{$request->phone_no}%");
+                }
+            )
+
 
             // ✅ urgent first
             ->orderByDesc('oi.urgent')

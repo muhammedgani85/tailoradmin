@@ -45,6 +45,18 @@
                 placeholder="Select Delivery Date Range"
                 class="bg-transparent border-0 focus:ring-0 text-sm w-56">
 
+                <input type="text" id="order_no" placeholder="Order No" class="px-3 py-2 border rounded-lg text-sm">
+
+                <input type="text" id="phone_no" placeholder="Phone No" class="px-3 py-2 border rounded-lg text-sm">
+
+                <button
+                type="button"
+                id="searchButton"
+                class="px-2 py-1 text-xs bg-red-500 text-white rounded">
+
+                Search
+
+            </button>
             <button
                 type="button"
                 id="clearDateFilter"
@@ -55,6 +67,8 @@
             </button>
 
         </div>
+
+
 
     </div>
 
@@ -227,26 +241,21 @@
 <script>
 
 flatpickr("#delivery_date", {
-
     mode: "range",
-
     dateFormat: "Y-m-d",
 
     defaultDate: "{{ request('delivery_date') }}"
         ? "{{ request('delivery_date') }}".split(' to ')
         : null,
 
-    onClose: function(selectedDates, dateStr){
-
-        if(selectedDates.length == 2){
-
+   /*  onClose: function(selectedDates, dateStr) {
+        if (selectedDates.length === 2) {
             window.location.href =
                 "{{ route('taskkanban') }}" +
                 "?delivery_date=" +
                 encodeURIComponent(dateStr);
         }
-    }
-
+    } */
 });
 
 // ✅ Clear Filter
@@ -255,6 +264,30 @@ $(document).on('click', '#clearDateFilter', function(){
     window.location.href =
         "{{ route('taskkanban') }}";
 
+});
+
+
+document.getElementById('searchButton').addEventListener('click', function() {
+
+    const deliveryDate = document.getElementById('delivery_date').value;
+    const orderNo = document.getElementById('order_no').value;
+    const phone = document.getElementById('phone_no').value;
+
+    const url = new URL("{{ route('taskkanban') }}");
+
+    if (deliveryDate) {
+        url.searchParams.set('delivery_date', deliveryDate);
+    }
+
+    if (orderNo) {
+        url.searchParams.set('order_no', orderNo);
+    }
+
+    if (phone) {
+        url.searchParams.set('phone_no', phone);
+    }
+
+    window.location.href = url.toString();
 });
 
 </script>
