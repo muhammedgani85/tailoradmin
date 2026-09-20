@@ -26,4 +26,9 @@ public function stage()
     return $this->belongsTo(stage::class, 'stage_id');
 }
 
+public function tailor()
+    {
+        return $this->belongsTo(Tailors::class, 'assigned_to', 'id');
+    }
+
 }

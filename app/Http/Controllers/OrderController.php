@@ -1224,10 +1224,18 @@ public function printorders()
 
         'items.type'
 
-    ])->get();
+        ])->get();
+
+
     $tailors = Tailors::where('status', 'active')->get();
 
-   //dd($orders);
+  /* dd(
+    $orders->first()
+        ->items
+        ->first()
+        ->tracks
+        ->pluck('tailor')
+); */
 
     return view('orders.printorderlist', [
 
@@ -1244,7 +1252,7 @@ public function tailorReassign(Request $request)
 {
    /*  $request->validate([
         'item_ids' => 'required|array|min:1',
-       
+
         'tailor_id' => 'required|integer|exists:users,id',
     ]); */
 
@@ -1268,9 +1276,9 @@ public function tailorReassign(Request $request)
         'count' => $tracks->count(),
         'tracks' => $tracks->toArray(),
         ]); */
-       
 
-        
+
+
 
         return redirect()
             ->back()

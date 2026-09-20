@@ -44,7 +44,7 @@ class MenuHelper
                      ['name' => 'Tailor Order', 'path' => '/tailororder', 'pro' => false],
 
                      ['name' => 'Work Balance', 'path' => '/tailors/workbalance', 'pro' => false],
-                      ['name' => 'Print Assign Order', 'path' => '/printorder', 'pro' => false],
+                      ['name' => 'Re-Assign Order', 'path' => '/printorder', 'pro' => false],
                    /*   ['name' => 'Dues', 'path' => '/dueorders', 'pro' => false], */
 
                 ],

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-common.page-breadcrumb pageTitle="Print Assign Orders" />
+    <x-common.page-breadcrumb pageTitle="Re-Assign Orders" />
 
 
         <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4 dark:border-white/[0.05] dark:bg-white/[0.03]">
@@ -94,6 +94,10 @@
                     Order ID
                 </th>
 
+                 <th class="px-4 py-3 text-left text-gray-500">
+                    Tailor Name
+                </th>
+
                 <th class="px-4 py-3 text-left text-gray-500">
                     Customer Name
                 </th>
@@ -110,7 +114,7 @@
             @foreach($orders as $order)
 
                 @foreach($order->items as $item)
-
+                      @foreach($item->tracks as $track)
                     <tr>
                         <td class="px-4 py-3">
                             <input
@@ -122,12 +126,14 @@
                         </td>
 
                         <td class="px-4 py-3 font-medium text-blue-600"> {{ $item->item_no }} </td>
-                         <td class="px-4 py-3"> {{ $order->customer->name }} </td> 
+                        <td class="px-4 py-3">       {{ $track->tailor->name ?? '-' }} </td>
+                         <td class="px-4 py-3"> {{ $order->customer->name }} </td>
                          <td class="px-4 py-3"> {{ $order->order_date }} </td>
                     </tr>
 
                 @endforeach
 
+            @endforeach
             @endforeach
 
         </tbody>
@@ -139,7 +145,7 @@
         <button
             type="button"
              id="reassignBtn"
-             
+
             class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
             Re-Assign Tailor
@@ -225,7 +231,7 @@
                     </option>
 
                 @endforeach
-               
+
 
             </select>
 
@@ -328,7 +334,7 @@ function checkIndividualItems()
 
 function openReassignModal()
 {
-  
+
     const selected =
         document.querySelectorAll('.item-checkbox:checked');
 
