@@ -60,7 +60,7 @@
 
     #sidebar .menu-dropdown-item-active {
         color: #ffffff !important;
-        background-color: #475569 !important;   
+        background-color: #475569 !important;
     }
 
     /* Group titles */
