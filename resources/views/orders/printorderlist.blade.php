@@ -98,6 +98,10 @@
                     Tailor Name
                 </th>
 
+                 <th class="px-4 py-3 text-left text-gray-500">
+                    Stage
+                </th>
+
                 <th class="px-4 py-3 text-left text-gray-500">
                     Customer Name
                 </th>
@@ -111,30 +115,48 @@
         <!-- BODY -->
         <tbody class="divide-y">
 
-            @foreach($orders as $order)
+           @foreach($orders as $order)
 
-                @foreach($order->items as $item)
-                      @foreach($item->tracks as $track)
-                    <tr>
-                        <td class="px-4 py-3">
-                            <input
-                                type="checkbox"
-                                name="item_ids[]"
-                                value="{{ $item->id }}"
-                                class="item-checkbox rounded border-gray-300"
-                            >
-                        </td>
+    @foreach($order->items as $item)
 
-                        <td class="px-4 py-3 font-medium text-blue-600"> {{ $item->item_no }} </td>
-                        <td class="px-4 py-3">       {{ $track->tailor->name ?? '-' }} </td>
-                         <td class="px-4 py-3"> {{ $order->customer->name }} </td>
-                         <td class="px-4 py-3"> {{ $order->order_date }} </td>
-                    </tr>
+        @php
+            $assignedTrack = $item->tracks->firstWhere('assigned_to', '!=', null);
+        @endphp
 
-                @endforeach
+        <tr>
+            <td class="px-4 py-3">
+                <input
+                    type="checkbox"
+                    name="item_ids[]"
+                    value="{{ $item->id }}"
+                    class="item-checkbox rounded border-gray-300"
+                >
+            </td>
 
-            @endforeach
-            @endforeach
+            <td class="px-4 py-3 font-medium text-blue-600">
+                {{ $item->item_no }}
+            </td>
+
+            <td class="px-4 py-3">
+                {{ $assignedTrack?->tailor?->name ?? '-' }}
+            </td>
+
+              <td class="px-4 py-3">
+                {{ $assignedTrack?->stage?->name ?? '-' }}
+            </td>
+
+            <td class="px-4 py-3">
+                {{ $order->customer->name }}
+            </td>
+
+            <td class="px-4 py-3">
+                {{ $order->order_date }}
+            </td>
+        </tr>
+
+    @endforeach
+
+@endforeach
 
         </tbody>
 
