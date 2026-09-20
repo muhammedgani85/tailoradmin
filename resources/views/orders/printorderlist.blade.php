@@ -78,10 +78,10 @@
           <form id="reassignForm" method="POST"  action="{{ route('order-items.reassign-tailor') }}">
     @csrf
 
-    <table class="min-w-full text-sm">
+    <table class="min-w-full text-sm" style="font-size: 12px; font-family: Arial, sans-serif; border-collapse: collapse; width: 100%;">
 
         <!-- HEADER -->
-        <thead class="bg-gray-50 border-b">
+        <thead class="bg-gray-50 border-b" >
             <tr>
                  <th class="px-4 py-3 text-left">
                     <input
