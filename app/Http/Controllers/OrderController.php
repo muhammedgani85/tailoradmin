@@ -20,6 +20,7 @@ use App\Models\Tailors;
 use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 
 class OrderController extends Controller
 {
@@ -1211,6 +1212,76 @@ public function deliveryList(Request $request)
 }
 
 
+public function printorders()
+{
+    $orders = Order::with([
 
+        'customer',
+
+        'items.tracks.stage',
+
+        'items.tracks.tailor',
+
+        'items.type'
+
+    ])->get();
+    $tailors = Tailors::where('status', 'active')->get();
+
+   //dd($orders);
+
+    return view('orders.printorderlist', [
+
+        'title' => 'Assign Orders',
+
+        'orders' => $orders,
+        'tailors' => $tailors
+
+    ]);
+}
+
+
+public function tailorReassign(Request $request)
+{
+   /*  $request->validate([
+        'item_ids' => 'required|array|min:1',
+       
+        'tailor_id' => 'required|integer|exists:users,id',
+    ]); */
+
+    try {
+
+        $itemIds = $request->input('item_ids');
+        $tailorId = $request->input('tailor_id');
+
+            $updated = OrderItemTrack::whereIn(
+            'order_item_id',
+            $itemIds
+            )->update([
+            'assigned_to' => $tailorId,
+            'updated_at' => now(),
+            ]);
+
+
+        /* dd([
+        'item_ids' => $itemIds,
+        'tailor_id' => $tailorId,
+        'count' => $tracks->count(),
+        'tracks' => $tracks->toArray(),
+        ]); */
+       
+
+        
+
+        return redirect()
+            ->back()
+            ->with('success', "Tailor reassigned successfully. {$updated} track(s) updated.");
+
+    } catch (\Throwable $e) {
+
+        return redirect()
+            ->back()
+            ->with('error', $e->getMessage());
+    }
+}
 
 }

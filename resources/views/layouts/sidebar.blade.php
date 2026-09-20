@@ -7,8 +7,73 @@
     $currentPath = request()->path();
 @endphp
 
-<aside id="sidebar"
-    class="fixed flex flex-col mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-99999 border-r border-gray-200"
+<style>
+    /* Sidebar */
+    #sidebar {
+        background-color: #000 !important;
+        color: #ffffff;
+    }
+
+    /* Menu items */
+    #sidebar .menu-item {
+        color: #e2e8f0 !important;
+    }
+
+    #sidebar .menu-item:hover {
+        background-color: #475569 !important;
+        color: #ffffff !important;
+    }
+
+    /* Icons */
+    #sidebar .menu-item-icon-inactive {
+        color: #cbd5e1 !important;
+    }
+
+    #sidebar .menu-item-icon-active {
+        color: #ffffff !important;
+    }
+
+    /* Active menu */
+    #sidebar .menu-item-active {
+        background-color: green !important;
+        color: #ffffff !important;
+    }
+
+    #sidebar .menu-item-active .menu-item-icon-active {
+       background-color: green !important;
+    }
+
+    /* Menu text */
+    #sidebar .menu-item-text {
+        color: inherit !important;
+    }
+
+    /* Submenu */
+    #sidebar .menu-dropdown-item {
+        color: #cbd5e1 !important;
+    }
+
+    #sidebar .menu-dropdown-item:hover {
+        color: #ffffff !important;
+        background-color: green !important;
+    }
+
+    #sidebar .menu-dropdown-item-active {
+        color: #ffffff !important;
+        background-color: #475569 !important;
+    }
+
+    /* Group titles */
+    #sidebar h2 {
+        color: #94a3b8 !important;
+    }
+</style>
+<aside
+    id="sidebar"
+    style="background-color:#000 !important;"
+    class="fixed flex flex-col mt-0 top-0 px-5 left-0
+           text-white h-screen transition-all duration-300
+           ease-in-out z-99999 border-r border-slate-600"
     x-data="{
         openSubmenus: {},
         init() {

@@ -8,7 +8,7 @@ class OrderItemTrack extends Model
 {
        protected $table = 'order_item_tracks';
         protected $fillable = [
-        'order_item_id','stage_id','status',
+    'order_item_id','stage_id','status',
         'assigned_to','started_at','completed_at','remarks'
     ];
 

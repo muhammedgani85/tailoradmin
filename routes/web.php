@@ -156,9 +156,12 @@ Route::get('/support', function () {
 })->name('addorder'); */
 
 
-Route::get('/printorder', function () {
+/* Route::get('/printorder', function () {
     return view('orders.printorderlist', ['title' => 'Print Order']);
-})->name('printorder');
+})->name('printorder'); */
+
+
+Route::get('/printorder', [OrderController::class,'printorders'])->name('printorders');
 
 
 
@@ -256,7 +259,7 @@ Route::post('/reassign-tailor',[OrderController::class, 'reassignTailor']);
 Route::get('/deliverylist',[OrderController::class, 'deliveryList'])->name('deliverylist');
 
 
-
+Route::any('/order-items/reassign-tailor',[OrderController::class, 'tailorReassign'])->name('order-items.reassign-tailor');
 
 
 // Measurement Routes

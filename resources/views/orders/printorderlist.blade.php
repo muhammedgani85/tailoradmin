@@ -10,7 +10,7 @@
    <div class="flex items-center justify-between px-6 mb-4">
 
     <h3 class="text-lg font-semibold text-gray-800">
-        Print Assign Order
+         Assign Order
     </h3>
 
     <!-- RIGHT SIDE -->
@@ -58,7 +58,11 @@
 
  <button onclick="printTable()"
             class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
-           Print
+           Search
+        </button>
+        <button  onclick="openReassignModal()"
+            class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
+           Re-Assign
         </button>
 
         <!-- ADD ORDER BUTTON -->
@@ -71,41 +75,78 @@
     <div class="overflow-hidden">
         <div class="max-w-full px-5 overflow-x-auto">
 <div id="printArea">
-          <table class="min-w-full text-sm">
+          <form id="reassignForm" method="POST"  action="{{ route('order-items.reassign-tailor') }}">
+    @csrf
+
+    <table class="min-w-full text-sm">
 
         <!-- HEADER -->
         <thead class="bg-gray-50 border-b">
             <tr>
-                <th class="px-4 py-3 text-left text-gray-500">Order ID</th>
-                <th class="px-4 py-3 text-left text-gray-500">Tailor Name</th>
-                <th class="px-4 py-3 text-left text-gray-500">Date</th>
+                 <th class="px-4 py-3 text-left">
+                    <input
+                        type="checkbox"
+                        id="selectAll"
+                        onclick="selectAllItems(this)"
+                    >
+
+                <th class="px-4 py-3 text-left text-gray-500">
+                    Order ID
+                </th>
+
+                <th class="px-4 py-3 text-left text-gray-500">
+                    Customer Name
+                </th>
+
+                <th class="px-4 py-3 text-left text-gray-500">
+                    Order Date
+                </th>
             </tr>
         </thead>
 
         <!-- BODY -->
         <tbody class="divide-y">
 
-            <tr>
-                <td class="px-4 py-3 font-medium text-blue-600">ORD001-1</td>
-                <td class="px-4 py-3">Ravi</td>
-                <td class="px-4 py-3">12-03-2025</td>
-            </tr>
+            @foreach($orders as $order)
 
-            <tr>
-                <td class="px-4 py-3 font-medium text-blue-600">ORD001-2</td>
-                <td class="px-4 py-3">Kumar</td>
-                <td class="px-4 py-3">13-03-2025</td>
-            </tr>
+                @foreach($order->items as $item)
 
-            <tr>
-                <td class="px-4 py-3 font-medium text-blue-600">ORD002-1</td>
-                <td class="px-4 py-3">Suresh</td>
-                <td class="px-4 py-3">14-03-2025</td>
-            </tr>
+                    <tr>
+                        <td class="px-4 py-3">
+                            <input
+                                type="checkbox"
+                                name="item_ids[]"
+                                value="{{ $item->id }}"
+                                class="item-checkbox rounded border-gray-300"
+                            >
+                        </td>
+
+                        <td class="px-4 py-3 font-medium text-blue-600"> {{ $item->item_no }} </td>
+                         <td class="px-4 py-3"> {{ $order->customer->name }} </td> 
+                         <td class="px-4 py-3"> {{ $order->order_date }} </td>
+                    </tr>
+
+                @endforeach
+
+            @endforeach
 
         </tbody>
 
     </table>
+
+    <!-- RE-ASSIGN BUTTON -->
+    <div class="mt-4">
+        <button
+            type="button"
+             id="reassignBtn"
+             
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+            Re-Assign Tailor
+        </button>
+    </div>
+
+</form>
 
 </div>
 
@@ -116,87 +157,8 @@
 
 <!-- Modal -->
 <!-- GLOBAL MODAL (PUT BEFORE </body>) -->
-<div id="customerModal"
-    onclick="if(event.target.id==='customerModal') closeModal()"
-    class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-white/40 backdrop-blur-md">
+<!-- REASSIGN MODAL -->
 
-    <!-- Modal Box -->
-    <div class="relative" style="width: 900px !important;background: #FFFFFF; border-radius: 12px;">
-
-        <!-- Header -->
-        <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-t-2xl">
-            <h3 class="text-lg font-semibold text-gray-800">
-                Add Customer
-            </h3>
-            <button onclick="closeModal()" class="text-xl text-gray-500 hover:text-red-500">✕</button>
-        </div>
-
-        <!-- Body -->
-        <div class="p-6 max-h-[80vh] overflow-y-auto">
-
-            <form>
-                <div class="grid grid-cols-2 gap-4">
-
-    <!-- Row 1 -->
-    <div class="flex items-center gap-2">
-        <label class="w-24 text-sm text-gray-700">Name :</label>
-        <input class="input flex-1" placeholder="Enter Name">
-    </div>
-
-    <div class="flex items-center gap-2">
-        <label class="w-20 text-sm text-gray-700">Age :</label>
-        <input class="input flex-1" placeholder="Enter Age">
-    </div>
-
-    <!-- Row 2 -->
-    <div class="flex items-center gap-2">
-        <label class="w-24 text-sm text-gray-700">State :</label>
-        <input class="input flex-1" placeholder="Enter State">
-    </div>
-
-    <div class="flex items-center gap-2">
-        <label class="w-20 text-sm text-gray-700">City :</label>
-        <input class="input flex-1" placeholder="Enter City">
-    </div>
-
-    <!-- Row 3 -->
-    <div class="flex items-center gap-2">
-        <label class="w-24 text-sm text-gray-700">Phone :</label>
-        <input class="input flex-1" placeholder="Enter Phone">
-    </div>
-
-    <div class="flex items-center gap-2">
-        <label class="w-20 text-sm text-gray-700">District :</label>
-        <input class="input flex-1" placeholder="Enter District">
-    </div>
-
-
-
-
-    <!-- Address Full Width -->
-    <div class="col-span-2 flex items-start gap-2">
-        <label class="w-24 text-sm text-gray-700 mt-2">Address :</label>
-        <textarea class="input flex-1" placeholder="Enter Address"></textarea>
-    </div>
-
-</div>
-
-                <!-- Footer -->
-                <div class="flex justify-end gap-3 mt-6">
-                    <button type="button" onclick="closeModal()"
-                        class="px-4 py-2 bg-gray-200 rounded-lg">
-                        Cancel
-                    </button>
-
-                    <button type="submit" class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
-                        Save
-                    </button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-</div>
 
 <!-- JS -->
 
@@ -204,97 +166,112 @@
 <!--worl load Modal -->
 
 
-<div id="tailorModal"
-    onclick="if(event.target.id==='tailorModal') closeTailorModal()"
-    class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/40 backdrop-blur-sm">
+<div
+    id="reassignModal"
+    class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center"
+>
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
 
-    <div class="bg-white rounded-2xl w-[900px] shadow-lg">
+        <div class="flex justify-between items-center mb-5">
 
-        <!-- HEADER -->
-        <div class="flex items-center justify-between px-5 py-4 border-b">
-            <h3 class="text-lg font-semibold text-gray-800">
-                ReAssign Tailor Work Load
-            </h3>
-            <button onclick="closeTailorModal()" class="text-gray-500 hover:text-red-500">✕</button>
-        </div>
+            <h2 class="text-lg font-semibold text-gray-800">
+                Re-Assign Tailor
+            </h2>
 
-        <!-- BODY -->
-        <div class="p-5 max-h-[70vh] overflow-y-auto">
-
-            <table class="w-full text-sm table-auto">
-
-    <thead>
-        <tr class="text-gray-500 border-b">
-            <th class="py-3 px-4 text-left w-1/5">Tailor</th>
-            <th class="px-4 text-center w-1/6">Total</th>
-            <th class="px-4 text-center w-1/6">In Progress</th>
-            <th class="px-4 text-center w-1/6">Pending</th>
-            <th class="px-4 text-left w-2/5">Notes</th>
-            <th></th>
-        </tr>
-    </thead>
-
-    <tbody>
-
-        <tr class="border-t hover:bg-gray-50">
-            <td class="py-3 px-4 font-medium">Ravi</td>
-            <td class="px-4 text-center">12</td>
-            <td class="px-4 text-center text-yellow-600 font-medium">5</td>
-            <td class="px-4 text-center text-red-600 font-medium">3</td>
-            <td class="px-4">
-                <input type="text"
-                    class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs"
-                    placeholder="Add note">
-            </td>
-             <td><button class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">Assign</button></td>
-        </tr>
-
-        <tr class="border-t hover:bg-gray-50">
-            <td class="py-3 px-4 font-medium">Kumar</td>
-            <td class="px-4 text-center">10</td>
-            <td class="px-4 text-center text-yellow-600 font-medium">4</td>
-            <td class="px-4 text-center text-red-600 font-medium">2</td>
-            <td class="px-4">
-                <input type="text"
-                    class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs"
-                    placeholder="Add note">
-            </td>
-            <td><button class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">Assign</button></td>
-        </tr>
-
-        <tr class="border-t hover:bg-gray-50">
-            <td class="py-3 px-4 font-medium">Suresh</td>
-            <td class="px-4 text-center">8</td>
-            <td class="px-4 text-center text-yellow-600 font-medium">3</td>
-            <td class="px-4 text-center text-red-600 font-medium">1</td>
-            <td class="px-4">
-                <input type="text"
-                    class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs"
-                    placeholder="Add note">
-            </td>
-            <td><button class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">Assign</button></td>
-        </tr>
-
-    </tbody>
-</table>
+            <button
+                type="button"
+                onclick="closeReassignModal()"
+                class="text-gray-400 hover:text-gray-600 text-xl"
+            >
+                &times;
+            </button>
 
         </div>
 
-        <!-- FOOTER -->
-        <div class="flex justify-end gap-3 p-4 border-t">
-            <button onclick="closeTailorModal()"
-                class="px-4 py-2 bg-gray-200 rounded-lg text-sm">
-                Close
+
+        <div class="mb-4">
+            <p class="text-sm text-gray-600">
+                Selected Items:
+                <span
+                    id="selectedCount"
+                    class="font-semibold text-blue-600"
+                >
+                    0
+                </span>
+            </p>
+        </div>
+
+
+        <!-- TAILOR -->
+        <div class="mb-5">
+
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Select Tailor
+            </label>
+
+            <select
+                name="tailor_id"
+                id="tailor_id" name="tailor_id"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2"
+            >
+
+                <option value="">
+                    -- Select Tailor --
+                </option>
+                    @foreach($tailors as $tailor)
+
+                    <option value="{{ $tailor->id }}">
+                        {{ $tailor->name }}
+                    </option>
+
+                @endforeach
+               
+
+            </select>
+
+
+            <p
+                id="tailorError"
+                class="hidden text-sm text-red-500 mt-1"
+            >
+                Please select a tailor.
+            </p>
+
+        </div>
+
+
+        <!-- CONFIRMATION -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-5">
+
+            <p class="text-sm text-yellow-800">
+                Are you sure you want to re-assign the selected items?
+            </p>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+        <div class="flex justify-end gap-3">
+
+            <button
+                type="button"
+                onclick="closeReassignModal()"
+                class="px-4 py-2 border border-gray-300 rounded-lg"
+            >
+                Cancel
             </button>
 
             <button
-                class="px-4 py-2 bg-blue-600 text-black rounded-lg text-sm hover:bg-blue-700">
-                Save
+                type="button"
+                onclick="confirmReassign()"
+                class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300"
+            >
+                Confirm & Re-Assign
             </button>
+
         </div>
 
     </div>
-
 </div>
 
 
@@ -312,57 +289,147 @@
     box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
 }
 </style>
-<script>
-function openModal() {
 
-    const modal = document.getElementById('customerModal');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-}
-
-function closeModal() {
-    const modal = document.getElementById('customerModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-}
-</script>
 
 <script>
-function toggleRow(btn) {
-    let tr = btn.closest('tr');
-    let next = tr.nextElementSibling;
 
-    next.classList.toggle('hidden');
+function selectAllItems(source)
+{
+    const checkboxes = document.querySelectorAll('.item-checkbox');
 
-    // rotate arrow
-    if (btn.innerText === '▶') {
-        btn.innerText = '▼';
-    } else {
-        btn.innerText = '▶';
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = source.checked;
+    });
+}
+
+
+function checkIndividualItems()
+{
+    const checkboxes = document.querySelectorAll('.item-checkbox');
+
+    const checked =
+        document.querySelectorAll('.item-checkbox:checked');
+
+    const selectAll =
+        document.getElementById('selectAll');
+
+    if (checkboxes.length === 0) {
+        return;
     }
+
+    selectAll.checked =
+        checked.length === checkboxes.length;
+
+    selectAll.indeterminate =
+        checked.length > 0 &&
+        checked.length < checkboxes.length;
 }
-</script>
 
-<script>
-function openTailorModal(name) {
-    document.getElementById('tailorModal').classList.remove('hidden');
-    document.getElementById('tailorName').innerText = name;
+
+function openReassignModal()
+{
+  
+    const selected =
+        document.querySelectorAll('.item-checkbox:checked');
+
+    if (selected.length === 0) {
+
+        alert('Please select at least one item.');
+
+        return;
+    }
+
+    document.getElementById('selectedCount').innerText =
+        selected.length;
+
+    document.getElementById('tailor_id').value = '';
+
+    document
+        .getElementById('tailorError')
+        .classList.add('hidden');
+
+    document
+        .getElementById('reassignModal')
+        .classList.remove('hidden');
 }
 
-function closeTailorModal() {
-    document.getElementById('tailorModal').classList.add('hidden');
+
+function closeReassignModal()
+{
+    document
+        .getElementById('reassignModal')
+        .classList.add('hidden');
 }
-</script>
 
-<script>
-function printTable() {
-    let content = document.getElementById('printArea').innerHTML;
-    let original = document.body.innerHTML;
 
-    document.body.innerHTML = content;
-    window.print();
-    document.body.innerHTML = original;
-    location.reload(); // restore page
+function confirmReassign()
+{
+    const tailorId = document.getElementById('tailor_id').value;
+
+    if (!tailorId) {
+
+        document
+            .getElementById('tailorError')
+            .classList.remove('hidden');
+
+        return;
+    }
+
+    const selectedItems =
+        document.querySelectorAll('.item-checkbox:checked');
+
+    if (selectedItems.length === 0) {
+
+        alert('Please select at least one item.');
+
+        return;
+    }
+
+    const tailorSelect =
+        document.getElementById('tailor_id');
+
+    const tailorName =
+        tailorSelect.options[tailorSelect.selectedIndex].text;
+
+    const message =
+        'Are you sure you want to assign ' +
+        selectedItems.length +
+        ' item(s) to ' +
+        tailorName +
+        '?';
+
+    if (!confirm(message)) {
+        return;
+    }
+
+    // Get form
+    const form =
+        document.getElementById('reassignForm');
+
+    // Remove existing tailor_id hidden input
+    const existing =
+        form.querySelector('input[name="tailor_id"]');
+
+    if (existing) {
+        existing.remove();
+    }
+
+    // Create hidden tailor_id
+    const hiddenInput =
+        document.createElement('input');
+
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'tailor_id';
+    hiddenInput.value = tailorId;
+
+    // Add to form
+    form.appendChild(hiddenInput);
+
+    console.log('Tailor ID:', tailorId);
+    console.log('Selected Items:', selectedItems.length);
+
+    // Submit
+    form.submit();
 }
 </script>
 
