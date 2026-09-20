@@ -20,46 +20,93 @@
         <!-- Due Dropdown -->
 
 
-         <select
-            class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
-            <option value="">All Order</option>
-            <option>Today</option>
-            <option>Tomorrow</option>
-            <option>This Week</option>
-            <option>This Month</option>
+        <form method="GET" action="{{ route('orders.printorders') }}"
+      class="flex items-center gap-3 flex-wrap">
 
-        </select>
+    {{-- ORDER DUE --}}
+    <select
+        name="due"
+        class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white
+               focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
 
-        <!-- CUSTOMER DROPDOWN -->
-        <select
-            class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
-            <option value="">All Tailors</option>
-            <option>Gani - 9876543210</option>
-            <option>Ravi - 9123456780</option>
-            <option>Kumar - 9988776655</option>
-            <option>Suresh - 9012345678</option>
-        </select>
+        <option value="">All Orders</option>
 
+        <option value="today"
+            {{ request('due') == 'today' ? 'selected' : '' }}>
+            Today
+        </option>
 
+        <option value="tomorrow"
+            {{ request('due') == 'tomorrow' ? 'selected' : '' }}>
+            Tomorrow
+        </option>
 
-        <!-- DATE RANGE -->
-        <div class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-2 py-1">
+        <option value="week"
+            {{ request('due') == 'week' ? 'selected' : '' }}>
+            This Week
+        </option>
 
-            <input type="date"
-                class="px-2 py-1 text-sm bg-white border border-gray-200 rounded-md focus:ring-1 focus:ring-brand-300">
+        <option value="month"
+            {{ request('due') == 'month' ? 'selected' : '' }}>
+            This Month
+        </option>
 
-            <span class="text-gray-400 text-sm">to</span>
-
-            <input type="date"
-                class="px-2 py-1 text-sm bg-white border border-gray-200 rounded-md focus:ring-1 focus:ring-brand-300">
-
-        </div>
+    </select>
 
 
- <button onclick="printTable()"
-            class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
-           Search
-        </button>
+    {{-- TAILOR --}}
+    <select
+        name="tailor_id"
+        class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white
+               focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
+
+        <option value="">All Tailors</option>
+
+        @foreach($tailors as $tailor)
+
+            <option value="{{ $tailor->id }}"
+                {{ request('tailor_id') == $tailor->id ? 'selected' : '' }}>
+                {{ $tailor->name }}
+            </option>
+
+        @endforeach
+
+    </select>
+
+
+    {{-- DATE RANGE --}}
+    <div class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-2 py-1">
+
+        <input
+            type="date"
+            name="from_date"
+            value="{{ request('from_date') }}"
+            class="px-2 py-1 text-sm bg-white border border-gray-200 rounded-md
+                   focus:ring-1 focus:ring-brand-300">
+
+        <span class="text-gray-400 text-sm">to</span>
+
+        <input
+            type="date"
+            name="to_date"
+            value="{{ request('to_date') }}"
+            class="px-2 py-1 text-sm bg-white border border-gray-200 rounded-md
+                   focus:ring-1 focus:ring-brand-300">
+
+    </div>
+
+
+    {{-- SEARCH --}}
+    <button type="submit"
+        class="inline-flex items-center justify-center font-medium gap-2 rounded-lg
+               transition px-4 py-3 text-sm bg-brand-500 text-white
+               shadow-theme-xs hover:bg-brand-600">
+
+        Search
+
+    </button>
+
+</form>
         <button  onclick="openReassignModal()"
             class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
            Re-Assign

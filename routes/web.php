@@ -268,6 +268,8 @@ Route::resource('measurements',MeasurementController::class);
 
 Route::post('/measurements/toggle-status',[MeasurementController::class, 'toggleStatus']);
 
+Route::get('/orders/printorders', [OrderController::class, 'printorders'])->name('orders.printorders');
+
 
 
 

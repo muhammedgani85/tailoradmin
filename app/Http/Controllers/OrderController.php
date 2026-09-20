@@ -21,6 +21,7 @@ use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -1212,39 +1213,88 @@ public function deliveryList(Request $request)
 }
 
 
-public function printorders()
+public function printorders(Request $request)
 {
-    $orders = Order::with([
-
+    $query = Order::with([
         'customer',
-
         'items.tracks.stage',
-
         'items.tracks.tailor',
-
         'items.type'
+    ]);
 
-        ])->get();
 
+    // Tailor filter
+    if ($request->filled('tailor_id')) {
+
+        $query->whereHas('items.tracks', function ($q) use ($request) {
+
+            $q->where('assigned_to', $request->tailor_id);
+
+        });
+    }
+
+
+    // Due filter
+    if ($request->filled('due')) {
+
+        switch ($request->due) {
+
+            case 'today':
+                $query->whereDate('order_date', Carbon::today());
+                break;
+
+            case 'tomorrow':
+                $query->whereDate('order_date', Carbon::tomorrow());
+                break;
+
+            case 'week':
+                $query->whereBetween('order_date', [
+                    Carbon::now()->startOfWeek(),
+                    Carbon::now()->endOfWeek()
+                ]);
+                break;
+
+            case 'month':
+                $query->whereBetween('order_date', [
+                    Carbon::now()->startOfMonth(),
+                    Carbon::now()->endOfMonth()
+                ]);
+                break;
+        }
+    }
+
+
+    // From date
+    if ($request->filled('from_date')) {
+
+        $query->whereDate(
+            'order_date',
+            '>=',
+            $request->from_date
+        );
+    }
+
+
+    // To date
+    if ($request->filled('to_date')) {
+
+        $query->whereDate(
+            'order_date',
+            '<=',
+            $request->to_date
+        );
+    }
+
+
+    $orders = $query->get();
 
     $tailors = Tailors::where('status', 'active')->get();
 
-  /* dd(
-    $orders->first()
-        ->items
-        ->first()
-        ->tracks
-        ->pluck('tailor')
-); */
 
-    return view('orders.printorderlist', [
-
-        'title' => 'Assign Orders',
-
-        'orders' => $orders,
-        'tailors' => $tailors
-
-    ]);
+    return view('orders.printorderlist', compact(
+        'orders',
+        'tailors'
+    ));
 }
 
 
