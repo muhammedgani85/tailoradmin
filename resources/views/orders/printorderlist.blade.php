@@ -25,7 +25,7 @@
 
     {{-- ORDER DUE --}}
 
-    <input type="text" id="order_no" name="order_no" class="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200" placeholder="Order Number" />
+    <input type="text" id="order_no" name="order_no" style="width:200px" class="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200" placeholder="Order Number" />
     <select
         name="due"
         class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white
