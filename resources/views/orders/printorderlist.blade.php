@@ -24,6 +24,8 @@
       class="flex items-center gap-3 flex-wrap">
 
     {{-- ORDER DUE --}}
+
+    <input type="text" id="order_no" name="order_no" class="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200" placeholder="Order Number" />
     <select
         name="due"
         class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white
@@ -97,12 +99,46 @@
 
 
     {{-- SEARCH --}}
-    <button type="submit"
-        class="inline-flex items-center justify-center font-medium gap-2 rounded-lg
-               transition px-4 py-3 text-sm bg-brand-500 text-white
-               shadow-theme-xs hover:bg-brand-600">
+   <button type="submit"
+    class="inline-flex items-center justify-center font-medium gap-2 rounded-lg
+           transition px-4 py-3 text-sm bg-brand-500 text-white
+           shadow-theme-xs hover:bg-brand-600">
 
-        Search
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="20"
+         height="20"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.3-4.3"></path>
+    </svg>
+
+</button>
+
+ <button type="reset"
+        title="Reset"
+        aria-label="Reset"
+        onclick="this.form.reset(); window.location.href = window.location.pathname;"
+        class="inline-flex items-center justify-center rounded-lg
+               transition p-3 text-sm bg-gray-100 text-gray-700
+               shadow-theme-xs hover:bg-gray-200">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="20"
+             height="20"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 3-6.7"></path>
+            <path d="M3 4v6h6"></path>
+        </svg>
 
     </button>
 

@@ -1285,6 +1285,18 @@ public function printorders(Request $request)
         );
     }
 
+     
+
+     // Tailor filter
+    if ($request->filled('order_no')) {
+
+        $query->whereHas('items.tracks', function ($q) use ($request) {
+
+            $q->where('item_no', $request->order_no);
+
+        });
+    }
+
 
     $orders = $query->get();
 
