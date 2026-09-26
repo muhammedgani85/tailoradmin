@@ -29,7 +29,7 @@ class DashboardController extends Controller
 
 public function  taskkanban(Request $request)
 {
-   $workflows = stage::orderBy('id')->get();
+   $workflows = stage::where('status','active')->orderBy('id')->get();
 
     $board = [];
 
