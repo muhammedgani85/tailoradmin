@@ -126,18 +126,19 @@ public function store(Request $req)
 
                 $role_id = $hasWashing ? 1 : $stage->role_id;
                 Log::info('Processing Stage: '.$stage->name.', Role ID: '.$role_id.', Type ID: '.$item['type_id'].', Stage ID: '.$stage_id);
-                $assignedUser = $this->assignUser(
+               /*  $assignedUser = $this->assignUser(
                 $role_id,
 
                 $item['type_id'],
                 $stage_id,
 
-                );
+                ); */
 
                 OrderItemTrack::create([
                 'order_item_id' => $orderItem->id,
                 'stage_id' => $stage_id,
-                'assigned_to' => $assignedUser?->user_id, // ✅ FIXED
+               // 'assigned_to' => $assignedUser?->user_id, //
+                 'assigned_to' => null,
                 'status' => 'pending'
                 ]);
 
@@ -1233,6 +1234,13 @@ public function printorders(Request $request)
         });
     }
 
+        if (!$request->filled('tailor_id')) {
+
+        $query->whereHas('items.tracks', function ($q) {
+            $q->whereNull('assigned_to');
+        });
+    }
+
 
     // Due filter
     if ($request->filled('due')) {
@@ -1285,7 +1293,7 @@ public function printorders(Request $request)
         );
     }
 
-     
+
 
      // Tailor filter
     if ($request->filled('order_no')) {
