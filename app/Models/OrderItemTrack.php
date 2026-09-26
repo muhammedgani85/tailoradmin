@@ -12,18 +12,33 @@ class OrderItemTrack extends Model
         'assigned_to','started_at','completed_at','remarks'
     ];
 
-    public function item(){
-        return $this->belongsTo(OrderItem::class,'order_item_id');
-    }
-
-    public function stage()
+   public function item()
 {
-    return $this->belongsTo(stage::class, 'stage_id');
+    return $this->belongsTo(
+        OrderItem::class,
+        'order_item_id',
+        'id'
+    );
+}
+
+public function stage()
+{
+    return $this->belongsTo(
+        Stage::class,
+        'stage_id',
+        'id'
+    );
 }
 
 public function tailor()
 {
-    return $this->belongsTo(Tailors::class, 'assigned_to');
+    return $this->belongsTo(
+        Tailors::class,
+        'assigned_to',
+        'id'
+    );
 }
+
+
 
 }

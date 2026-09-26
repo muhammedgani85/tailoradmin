@@ -10,9 +10,14 @@ class Order extends Model
         'order_no','customer_id','phone','order_date','status','created_by', 'delivery_date'
     ];
 
-    public function items(){
-        return $this->hasMany(OrderItem::class);
-    }
+    public function items()
+{
+    return $this->hasMany(
+        OrderItem::class,
+        'order_id',
+        'id'
+    );
+}
 
     public function images(){
         return $this->hasMany(OrderImage::class);
@@ -27,8 +32,13 @@ public function stage()
 }
 
 public function tailor()
-    {
-        return $this->belongsTo(Tailors::class, 'assigned_to', 'id');
-    }
+{
+    return $this->belongsTo(Tailors::class, 'assigned_to', 'id');
+}
+
+    public function tracks()
+{
+    return $this->hasMany(OrderItemTrack::class, 'order_item_id');
+}
 
 }

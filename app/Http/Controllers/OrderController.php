@@ -1216,105 +1216,263 @@ public function deliveryList(Request $request)
 
 public function printorders(Request $request)
 {
-    $query = Order::with([
-        'customer',
-        'items.tracks.stage',
-        'items.tracks.tailor',
-        'items.type'
-    ]);
+    $tailorId = $request->input('tailor_id');
+    $stageId  = $request->input('stage');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Track filter
+    |--------------------------------------------------------------------------
+    */
+
+    $trackFilter = function ($q) use ($tailorId, $stageId) {
+
+        // UnAssigned
+        if ($tailorId === 'UnAssigned') {
+
+            $q->whereNull('order_item_tracks.assigned_to');
+
+        }
+        // Specific Tailor
+        elseif (
+            !empty($tailorId) &&
+            $tailorId !== 'All'
+        ) {
+
+            $q->where(
+                'order_item_tracks.assigned_to',
+                $tailorId
+            );
+        }
+
+        // Stage
+        if (!empty($stageId)) {
+
+            $q->where(
+                'order_item_tracks.stage_id',
+                $stageId
+            );
+        }
+    };
 
 
-    // Tailor filter
-    if ($request->filled('tailor_id')) {
+    /*
+    |--------------------------------------------------------------------------
+    | Query
+    |--------------------------------------------------------------------------
+    */
 
-        $query->whereHas('items.tracks', function ($q) use ($request) {
+    $query = Order::query()
+        ->with([
+            'customer',
+        ]);
 
-            $q->where('assigned_to', $request->tailor_id);
 
-        });
+    /*
+    |--------------------------------------------------------------------------
+    | Track / Tailor / Stage Filter
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+        ($tailorId !== null &&
+         $tailorId !== '' &&
+         $tailorId !== 'All')
+        ||
+        !empty($stageId)
+    ) {
+
+        /*
+        |--------------------------------------------------------------------------
+        | First: Find Orders that have a matching track
+        |--------------------------------------------------------------------------
+        */
+
+        $query->whereHas(
+            'items.tracks',
+            $trackFilter
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Then: Load ONLY matching items and tracks
+        |--------------------------------------------------------------------------
+        */
+
+        $query->with([
+            'items' => function ($itemQuery) use ($trackFilter) {
+
+                $itemQuery
+                    ->whereHas(
+                        'tracks',
+                        $trackFilter
+                    )
+                    ->with([
+                        'type',
+
+                        'tracks' => function ($trackQuery) use ($trackFilter) {
+                            $trackFilter($trackQuery);
+                        },
+
+                        'tracks.stage',
+                        'tracks.tailor',
+                    ]);
+            }
+        ]);
+
+    } else {
+
+        /*
+        |--------------------------------------------------------------------------
+        | No Track Filter
+        |--------------------------------------------------------------------------
+        */
+
+        $query->with([
+            'items.type',
+            'items.tracks.stage',
+            'items.tracks.tailor',
+        ]);
     }
 
-        if (!$request->filled('tailor_id')) {
 
-        $query->whereHas('items.tracks', function ($q) {
-            $q->whereNull('assigned_to');
-        });
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | Due Filter
+    |--------------------------------------------------------------------------
+    */
 
-
-    // Due filter
     if ($request->filled('due')) {
 
-        switch ($request->due) {
+        switch ($request->input('due')) {
 
             case 'today':
-                $query->whereDate('order_date', Carbon::today());
+
+                $query->whereDate(
+                    'order_date',
+                    Carbon::today()
+                );
+
                 break;
 
             case 'tomorrow':
-                $query->whereDate('order_date', Carbon::tomorrow());
+
+                $query->whereDate(
+                    'order_date',
+                    Carbon::tomorrow()
+                );
+
                 break;
 
             case 'week':
-                $query->whereBetween('order_date', [
-                    Carbon::now()->startOfWeek(),
-                    Carbon::now()->endOfWeek()
-                ]);
+
+                $query->whereBetween(
+                    'order_date',
+                    [
+                        Carbon::now()->startOfWeek(),
+                        Carbon::now()->endOfWeek()
+                    ]
+                );
+
                 break;
 
             case 'month':
-                $query->whereBetween('order_date', [
-                    Carbon::now()->startOfMonth(),
-                    Carbon::now()->endOfMonth()
-                ]);
+
+                $query->whereBetween(
+                    'order_date',
+                    [
+                        Carbon::now()->startOfMonth(),
+                        Carbon::now()->endOfMonth()
+                    ]
+                );
+
                 break;
         }
     }
 
 
-    // From date
+    /*
+    |--------------------------------------------------------------------------
+    | From Date
+    |--------------------------------------------------------------------------
+    */
+
     if ($request->filled('from_date')) {
 
         $query->whereDate(
             'order_date',
             '>=',
-            $request->from_date
+            $request->input('from_date')
         );
     }
 
 
-    // To date
+    /*
+    |--------------------------------------------------------------------------
+    | To Date
+    |--------------------------------------------------------------------------
+    */
+
     if ($request->filled('to_date')) {
 
         $query->whereDate(
             'order_date',
             '<=',
-            $request->to_date
+            $request->input('to_date')
         );
     }
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Order Item Number
+    |--------------------------------------------------------------------------
+    */
 
-     // Tailor filter
     if ($request->filled('order_no')) {
 
-        $query->whereHas('items.tracks', function ($q) use ($request) {
+        $query->whereHas('items', function ($q) use ($request) {
 
-            $q->where('item_no', $request->order_no);
+            $q->where(
+                'item_no',
+                $request->input('order_no')
+            );
 
         });
     }
 
 
-    $orders = $query->get();
+    /*
+    |--------------------------------------------------------------------------
+    | Get Orders
+    |--------------------------------------------------------------------------
+    */
+
+    $orders = $query
+        ->orderBy('id', 'desc')
+        ->get();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dropdown Data
+    |--------------------------------------------------------------------------
+    */
 
     $tailors = Tailors::where('status', 'active')->get();
 
+    $stages = stage::where('status', 'active')->get();
 
-    return view('orders.printorderlist', compact(
-        'orders',
-        'tailors'
-    ));
+
+    return view(
+        'orders.printorderlist',
+        compact(
+            'orders',
+            'tailors',
+            'stages'
+        )
+    );
 }
 
 

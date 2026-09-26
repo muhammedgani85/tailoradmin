@@ -15,13 +15,19 @@ class OrderItem extends Model
         'measurements' => 'array'
     ];
 
-    public function order(){
-        return $this->belongsTo(Order::class);
-    }
+   public function order()
+{
+    return $this->belongsTo(Order::class, 'order_id', 'id');
+}
 
-    public function tracks(){
-        return $this->hasMany(OrderItemTrack::class);
-    }
+public function tracks()
+{
+    return $this->hasMany(
+        OrderItemTrack::class,
+        'order_item_id',
+        'id'
+    );
+}
 
 
 

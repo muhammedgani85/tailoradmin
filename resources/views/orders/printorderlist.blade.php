@@ -26,7 +26,22 @@
     {{-- ORDER DUE --}}
 
     <input type="text" id="order_no" name="order_no" style="width:200px" class="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200" placeholder="Order Number" />
+
     <select
+        name="stage"
+        class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white
+               focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
+
+        <option value="">All Stages</option>
+        @foreach ( $stages as $stage )
+    <option value="{{ $stage->id }}">{{ $stage->name }}</option>
+        @endforeach
+
+
+
+    </select>
+
+    <!-- <select
         name="due"
         class="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white
                focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
@@ -53,7 +68,7 @@
             This Month
         </option>
 
-    </select>
+    </select> -->
 
 
     {{-- TAILOR --}}
@@ -63,7 +78,7 @@
                focus:ring-2 focus:ring-brand-300 focus:border-brand-400">
 
         <option value="All">All Tailors</option>
-        <option value="">UnAssigned</option>
+        <option value="UnAssigned">UnAssigned</option>
 
         @foreach($tailors as $tailor)
 
@@ -204,8 +219,8 @@
     @foreach($order->items as $item)
 
         @php
-            $assignedTrack = $item->tracks->firstWhere('assigned_to', '!=', null);
-        @endphp
+    $track = $item->tracks->first();
+@endphp
 
         <tr>
             <td class="px-4 py-3">
@@ -221,13 +236,21 @@
                 {{ $item->item_no }}
             </td>
 
-            <td class="px-4 py-3">
-                {{ $assignedTrack?->tailor?->name ?? 'UnAssigned' }}
-            </td>
+                <td class="px-4 py-3">
+    @if($track?->tailor?->name)
+        <span class="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
+            {{ $track->tailor->name }}
+        </span>
+    @else
+        <span class="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-600">
+            UnAssigned
+        </span>
+    @endif
+</td>
 
               <td class="px-4 py-3">
-                {{ $assignedTrack?->stage?->name ?? '-' }}
-            </td>
+    {{ $track?->stage?->name ?? '-' }}
+</td>
 
             <td class="px-4 py-3">
                 {{ $order->customer->name }}
