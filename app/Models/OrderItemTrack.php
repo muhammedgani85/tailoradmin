@@ -24,7 +24,7 @@ class OrderItemTrack extends Model
 public function stage()
 {
     return $this->belongsTo(
-        Stage::class,
+        stage::class,
         'stage_id',
         'id'
     );
