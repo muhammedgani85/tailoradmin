@@ -159,10 +159,28 @@
     </button>
 
 </form>
-        <button  onclick="openReassignModal()"
-            class="inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
-           Re-Assign
-        </button>
+        <button
+    type="button"
+    onclick="openReassignModal()"
+    title="Re-Assign"
+    aria-label="Re-Assign"
+    class="inline-flex items-center justify-center rounded-lg transition px-3 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300"
+>
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="20"
+         height="20"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+
+        <path d="M3 12a9 9 0 1 0 3-6.7"></path>
+        <path d="M3 4v6h6"></path>
+
+    </svg>
+</button>
 
         <!-- ADD ORDER BUTTON -->
 
