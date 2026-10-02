@@ -237,7 +237,7 @@
     @foreach($order->items as $item)
 
         @php
-    $track = $item->tracks->first();
+    $track = $item->tracks->last();
 @endphp
 
         <tr>

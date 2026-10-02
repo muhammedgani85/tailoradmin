@@ -126,19 +126,19 @@ public function store(Request $req)
 
                 $role_id = $hasWashing ? 1 : $stage->role_id;
                 Log::info('Processing Stage: '.$stage->name.', Role ID: '.$role_id.', Type ID: '.$item['type_id'].', Stage ID: '.$stage_id);
-               /*  $assignedUser = $this->assignUser(
+                $assignedUser = $this->assignUser(
                 $role_id,
 
                 $item['type_id'],
                 $stage_id,
 
-                ); */
+                );
 
                 OrderItemTrack::create([
                 'order_item_id' => $orderItem->id,
                 'stage_id' => $stage_id,
-               // 'assigned_to' => $assignedUser?->user_id, //
-                 'assigned_to' => null,
+                'assigned_to' => $assignedUser?->user_id,
+
                 'status' => 'pending'
                 ]);
 
@@ -546,6 +546,7 @@ public function completeWork($id)
                 '>',
                 $currentStage->id
             )
+            ->where('status','active')
             ->orderBy('id', 'asc')
             ->first();
 
@@ -590,26 +591,29 @@ public function completeWork($id)
         }
 
         // ✅ assign user
+       $assignedUser = null;
+
+        if ($nextStage->id != 5) {
         $assignedUser = $this->assignUser(
-            $nextStage->role_id,
-            $orderItem->type_id,
-            $nextStage->id
-
+        $nextStage->role_id,
+        $orderItem->type_id,
+        $nextStage->id
         );
+        }
 
-        // ✅ insert next stage
         OrderItemTrack::create([
+        'order_item_id' => $track->order_item_id,
+        'stage_id'      => $nextStage->id,
 
-            'order_item_id' => $track->order_item_id,
+        // Stage 5 = UnAssigned
+        'assigned_to'   => $nextStage->id == 5
+                        ? null
+                        : $assignedUser?->user_id,
 
-            'stage_id' => $nextStage->id,
+        'status'        => 'pending',
 
-            'assigned_to' => $assignedUser?->user_id,
-
-            'status' => 'pending',
-
-            'created_at' => now(),
-            'updated_at' => now()
+        'created_at'    => now(),
+        'updated_at'    => now(),
         ]);
 
         DB::commit();
