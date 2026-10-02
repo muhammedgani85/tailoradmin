@@ -1524,4 +1524,16 @@ public function tailorReassign(Request $request)
     }
 }
 
+public function printDetails1($orderId)
+{
+    $order = Order::with([
+        'customer',
+        'items.tracks.stage',
+        'items.tracks.tailor',
+        'items.type',
+    ])->findOrFail($orderId);
+
+    return view('orders.print-details', compact('order'));
+}
+
 }

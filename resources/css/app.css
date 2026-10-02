@@ -886,3 +886,6 @@ pre[class*='language-'] {
     border-collapse: collapse !important;
     width: 100% !important;
 }
+.px-4.py-2.bg-brand-500.text-white.rounded-lg{
+    background-color: green !important;
+}
