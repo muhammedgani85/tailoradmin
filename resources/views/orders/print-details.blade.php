@@ -12,7 +12,6 @@
         {{ $order->order_no }} - Measurement Print
     </title>
 
-
     <style>
 
         /* =========================================================
@@ -29,9 +28,7 @@
         ========================================================= */
 
         body {
-
             margin: 0;
-
             padding: 20px;
 
             background: #f3f4f6;
@@ -50,7 +47,6 @@
         ========================================================= */
 
         .toolbar {
-
             width: 148mm;
 
             margin: 0 auto 15px auto;
@@ -64,7 +60,6 @@
 
 
         .toolbar-title {
-
             font-size: 13px;
 
             font-weight: 600;
@@ -74,7 +69,6 @@
 
 
         .print-button {
-
             border: 0;
 
             border-radius: 6px;
@@ -94,7 +88,6 @@
 
 
         .print-button:hover {
-
             background: #1d4ed8;
         }
 
@@ -104,7 +97,6 @@
         ========================================================= */
 
         .a5-page {
-
             width: 148mm;
 
             min-height: 210mm;
@@ -127,7 +119,6 @@
         ========================================================= */
 
         .job-header {
-
             display: flex;
 
             align-items: center;
@@ -143,7 +134,6 @@
 
 
         .job-header-left {
-
             display: flex;
 
             align-items: center;
@@ -157,7 +147,6 @@
 
 
         .item-no {
-
             font-size: 13px;
 
             font-weight: 700;
@@ -167,7 +156,6 @@
 
 
         .order-no {
-
             font-size: 10px;
 
             font-weight: 500;
@@ -177,7 +165,6 @@
 
 
         .item-type {
-
             font-size: 11px;
 
             font-weight: 700;
@@ -189,7 +176,6 @@
 
 
         .separator {
-
             font-size: 10px;
 
             color: #9ca3af;
@@ -201,7 +187,6 @@
         ========================================================= */
 
         .info-table {
-
             width: 100%;
 
             border-collapse: collapse;
@@ -213,7 +198,6 @@
 
 
         .info-table td {
-
             border: 1px solid #d1d5db;
 
             padding: 4px 5px;
@@ -223,7 +207,6 @@
 
 
         .info-label {
-
             width: 20%;
 
             background: #f3f4f6;
@@ -233,7 +216,6 @@
 
 
         .info-value {
-
             width: 30%;
 
             font-weight: 500;
@@ -245,7 +227,6 @@
         ========================================================= */
 
         .section-title {
-
             background: #e5e7eb;
 
             border: 1px solid #9ca3af;
@@ -265,7 +246,6 @@
         ========================================================= */
 
         .measurement-table {
-
             width: 100%;
 
             border-collapse: collapse;
@@ -277,7 +257,6 @@
 
 
         .measurement-table td {
-
             width: 20%;
 
             border: 1px solid #9ca3af;
@@ -289,7 +268,6 @@
 
 
         .measurement-name {
-
             min-height: 22px;
 
             padding: 4px 2px;
@@ -309,7 +287,6 @@
 
 
         .measurement-value {
-
             min-height: 26px;
 
             padding: 5px 2px;
@@ -327,7 +304,6 @@
         ========================================================= */
 
         .notes {
-
             min-height: 35px;
 
             border: 1px solid #9ca3af;
@@ -347,7 +323,6 @@
         ========================================================= */
 
         .footer {
-
             margin-top: 8px;
 
             display: flex;
@@ -365,7 +340,6 @@
         ========================================================= */
 
         @page {
-
             size: A5 portrait;
 
             margin: 0;
@@ -376,7 +350,6 @@
 
             html,
             body {
-
                 width: 148mm;
 
                 margin: 0 !important;
@@ -388,13 +361,11 @@
 
 
             .no-print {
-
                 display: none !important;
             }
 
 
             .a5-page {
-
                 width: 148mm;
 
                 height: 210mm;
@@ -416,7 +387,6 @@
 
 
             .a5-page:last-child {
-
                 page-break-after: auto;
 
                 break-after: auto;
@@ -426,7 +396,6 @@
             table,
             tr,
             td {
-
                 page-break-inside: avoid;
 
                 break-inside: avoid;
@@ -479,12 +448,6 @@
 
     @php
 
-        /*
-        |--------------------------------------------------------------------------
-        | Get Measurements
-        |--------------------------------------------------------------------------
-        */
-
         $measurements = $item->measurements;
 
 
@@ -524,37 +487,27 @@
             <div class="job-header-left">
 
                 <span class="item-no">
-
                     {{ $item->item_no }}
-
                 </span>
 
 
                 <span class="separator">
-
                     |
-
                 </span>
 
 
                 <span class="order-no">
-
                     Order: {{ $order->order_no }}
-
                 </span>
 
 
                 <span class="separator">
-
                     |
-
                 </span>
 
 
                 <span class="item-type">
-
                     {{ $item->type?->type ?? '-' }}
-
                 </span>
 
             </div>
@@ -564,19 +517,15 @@
 
 
         {{-- =====================================================
-             CUSTOMER / ORDER INFORMATION
+             CUSTOMER INFORMATION
         ====================================================== --}}
 
         <table class="info-table">
 
-            {{-- Customer / Phone --}}
-
             <tr>
 
                 <td class="info-label">
-
                     Customer
-
                 </td>
 
                 <td class="info-value">
@@ -587,9 +536,7 @@
 
 
                 <td class="info-label">
-
                     Phone
-
                 </td>
 
                 <td class="info-value">
@@ -604,27 +551,10 @@
             </tr>
 
 
-            {{-- City / Quantity --}}
-
             <tr>
 
                 <td class="info-label">
-
-                    City
-
-                </td>
-
-                <td class="info-value">
-
-                    {{ $order->customer?->city ?? '-' }}
-
-                </td>
-
-
-                <td class="info-label">
-
                     Quantity
-
                 </td>
 
                 <td class="info-value">
@@ -633,30 +563,9 @@
 
                 </td>
 
-            </tr>
-
-
-            {{-- Order Date / Item Type --}}
-
-            <tr>
 
                 <td class="info-label">
-
-                    Order Date
-
-                </td>
-
-                <td class="info-value">
-
-                    {{ $order->order_date ?? '-' }}
-
-                </td>
-
-
-                <td class="info-label">
-
                     Item Type
-
                 </td>
 
                 <td class="info-value">
@@ -720,8 +629,6 @@
                         @endforeach
 
 
-                        {{-- Fill empty columns --}}
-
                         @for(
                             $i = count($measurementRow);
                             $i < 5;
@@ -731,16 +638,11 @@
                             <td>
 
                                 <div class="measurement-name">
-
                                     &nbsp;
-
                                 </div>
 
-
                                 <div class="measurement-value">
-
                                     &nbsp;
-
                                 </div>
 
                             </td>
