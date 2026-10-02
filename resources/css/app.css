@@ -880,3 +880,9 @@ pre[class*='language-'] {
     margin-right: -60px !important;
   }
 }
+.newtable {
+    font-size: 12px !important;
+    font-family: Arial, sans-serif !important;
+    border-collapse: collapse !important;
+    width: 100% !important;
+}

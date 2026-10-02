@@ -166,7 +166,7 @@
     <div class="overflow-hidden">
         <div class="max-w-full px-5 overflow-x-auto">
 
-           <table id="myTable" class="min-w-full">
+           <table id="myTable" class="min-w-full text-sm newtable">
     <thead>
         <tr class="border-y">
             <th class="px-4 py-3 text-left text-gray-500 text-sm">Order No</th>
@@ -242,7 +242,7 @@
 
 <div class="p-4">
 
-<table class="w-full text-sm">
+<table class="w-full text-sm newtable">
 
 <thead>
 
@@ -255,7 +255,7 @@
     <th>Status</th>
     <th>Priority</th>
     <th>Delay</th>
-    <th></th>
+
 
 </tr>
 
@@ -290,7 +290,7 @@
         {{ $item->tracks->last()->urgent == 1 ? 'Urgent' : 'Normal' }}
     </td>
 
-    <td>
+    <td colspan="2">
 
         @php
 
@@ -321,7 +321,7 @@
         @endif
 
     </td>
-    <td></td>
+
 
 </tr>
 
