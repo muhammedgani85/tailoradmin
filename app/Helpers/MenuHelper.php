@@ -64,8 +64,8 @@ class MenuHelper
                 'name' => 'Reports',
                 'subItems' => [
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
-                    ['name' => ' Customer Report', 'path' => '/deliverylist', 'pro' => false],
-                     ['name' => 'Order Report', 'path' => '/orderreport', 'pro' => false],
+                   /*  ['name' => ' Customer Report', 'path' => '/deliverylist', 'pro' => false],
+                     ['name' => 'Order Report', 'path' => '/orderreport', 'pro' => false], */
                      ['name' => 'Work Stage Report', 'path' => '/deliverytracking', 'pro' => false,'target' => '_blank'],
                      ['name' => 'Tailor Performance Report ', 'path' => '/deliverytracking', 'pro' => false,'target' => '_blank'],
                       ['name' => 'Delivery Report', 'path' => '/deliverytracking', 'pro' => false,'target' => '_blank'],
