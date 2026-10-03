@@ -20,7 +20,7 @@ class MenuHelper
                 'name' => 'Customers',
                 'subItems' => [
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
-                    ['name' => 'Customer List', 'path' => '/customers', 'pro' => false],
+                    ['name' => 'Customers', 'path' => '/customers', 'pro' => false],
                 ],
             ],
 
@@ -39,7 +39,7 @@ class MenuHelper
                 'subItems' => [
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
                      ['name' => 'Add Order', 'path' => '/orders/addorder', 'pro' => false],
-                    ['name' => 'Order List', 'path' => '/orderlist', 'pro' => false],
+                    ['name' => 'Orders', 'path' => '/orderlist', 'pro' => false],
 
                      ['name' => 'Tailor Order', 'path' => '/tailororder', 'pro' => false],
 
