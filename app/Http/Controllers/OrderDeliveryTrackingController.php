@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Stage;
+use App\Models\stage as ModelsStage;
 use Illuminate\Http\Request;
 
 class OrderDeliveryTrackingController extends Controller
@@ -52,7 +53,7 @@ class OrderDeliveryTrackingController extends Controller
             ], 404);
         }
 
-        $stages = Stage::where('status', 'active')
+        $stages = stage::where('status', 'active')
             ->orderBy('id')
             ->get(['id', 'name']);
 
