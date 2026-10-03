@@ -149,6 +149,13 @@ class MenuHelper
                 ],
             ],
 
+            [
+            'icon' => 'signout',
+            'name' => 'Sign Out',
+            'path' => '/signin',
+           
+            ],
+
 
 
            /*  [
@@ -265,7 +272,15 @@ class MenuHelper
 /* ================= SUPPORT ================= */
 'support' => '<svg width="24" height="24" fill="none"><path d="M20 17V12C20 7.58 16.42 4 12 4C7.58 4 4 7.58 4 12V17" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="17" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="17" r="2" stroke="currentColor" stroke-width="1.5"/></svg>',
 
-
+'signout' =>'<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+    <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M13.5 3.25C13.9142 3.25 14.25 3.58579 14.25 4V10.25H18.19L16.22 8.28C15.9271 7.98711 15.9271 7.51289 16.22 7.22C16.5129 6.92711 16.9871 6.92711 17.28 7.22L20.53 10.47C20.8229 10.7629 20.8229 11.2371 20.53 11.53L17.28 14.78C16.9871 15.0729 16.5129 15.0729 16.22 14.78C15.9271 14.4871 15.9271 14.0129 16.22 13.72L18.19 11.75H13.5V18.5C13.5 19.7426 12.4926 20.75 11.25 20.75H5.5C4.25736 20.75 3.25 19.7426 3.25 18.5V5.5C3.25 4.25736 4.25736 3.25 5.5 3.25H11.25C12.4926 3.25 13.5 4.25736 13.5 5.5V4C13.5 3.58579 13.8358 3.25 14.25 3.25H13.5ZM5.5 4.75C5.08579 4.75 4.75 5.08579 4.75 5.5V18.5C4.75 18.9142 5.08579 19.25 5.5 19.25H11.25C11.6642 19.25 12 18.9142 12 18.5V5.5C12 5.08579 11.6642 4.75 11.25 4.75H5.5Z"
+        fill="currentColor">
+    </path>
+</svg>',
 
 /* ================= NOTIFICATION ================= */
 'notification' => '<svg width="24" height="24" fill="none"><path d="M6 8C6 5.79 7.79 4 10 4H14C16.21 4 18 5.79 18 8V13L20 16H4L6 13V8Z" stroke="currentColor" stroke-width="1.5"/><path d="M10 20H14" stroke="currentColor" stroke-width="1.5"/></svg>',

@@ -5,9 +5,11 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WhatsAppController;
 
 // dashboard pages
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('pages.dashboard.ecommerce', ['title' => 'E-commerce Dashboard']);
-})->name('dashboard');
+})->name('dashboard'); */
+
+Route::get('/', [DashboardController::class, 'taskkanban'])->name('taskkanban');
 
 // calender pages
 Route::get('/calendar', function () {
