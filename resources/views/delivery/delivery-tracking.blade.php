@@ -21,9 +21,8 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
-
         /* =========================================================
-           ITEM TIMELINE
+           TIMELINE
         ========================================================== */
 
         .timeline-wrapper {
@@ -33,13 +32,11 @@
             padding-bottom: 15px;
         }
 
-
         .timeline {
             display: flex;
             align-items: flex-start;
             min-width: 900px;
         }
-
 
         .timeline-stage {
             position: relative;
@@ -48,13 +45,6 @@
             flex-shrink: 0;
             text-align: center;
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Connecting line
-        |--------------------------------------------------------------------------
-        */
 
         .timeline-stage:not(:last-child)::after {
 
@@ -73,41 +63,15 @@
             background: #ef4444;
 
             z-index: 0;
-
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Completed line
-        |--------------------------------------------------------------------------
-        */
 
         .timeline-stage.completed:not(:last-child)::after {
-
             background: #22c55e;
-
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Current line
-        |--------------------------------------------------------------------------
-        */
 
         .timeline-stage.current:not(:last-child)::after {
-
             background: #eab308;
-
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Circle
-        |--------------------------------------------------------------------------
-        */
 
         .stage-circle {
 
@@ -118,46 +82,25 @@
             margin-left: auto;
 
             margin-right: auto;
-
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Scrollbar
-        |--------------------------------------------------------------------------
-        */
 
         .timeline-wrapper::-webkit-scrollbar {
-
             height: 6px;
-
         }
-
 
         .timeline-wrapper::-webkit-scrollbar-track {
-
             background: #f3f4f6;
-
             border-radius: 10px;
-
         }
-
 
         .timeline-wrapper::-webkit-scrollbar-thumb {
-
             background: #cbd5e1;
-
             border-radius: 10px;
-
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Loading
-        |--------------------------------------------------------------------------
-        */
+        /* =========================================================
+           LOADER
+        ========================================================== */
 
         .loader {
 
@@ -176,34 +119,13 @@
             display: inline-block;
 
             vertical-align: middle;
-
         }
-
 
         @keyframes spin {
 
             to {
-
                 transform: rotate(360deg);
-
             }
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Empty message
-        |--------------------------------------------------------------------------
-        */
-
-        .no-orders {
-
-            padding: 30px;
-
-            text-align: center;
-
-            color: #6b7280;
 
         }
 
@@ -225,16 +147,83 @@
             from-blue-600
             to-indigo-600
             text-white
-            p-5
-            text-center
-            text-lg
-            font-semibold
+            p-4
             rounded-b-2xl
             shadow
         "
     >
 
-        Order Delivery Tracking
+        <div
+            class="
+                max-w-6xl
+                mx-auto
+                flex
+                items-center
+                gap-3
+            "
+        >
+
+            <!-- BACK BUTTON -->
+
+            <button
+                type="button"
+                onclick="goBack()"
+                class="
+                    w-9
+                    h-9
+                    rounded-lg
+                    bg-white/20
+                    hover:bg-white/30
+                    flex
+                    items-center
+                    justify-center
+                    transition
+                    flex-shrink-0
+                "
+                title="Back"
+            >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 19l-7-7 7-7"
+                    />
+
+                </svg>
+
+            </button>
+
+
+            <!-- TITLE -->
+
+            <div class="flex-1 text-center">
+
+                <div class="
+                    text-lg
+                    font-semibold
+                ">
+
+                    Order Delivery Tracking
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SPACE -->
+
+            <div class="w-9 flex-shrink-0"></div>
+
+        </div>
 
     </div>
 
@@ -245,34 +234,39 @@
 
     <div class="p-4">
 
-        <div class="
-            bg-white
-            rounded-xl
-            shadow
-            p-4
-            max-w-6xl
-            mx-auto
-        ">
-
+        <div
+            class="
+                bg-white
+                rounded-xl
+                shadow
+                p-4
+                max-w-6xl
+                mx-auto
+            "
+        >
 
             <div class="mb-4">
 
-                <h2 class="
-                    text-base
-                    font-semibold
-                    text-gray-800
-                ">
+                <h2
+                    class="
+                        text-base
+                        font-semibold
+                        text-gray-800
+                    "
+                >
 
                     Track Your Order
 
                 </h2>
 
 
-                <p class="
-                    text-xs
-                    text-gray-500
-                    mt-1
-                ">
+                <p
+                    class="
+                        text-xs
+                        text-gray-500
+                        mt-1
+                    "
+                >
 
                     Search using mobile number or order number.
 
@@ -287,15 +281,16 @@
 
             <form id="trackingForm">
 
-                <div class="
-                    grid
-                    grid-cols-1
-                    md:grid-cols-3
-                    gap-3
-                ">
+                <div
+                    class="
+                        grid
+                        grid-cols-1
+                        md:grid-cols-3
+                        gap-3
+                    "
+                >
 
-
-                    <!-- MOBILE -->
+                    <!-- MOBILE NUMBER -->
 
                     <div>
 
@@ -387,12 +382,9 @@
                     </div>
 
 
-                    <!-- BUTTON -->
+                    <!-- TRACK BUTTON -->
 
-                    <div class="
-                        flex
-                        items-end
-                    ">
+                    <div class="flex items-end">
 
                         <button
                             type="submit"
@@ -419,17 +411,16 @@
 
                     </div>
 
-
                 </div>
 
 
-                <!-- SEARCH NOTE -->
-
-                <div class="
-                    mt-3
-                    text-[11px]
-                    text-gray-400
-                ">
+                <div
+                    class="
+                        mt-3
+                        text-[11px]
+                        text-gray-400
+                    "
+                >
 
                     You can enter either mobile number or order number.
 
@@ -443,7 +434,7 @@
 
 
     <!-- =========================================================
-         ORDERS
+         ORDERS CONTAINER
     ========================================================== -->
 
     <div
@@ -471,6 +462,15 @@ const trackingUrl = @json(
 );
 
 
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+function goBack()
+{
+    window.history.back();
+}
+
 
 /* =========================================================
    FORM SUBMIT
@@ -490,7 +490,6 @@ document
     );
 
 
-
 /* =========================================================
    ORDER NUMBER UPPERCASE
 ========================================================= */
@@ -506,7 +505,6 @@ document
 
         }
     );
-
 
 
 /* =========================================================
@@ -531,7 +529,6 @@ function trackOrders()
             .toUpperCase();
 
 
-
     /* =========================================================
        VALIDATION
     ========================================================== */
@@ -543,9 +540,7 @@ function trackOrders()
         );
 
         return;
-
     }
-
 
 
     /* =========================================================
@@ -565,7 +560,6 @@ function trackOrders()
     `;
 
 
-
     /* =========================================================
        CLEAR OLD RESULT
     ========================================================== */
@@ -575,9 +569,8 @@ function trackOrders()
         .innerHTML = '';
 
 
-
     /* =========================================================
-       BUILD QUERY PARAMETERS
+       QUERY PARAMETERS
     ========================================================== */
 
     const params =
@@ -604,16 +597,14 @@ function trackOrders()
     }
 
 
-
     const url =
         trackingUrl +
         '?' +
         params.toString();
 
 
-
     /* =========================================================
-       API CALL
+       API REQUEST
     ========================================================== */
 
     fetch(
@@ -643,7 +634,8 @@ function trackOrders()
                 data =
                     await response.json();
 
-            } catch (error) {
+            }
+            catch (error) {
 
                 throw new Error(
                     'Invalid response from server.'
@@ -707,7 +699,6 @@ function trackOrders()
 }
 
 
-
 /* =========================================================
    MESSAGE
 ========================================================= */
@@ -719,40 +710,44 @@ function showMessage(message)
         .getElementById('ordersContainer')
         .innerHTML = `
 
-            <div class="
+        <div
+            class="
                 bg-white
                 rounded-xl
                 shadow
                 p-8
                 text-center
-            ">
+            "
+        >
 
-                <div class="
+            <div
+                class="
                     text-gray-400
                     text-4xl
                     mb-3
-                ">
+                "
+            >
 
-                    🔍
-
-                </div>
-
-
-                <div class="
-                    text-gray-700
-                    font-semibold
-                ">
-
-                    ${escapeHtml(message)}
-
-                </div>
+                🔍
 
             </div>
 
-        `;
 
+            <div
+                class="
+                    text-gray-700
+                    font-semibold
+                "
+            >
+
+                ${escapeHtml(message)}
+
+            </div>
+
+        </div>
+
+    `;
 }
-
 
 
 /* =========================================================
@@ -768,9 +763,8 @@ function renderOrders(orderList)
         );
 
 
-
     /* =========================================================
-       VALIDATE ORDERS
+       VALIDATE
     ========================================================== */
 
     if (
@@ -783,13 +777,10 @@ function renderOrders(orderList)
         );
 
         return;
-
     }
 
 
-
     let html = '';
-
 
 
     /* =========================================================
@@ -800,25 +791,12 @@ function renderOrders(orderList)
         order => {
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | ITEMS HTML
-            |--------------------------------------------------------------------------
-            */
-
             let itemsHtml = '';
 
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | IMPORTANT:
-            |
-            | Every order can contain multiple items.
-            |
-            | Every item has its OWN stages.
-            |--------------------------------------------------------------------------
-            */
+            /* =================================================
+               LOOP ITEMS
+            ================================================= */
 
             if (
                 Array.isArray(order.items) &&
@@ -830,20 +808,15 @@ function renderOrders(orderList)
                     item => {
 
 
-                        /*
-                        |--------------------------------------------------------------------------
-                        | BUILD ITEM TIMELINE
-                        |--------------------------------------------------------------------------
-                        */
-
                         let timelineHtml = '';
 
 
+                        /* =========================================
+                           ITEM STAGES
+                        ========================================== */
 
                         if (
-                            Array.isArray(
-                                item.stages
-                            ) &&
+                            Array.isArray(item.stages) &&
                             item.stages.length > 0
                         ) {
 
@@ -851,12 +824,6 @@ function renderOrders(orderList)
                             item.stages.forEach(
                                 (stage, index) => {
 
-
-                                    /*
-                                    |--------------------------------------------------------------------------
-                                    | CIRCLE
-                                    |--------------------------------------------------------------------------
-                                    */
 
                                     let circleClass =
                                         'bg-red-500';
@@ -866,12 +833,9 @@ function renderOrders(orderList)
                                         index + 1;
 
 
-
-                                    /*
-                                    |--------------------------------------------------------------------------
-                                    | COMPLETED
-                                    |--------------------------------------------------------------------------
-                                    */
+                                    /* =================================
+                                       COMPLETED
+                                    ================================= */
 
                                     if (
                                         stage.completed
@@ -880,16 +844,15 @@ function renderOrders(orderList)
                                         circleClass =
                                             'bg-green-500';
 
-                                        icon = '✓';
+                                        icon =
+                                            '✓';
 
                                     }
 
 
-                                    /*
-                                    |--------------------------------------------------------------------------
-                                    | CURRENT
-                                    |--------------------------------------------------------------------------
-                                    */
+                                    /* =================================
+                                       CURRENT
+                                    ================================= */
 
                                     else if (
                                         stage.current
@@ -901,12 +864,9 @@ function renderOrders(orderList)
                                     }
 
 
-
-                                    /*
-                                    |--------------------------------------------------------------------------
-                                    | STATUS
-                                    |--------------------------------------------------------------------------
-                                    */
+                                    /* =================================
+                                       STATUS
+                                    ================================= */
 
                                     let statusText =
                                         'Not Started';
@@ -914,7 +874,6 @@ function renderOrders(orderList)
 
                                     let statusClass =
                                         'bg-red-100 text-red-700';
-
 
 
                                     if (
@@ -951,12 +910,9 @@ function renderOrders(orderList)
                                     }
 
 
-
-                                    /*
-                                    |--------------------------------------------------------------------------
-                                    | STAGE HTML
-                                    |--------------------------------------------------------------------------
-                                    */
+                                    /* =================================
+                                       STAGE
+                                    ================================= */
 
                                     timelineHtml += `
 
@@ -975,7 +931,6 @@ function renderOrders(orderList)
                                                 }
                                             "
                                         >
-
 
                                             <!-- CIRCLE -->
 
@@ -1001,8 +956,7 @@ function renderOrders(orderList)
                                             </div>
 
 
-
-                                            <!-- STAGE NAME -->
+                                            <!-- STAGE -->
 
                                             <div
                                                 class="
@@ -1022,7 +976,6 @@ function renderOrders(orderList)
                                             </div>
 
 
-
                                             <!-- START -->
 
                                             <div
@@ -1033,9 +986,7 @@ function renderOrders(orderList)
                                                 "
                                             >
 
-                                                <b>
-                                                    Start
-                                                </b>
+                                                <b>Start</b>
 
                                                 <br>
 
@@ -1045,7 +996,6 @@ function renderOrders(orderList)
                                                 }
 
                                             </div>
-
 
 
                                             <!-- END -->
@@ -1058,9 +1008,7 @@ function renderOrders(orderList)
                                                 "
                                             >
 
-                                                <b>
-                                                    End
-                                                </b>
+                                                <b>End</b>
 
                                                 <br>
 
@@ -1070,7 +1018,6 @@ function renderOrders(orderList)
                                                 }
 
                                             </div>
-
 
 
                                             <!-- STATUS -->
@@ -1095,7 +1042,6 @@ function renderOrders(orderList)
 
                                             </div>
 
-
                                         </div>
 
                                     `;
@@ -1103,16 +1049,12 @@ function renderOrders(orderList)
                                 }
                             );
 
-
                         }
 
 
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | ITEM STATUS CLASS
-                        |--------------------------------------------------------------------------
-                        */
+                        /* =========================================
+                           ITEM STATUS
+                        ========================================== */
 
                         let itemStatusClass =
                             'bg-yellow-100 text-yellow-700';
@@ -1127,7 +1069,6 @@ function renderOrders(orderList)
                                 'bg-green-100 text-green-700';
 
                         }
-
                         else if (
                             item.status ===
                             'Completed'
@@ -1137,7 +1078,6 @@ function renderOrders(orderList)
                                 'bg-green-100 text-green-700';
 
                         }
-
                         else if (
                             item.status ===
                             'Not Started'
@@ -1149,12 +1089,9 @@ function renderOrders(orderList)
                         }
 
 
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | ITEM CARD
-                        |--------------------------------------------------------------------------
-                        */
+                        /* =========================================
+                           ITEM CARD
+                        ========================================== */
 
                         itemsHtml += `
 
@@ -1185,7 +1122,6 @@ function renderOrders(orderList)
                                         gap-2
                                     "
                                 >
-
 
                                     <div>
 
@@ -1234,7 +1170,6 @@ function renderOrders(orderList)
                                     </div>
 
 
-
                                     <!-- ITEM STATUS -->
 
                                     <span
@@ -1255,15 +1190,12 @@ function renderOrders(orderList)
 
                                     </span>
 
-
                                 </div>
-
 
 
                                 <!-- ITEM TIMELINE -->
 
                                 <div class="p-4">
-
 
                                     ${
                                         timelineHtml
@@ -1309,9 +1241,7 @@ function renderOrders(orderList)
                                         `
                                     }
 
-
                                 </div>
-
 
                             </div>
 
@@ -1320,17 +1250,13 @@ function renderOrders(orderList)
                     }
                 );
 
-
             }
-
             else {
-
 
                 itemsHtml = `
 
                     <div
                         class="
-                            mt-4
                             text-center
                             text-sm
                             text-gray-500
@@ -1347,12 +1273,9 @@ function renderOrders(orderList)
             }
 
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | ORDER STATUS CLASS
-            |--------------------------------------------------------------------------
-            */
+            /* =================================================
+               ORDER STATUS
+            ================================================== */
 
             let orderStatusClass =
                 'bg-yellow-100 text-yellow-700';
@@ -1367,7 +1290,6 @@ function renderOrders(orderList)
                     'bg-green-100 text-green-700';
 
             }
-
             else if (
                 order.status ===
                 'Completed'
@@ -1377,7 +1299,6 @@ function renderOrders(orderList)
                     'bg-green-100 text-green-700';
 
             }
-
             else if (
                 order.status ===
                 'Not Started'
@@ -1389,12 +1310,9 @@ function renderOrders(orderList)
             }
 
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | ORDER CARD
-            |--------------------------------------------------------------------------
-            */
+            /* =================================================
+               ORDER CARD
+            ================================================== */
 
             html += `
 
@@ -1426,7 +1344,6 @@ function renderOrders(orderList)
 
                         <div>
 
-
                             <!-- ORDER NUMBER -->
 
                             <h3
@@ -1445,69 +1362,54 @@ function renderOrders(orderList)
                             </h3>
 
 
-
                             <!-- CUSTOMER -->
 
                             ${
                                 order.customer
+                                    ? `
+                                        <p
+                                            class="
+                                                text-xs
+                                                text-gray-500
+                                                mt-1
+                                            "
+                                        >
 
-                                ?
+                                            Customer:
 
-                                `
-                                    <p
-                                        class="
-                                            text-xs
-                                            text-gray-500
-                                            mt-1
-                                        "
-                                    >
+                                            ${escapeHtml(
+                                                order.customer
+                                            )}
 
-                                        Customer:
-
-                                        ${escapeHtml(
-                                            order.customer
-                                        )}
-
-                                    </p>
-                                `
-
-                                :
-
-                                ''
+                                        </p>
+                                    `
+                                    : ''
                             }
 
 
-
-                            <!-- PHONE -->
+                            <!-- MOBILE -->
 
                             ${
                                 order.phone
+                                    ? `
+                                        <p
+                                            class="
+                                                text-xs
+                                                text-gray-500
+                                                mt-1
+                                            "
+                                        >
 
-                                ?
+                                            Mobile:
 
-                                `
-                                    <p
-                                        class="
-                                            text-xs
-                                            text-gray-500
-                                            mt-1
-                                        "
-                                    >
+                                            ${escapeHtml(
+                                                order.phone
+                                            )}
 
-                                        Mobile:
-
-                                        ${escapeHtml(
-                                            order.phone
-                                        )}
-
-                                    </p>
-                                `
-
-                                :
-
-                                ''
+                                        </p>
+                                    `
+                                    : ''
                             }
-
 
 
                             <!-- DATES -->
@@ -1538,9 +1440,7 @@ function renderOrders(orderList)
 
                             </p>
 
-
                         </div>
-
 
 
                         <!-- ORDER STATUS -->
@@ -1563,9 +1463,7 @@ function renderOrders(orderList)
 
                         </span>
 
-
                     </div>
-
 
 
                     <!-- =========================================
@@ -1577,7 +1475,6 @@ function renderOrders(orderList)
                         ${itemsHtml}
 
                     </div>
-
 
 
                     <!-- =========================================
@@ -1597,7 +1494,6 @@ function renderOrders(orderList)
                             flex-wrap
                         "
                     >
-
 
                         <!-- COMPLETED -->
 
@@ -1621,7 +1517,6 @@ function renderOrders(orderList)
                             Completed
 
                         </div>
-
 
 
                         <!-- CURRENT -->
@@ -1648,7 +1543,6 @@ function renderOrders(orderList)
                         </div>
 
 
-
                         <!-- NOT STARTED -->
 
                         <div
@@ -1672,7 +1566,6 @@ function renderOrders(orderList)
 
                         </div>
 
-
                     </div>
 
 
@@ -1684,17 +1577,13 @@ function renderOrders(orderList)
     );
 
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | DISPLAY HTML
-    |--------------------------------------------------------------------------
-    */
+    /* =========================================================
+       DISPLAY
+    ========================================================== */
 
     container.innerHTML = html;
 
 }
-
 
 
 /* =========================================================
