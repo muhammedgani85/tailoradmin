@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\Stage;
+use App\Models\stage;
 use App\Models\stage as ModelsStage;
 use Illuminate\Http\Request;
 
@@ -11,7 +11,7 @@ class OrderDeliveryTrackingController extends Controller
 {
     public function index()
     {
-        $stages = Stage::where('status', 'active')
+        $stages = stage::where('status', 'active')
             ->orderBy('id')
             ->get(['id', 'name']);
 
