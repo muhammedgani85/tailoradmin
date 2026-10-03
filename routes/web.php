@@ -275,7 +275,9 @@ Route::get(
     [OrderController::class, 'printDetails1']
 )->name('orders.print-details');
 
-
+// Correction Routes
+Route::resource('correction-notes', CorrectionNoteController::class)
+    ->only(['index', 'store', 'edit', 'update', 'destroy']);
 
 
 

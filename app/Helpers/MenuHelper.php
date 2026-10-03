@@ -132,6 +132,7 @@ class MenuHelper
                      ['name' => 'Types', 'path' => '/types', 'pro' => false],
                       ['name' => 'Work Flow', 'path' => '/workflow', 'pro' => false],
                       ['name' => 'Measurements', 'path' => '/measurements', 'pro' => false],
+                       ['name' => 'Correction Notes', 'path' => '/correction-notes', 'pro' => false],
 
                 ],
             ],

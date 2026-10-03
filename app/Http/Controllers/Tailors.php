@@ -7,6 +7,7 @@ use App\Models\TailorsModel;
 use App\Models\City;
 use App\Models\State;
 use App\Models\District;
+use App\Models\OrderItemTrack;
 use App\Models\Types;
 use App\Models\UsersTypeModel;
 use Illuminate\Http\Request;
@@ -167,14 +168,119 @@ public function update(Request $req, $id)
     }
 
 
-    public function workbalance(){
-        $user_type = UsersTypeModel::where('status','active')->get();
-        $types = Types::where('status','active')->get();
+    public function workbalance()
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Active User Types
+    |--------------------------------------------------------------------------
+    */
 
-        $tailors = TailorsModel::with('roleType')->withSum('tailorTypes', 'qty')->latest('id')->get();
+    $user_type = UsersTypeModel::where('status', 'active')
+        ->get();
 
-       return view('taillors.workbalance', ['title' => 'Tailor Work Balance'],compact('tailors','user_type','types' ));
+
+    /*
+    |--------------------------------------------------------------------------
+    | Active Types
+    |--------------------------------------------------------------------------
+    */
+
+    $types = Types::where('status', 'active')
+        ->orderBy('id')
+        ->get();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Active Tailors
+    |--------------------------------------------------------------------------
+    */
+
+    $tailors = TailorsModel::with('roleType')
+        ->where('status', 'active')
+        ->orderBy('id')
+        ->get();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Get Work Balance
+    |
+    | order_item_tracks.assigned_to
+    |              ↓
+    | tailors.id
+    |
+    | order_item_tracks.order_item_id
+    |              ↓
+    | order_items.id
+    |
+    | order_items.type_id
+    |              ↓
+    | types.id
+    |--------------------------------------------------------------------------
+    */
+
+    $workBalance = OrderItemTrack::query()
+
+        ->join(
+            'order_items',
+            'order_item_tracks.order_item_id',
+            '=',
+            'order_items.id'
+        )
+
+        ->whereNotNull('order_item_tracks.assigned_to')
+
+        ->select(
+            'order_item_tracks.assigned_to',
+            'order_items.type_id'
+        )
+
+        ->selectRaw('COUNT(*) as total')
+
+        ->groupBy(
+            'order_item_tracks.assigned_to',
+            'order_items.type_id'
+        )
+
+        ->get();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Convert into easy lookup
+    |
+    | Example:
+    |
+    | [
+    |     tailor_id => [
+    |         type_id => count
+    |     ]
+    | ]
+    |--------------------------------------------------------------------------
+    */
+
+    $balance = [];
+
+    foreach ($workBalance as $row) {
+
+        $balance[$row->assigned_to][$row->type_id] =
+            (int) $row->total;
+
     }
+
+
+    return view(
+        'taillors.workbalance',
+        compact(
+            'tailors',
+            'user_type',
+            'types',
+            'balance'
+        )
+    );
+}
 
 
 }

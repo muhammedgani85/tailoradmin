@@ -12,7 +12,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('pages.dashboard');
+       // return view('pages.taskkanban');
+       $this->taskkanban(new Request());
     }
 
     public function taskkanban_bkp()

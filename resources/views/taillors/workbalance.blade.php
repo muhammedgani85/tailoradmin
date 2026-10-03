@@ -14,7 +14,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between px-6 mb-4">
         <h3 class="text-lg font-semibold text-gray-800">
-            Work Balance
+            Work Balance <span style="color: green;">(updated on {{ now()->format('d M Y') }})</span>
         </h3>
 
 
@@ -33,59 +33,112 @@
 </div>
     <div class="overflow-hidden">
          <div class="max-w-full overflow-x-auto">
-           <table class="w-full" id="myTable">
+            <table class="w-full border-collapse" id="myTable">
 
-    <!-- HEADER -->
-    <thead class="px-6 py-3.5 border-t border-gray-100 border-y bg-gray-50 dark:border-white/[0.05] dark:bg-gray-900">
-        <tr class="border-y">
-            <th class="px-4 py-3 text-left text-gray-500 text-sm">Tailor</th>
+        <thead>
 
-            @foreach($types as $type)
-                <th class="p-2 text-center">{{ $type->type }}</th>
-            @endforeach
+            <tr class="border-b border-gray-200 bg-gray-50">
 
-            <th class="px-4 py-3 text-left text-gray-500 text-sm">Total</th>
-        </tr>
-    </thead>
+                {{-- Tailor --}}
 
-    <!-- BODY -->
-    <tbody class="divide-y">
-        @foreach($tailors as $t)
- @php $total = 0; @endphp
-        <tr >
-
-            <!-- Tailor Name -->
-            <td class="px-4 py-3 text-left text-gray-500 text-sm">{{ $t->name }}</td>
+                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                    Tailor
+                </th>
 
 
+                {{-- Dynamic Types --}}
 
-            <!-- LOOP TYPES -->
-            @foreach($types as $type)
+                @foreach($types as $type)
+
+                    <th class="px-4 py-3 text-center text-sm font-semibold text-gray-900 uppercase">
+
+                        {{ $type->type }}
+
+                    </th>
+
+                @endforeach
+
+
+                {{-- Total --}}
+
+                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+
+                    Total
+
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            @foreach($tailors as $tailor)
 
                 @php
-                    // find matching qty
-                    $qty = optional(
-                        $t->tailorTypes->firstWhere('type_id', $type->id)
-                    )->qty ?? 0;
 
-                    $total += $qty;
+                    $tailorTotal = 0;
+
                 @endphp
 
-                <td class="p-2 text-center">{{ $qty }}</td>
+
+                <tr class="border-b border-gray-200 hover:bg-gray-50">
+
+                    {{-- =================================================
+                         TAILOR
+                    ================================================== --}}
+
+                    <td class="px-4 py-3 text-sm text-gray-600">
+
+                        {{ $tailor->name }}
+
+                    </td>
+
+
+                    {{-- =================================================
+                         TYPES
+                    ================================================== --}}
+
+                    @foreach($types as $type)
+
+                        @php
+
+                            $count =
+                                $balance[$tailor->id][$type->id]
+                                ?? 0;
+
+                            $tailorTotal += $count;
+
+                        @endphp
+
+
+                        <td class="px-4 py-3 text-center text-sm font-medium text-gray-900">
+
+                            {{ $count }}
+
+                        </td>
+
+                    @endforeach
+
+
+                    {{-- =================================================
+                         TOTAL
+                    ================================================== --}}
+
+                    <td class="px-4 py-3 text-center text-sm font-bold text-red-600">
+
+                        {{ $tailorTotal }}
+
+                    </td>
+
+                </tr>
 
             @endforeach
 
-            <!-- TOTAL -->
-            <td class="p-2 text-center font-bold {{ $total < 10 ? 'text-red-600' : '' }}">
-    {{ $total }}
-</td>
+        </tbody>
 
-        </tr>
-
-        @endforeach
-    </tbody>
-
-</table>
+    </table>
 
         </div>
     </div>
@@ -151,7 +204,7 @@ $(document).ready(function () {
 
         dom: 't<"flex justify-end mt-4"p>', // table + right pagination
 
-        pageLength: 5,
+        pageLength: 25,
         paging: true,
         ordering: true,
         info: false,
