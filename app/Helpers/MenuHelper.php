@@ -30,7 +30,7 @@ class MenuHelper
                 'subItems' => [
 
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
-                    ['name' => 'Users List', 'path' => '/tailors', 'pro' => false]
+                    ['name' => 'Users', 'path' => '/tailors', 'pro' => false]
                 ],
             ],
             [
