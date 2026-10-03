@@ -279,6 +279,19 @@ Route::get(
 Route::resource('correction-notes', CorrectionNoteController::class)
     ->only(['index', 'store', 'edit', 'update', 'destroy']);
 
+// Delivery Tracking Routes
+
+Route::get(
+    '/order-delivery-tracking',
+    [OrderDeliveryTrackingController::class, 'index']
+)->name('orders.delivery-tracking');
+
+Route::get(
+    '/order-delivery-tracking/track',
+    [OrderDeliveryTrackingController::class, 'track']
+)->name('orders.delivery-tracking.track');
+
+
 
 
 

@@ -56,7 +56,7 @@ class MenuHelper
                     /* ['name' => 'Ecommerce', 'path' => '/'], */
                     ['name' => 'Ready for delivery', 'path' => '/deliverylist', 'pro' => false],
                      /* ['name' => 'Delivered', 'path' => '/delivered', 'pro' => false], */
-                     ['name' => 'Delivery Tracking', 'path' => '/deliverytracking', 'pro' => false,'target' => '_blank'],
+                     ['name' => 'Delivery Tracking', 'path' => '/order-delivery-tracking', 'pro' => false,'target' => '_blank'],
                 ],
             ],
             [
