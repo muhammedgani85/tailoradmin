@@ -671,32 +671,37 @@ body {
 
 
 
-    <table class="info-table">
-        <tr>
-            <td class="info-label">Customer</td>
-            <td class="info-value">{{ $order->customer?->name ?? '-' }}</td>
-        </tr>
-        <tr>
-            <td class="info-label">Quantity</td>
-            <td class="info-value">{{ $item->qty ?? 1 }}</td>
-        </tr>
-        <tr>
-            <td class="info-label">Order Date</td>
-            <td class="info-value">
-                {{ $order->order_date
-                    ? \Carbon\Carbon::parse($order->order_date)->format('d-m-Y')
-                    : '-' }}
-            </td>
-        </tr>
-        <tr>
-            <td class="info-label">Delivery Date</td>
-            <td class="info-value">
-                {{ $order->delivery_date
-                    ? \Carbon\Carbon::parse($order->delivery_date)->format('d-m-Y')
-                    : '-' }}
-            </td>
-        </tr>
-    </table>
+
+<table class="info-table">
+    <tr>
+        <td class="info-label">Customer</td>
+        <td class="info-value">
+            {{ $order->customer?->name ?? '-' }}
+        </td>
+
+        <td class="info-label">Quantity</td>
+        <td class="info-value">
+            {{ $item->qty ?? 1 }}
+        </td>
+    </tr>
+
+    <tr>
+        <td class="info-label">Order Date</td>
+        <td class="info-value">
+            {{ $order->order_date
+                ? \Carbon\Carbon::parse($order->order_date)->format('d-m-Y')
+                : '-' }}
+        </td>
+
+        <td class="info-label">Delivery Date</td>
+        <td class="info-value">
+            {{ $order->delivery_date
+                ? \Carbon\Carbon::parse($order->delivery_date)->format('d-m-Y')
+                : '-' }}
+        </td>
+    </tr>
+</table>
+
 
 
 
