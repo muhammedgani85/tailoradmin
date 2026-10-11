@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 
+
+
 <html lang="en">
+
+
 
 <head>
 
+
+
 <meta charset="UTF-8">
 
+
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
 
 
 
@@ -14,472 +26,930 @@
 
 
 
+
+
+
+
 <style>
+
+
 
 * {
 
+
+
     box-sizing: border-box;
 
+
+
 }
+
+
+
+
 
 
 
 html,
 
+
+
 body {
+
+
 
     margin: 0;
 
+
+
     padding: 0;
+
+
 
     background: #eeeeee;
 
+
+
     color: #111111;
 
+
+
     font-family: Arial, "Noto Sans Tamil", sans-serif;
+
+
 
 }
 
 
 
+
+
+
+
 /* =========================================================
+
+
 
    TOOLBAR
 
-========================================================= */
+
+
+\========================================================= */
+
+
+
+
 
 
 
 .toolbar {
 
+
+
     width: 148mm;
+
+
 
     margin: 12px auto;
 
+
+
     display: flex;
+
+
 
     justify-content: flex-end;
 
+
+
 }
+
+
+
+
 
 
 
 .print-button {
 
+
+
     border: 0;
+
+
 
     padding: 8px 16px;
 
+
+
     background: #222222;
+
+
 
     color: #ffffff;
 
+
+
     font-size: 14px;
 
+
+
     cursor: pointer;
+
+
 
 }
 
 
 
+
+
+
+
 /* =========================================================
+
+
 
    A5 PAGE
 
+
+
    Height is NOT fixed.
+
+
 
    Content determines the required height.
 
-========================================================= */
+
+
+\========================================================= */
+
+
+
+
 
 
 
 .a5-page {
 
-    width: 148mm;
 
+
+    width: 148mm;
+    max-width: 148mm;
     margin: 0 auto 20px;
+
+
 
     padding: 9mm 8mm 7mm;
 
+
+
     background: #ffffff;
+
+
 
 }
 
 
 
+
+
+
+
 /* =========================================================
+
+
 
    HEADER
 
-========================================================= */
+
+
+\========================================================= */
+
+
+
+
 
 
 
 .job-header {
 
+
+
     width: 100%;
+
+
 
     border-bottom: 1px solid #111111;
 
+
+
     padding-bottom: 4px;
+
+
 
     margin-bottom: 5px;
 
+
+
 }
+
+
+
+
 
 
 
 .job-header-left {
 
+
+
     display: flex;
+
+
 
     align-items: center;
 
+
+
     gap: 5px;
+
+
 
     white-space: nowrap;
 
+
+
 }
+
+
+
+
 
 
 
 .item-no {
 
+
+
     font-size: 12px;
+
+
 
     font-weight: 700;
 
+
+
 }
+
+
+
+
 
 
 
 .order-no {
 
+
+
     font-size: 9px;
 
+
+
 }
+
+
+
+
 
 
 
 .item-type {
 
+
+
     font-size: 10px;
+
+
 
     font-weight: 700;
 
+
+
 }
+
+
+
+
 
 
 
 .separator {
 
+
+
     font-size: 9px;
 
+
+
     color: #555555;
+
+
 
 }
 
 
 
+
+
+
+
 /* =========================================================
+
+
 
    CUSTOMER INFORMATION
 
-========================================================= */
+
+
+\========================================================= */
+
+
+
+
 
 
 
 .info-table {
 
+
+
     width: 100%;
+
+
 
     border-collapse: collapse;
 
+
+
     margin-bottom: 5px;
+
+
 
     font-size: 11px;
 
+
+
 }
+
+
+
+
 
 
 
 .info-table td {
 
+
+
     border: 1px solid #111111;
+
+
 
     padding: 4px 5px;
 
+
+
     vertical-align: middle;
 
+
+
 }
+
+
+
+
 
 
 
 .info-label {
 
+
+
     width: 16%;
+
+
 
     font-weight: 700;
 
+
+
 }
+
+
+
+
 
 
 
 .info-value {
 
+
+
     width: 34%;
+
+
 
 }
 
 
 
+
+
+
+
 /* =========================================================
 
+
+
    WORK AREA
+
+
 
    NO HEIGHT IS SET HERE.
 
 
 
+
+
+
+
    The measurement table determines the height naturally.
+
+
 
    Notes stretches to exactly the same height using flex.
 
-========================================================= */
+
+
+\========================================================= */
+
+
+
+
 
 
 
 .work-area {
 
+
+
     width: 100%;
+
+
 
     display: flex;
 
+
+
     align-items: stretch;
 
+
+
     border: 1px solid #111111;
+
+
 
 }
 
 
 
+
+
+
+
 /* =========================================================
+
+
 
    MEASUREMENT SIDE
 
-========================================================= */
+
+
+\========================================================= */
+
+
+
+
 
 
 
 .measurement-side {
-
     width: 75%;
-
     flex: 0 0 75%;
+    min-width: 0;
+
+
 
 }
+
+
+
+
 
 
 
 /* =========================================================
 
+
+
    MEASUREMENT TABLE
+
+
 
    Natural/content-based row height.
 
-========================================================= */
+
+
+\========================================================= */
+
+
+
+
 
 
 
 .measurement-table {
-
     width: 100%;
+    max-width: 100%;
+
+
 
     border-collapse: collapse;
 
+
+
     table-layout: fixed;
+
+
 
     font-size: 8px;
 
+
+
 }
+
+
+
+
 
 
 
 .measurement-table td {
 
-    width: 25%;
+
 
     border-right: 1px solid #111111;
 
+
+
     border-bottom: 1px solid #111111;
+
+
 
     padding: 0;
 
+
+
     text-align: center;
+
+
 
     vertical-align: middle;
 
+
+
 }
+
+
+
+
 
 
 
 .measurement-table td:last-child {
 
+
+
     border-right: 0;
 
+
+
 }
+
+
+
+
 
 
 
 /* Remove bottom border because work-area supplies it */
 
+
+
 .measurement-table tr:last-child td {
+
+
 
     border-bottom: 1px solid #111111;
 
+
+
 }
+
+
+
+
 
 
 
 .measurement-name {
 
+
+
     padding: 3px 2px 2px;
+
+
 
     font-size: 9px;
 
+
+
     font-weight: 600;
+
+
 
     line-height: 1.1;
 
+
+
     word-break: break-word;
 
+
+
 }
+
+
+
+
 
 
 
 .measurement-value {
 
+
+
     padding: 3px 2px 4px;
+
+
 
     font-size: 10px;
 
+
+
     line-height: 1.1;
 
+
+
 }
 
 
 
-.measurement-empty {
 
-    padding: 7px 2px;
 
-}
+
+
+
+
+.body-loose-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 10px; }
+.body-loose-table th,
+.body-loose-table td { width: 33.3333%; border-right: 1px solid #111111; border-bottom: 1px solid #111111; padding: 3px 2px; text-align: center; vertical-align: middle; }
+.body-loose-table th { font-size: 10px; font-weight: 700; letter-spacing: 0.3px; }
+.body-loose-table .body-loose-title { font-size: 10px; font-weight: 700; }
+.body-loose-table .body-loose-col-head { font-size: 8px; font-weight: 700; line-height: 1.15; word-break: break-word; }
+.body-loose-table td:last-child,
+.body-loose-table th:last-child { border-right: 0; }
+.body-loose-table tr:last-child td { border-bottom: 0; }
+.body-loose-row > td { padding: 0 !important; }
+
+
+
+
 
 
 
 /* =========================================================
 
+
+
    NOTES SIDE
+
+
 
    Separate DIV.
 
+
+
    No height is specified.
+
+
 
    Flex stretch makes it exactly as tall as measurements.
 
-========================================================= */
+
+
+\========================================================= */
+
+
+
+
 
 
 
 .notes-side {
-
     width: 25%;
-
     flex: 0 0 25%;
+    min-width: 0;
+
+
 
     border-left: 1px solid #111111;
 
+
+
     padding: 4px;
 
+
+
     align-self: stretch;
+
     vertical-align: top;
+
     text-align: left;
+
 }
+
+
+
+
 
 
 
 .notes-heading {
 
+
+
     text-align: left;
+
+
 
     font-size: 8px;
 
+
+
     font-weight: 700;
+
+
 
     border-bottom: 1px solid #111111;
 
+
+
     padding: 0 0 4px;
+
+
 
     margin: 0 0 5px;
 
+
+
 }
+
+
+
+
 
 
 
 .notes-content {
 
+
+
     font-size: 10px;
+
+
 
     line-height: 1.3;
 
+
+
     text-align: left;
+
+
 
     white-space: pre-wrap;
 
+
+
     overflow-wrap: anywhere;
+
+
 
 }
 
 
 
+
+
+
+
 /* =========================================================
+
+
 
    FOOTER
 
-========================================================= */
+
+
+\========================================================= */
+
+
+
+
 
 
 
 .footer {
 
+
+
     margin-top: 5px;
+
+
 
     display: flex;
 
+
+
     justify-content: space-between;
+
+
 
     font-size: 7px;
 
+
+
 }
+
+
+
+
 
 
 
 /* =========================================================
 
+
+
    PRINT
 
-========================================================= */
+
+
+\========================================================= */
+
+
+
+
 
 
 
 @page {
 
+
+
     size: A5 portrait;
+
+
 
     margin: 0;
 
+
+
 }
+
+
+
+
 
 
 
@@ -487,67 +957,135 @@ body {
 
 
 
+
+
+
+
     html,
+
+
 
     body {
 
+
+
         width: 148mm;
+
+
 
         background: #ffffff;
 
+
+
     }
+
+
+
+
 
 
 
     .no-print {
 
+
+
         display: none !important;
 
+
+
     }
+
+
+
+
 
 
 
     .a5-page {
 
+
+
         width: 148mm;
+
+
 
         margin: 0;
 
+
+
         padding: 9mm 8mm 7mm;
+
+
 
         background: #ffffff;
 
+
+
         page-break-after: always;
+
+
 
         break-after: page;
 
+
+
     }
+
+
+
+
 
 
 
     .a5-page:last-child {
 
+
+
         page-break-after: auto;
+
+
 
         break-after: auto;
 
+
+
     }
+
+
+
+
 
 
 
     .work-area {
 
+
+
         page-break-inside: avoid;
+
+
 
         break-inside: avoid;
 
+
+
     }
+
+
 
 }
 
+
+
 </style>
 
+
+
 </head>
+
+
+
+
 
 
 
@@ -555,21 +1093,43 @@ body {
 
 
 
+
+
+
+
 <div class="toolbar no-print">
+
+
 
     <button
 
+
+
         type="button"
+
+
 
         class="print-button"
 
+
+
         onclick="window.print()">
+
+
 
         Print A5
 
+
+
     </button>
 
+
+
 </div>
+
+
+
+
 
 
 
@@ -577,27 +1137,246 @@ body {
 
 
 
+
+
+
+
 @php
 
-    $measurements = $item->measurements;
 
 
+    $rawMeasurements = $item->measurements;
 
-    if (is_string($measurements)) {
-
-        $measurements = json_decode($measurements, true) ?? [];
-
+    if (is_string($rawMeasurements)) {
+        $rawMeasurements = json_decode($rawMeasurements, true) ?? [];
     }
 
+    $rawMeasurements = is_array($rawMeasurements) ? $rawMeasurements : [];
 
+    $measurementIds = [];
+    foreach ($rawMeasurements as $measurementKey => $measurement) {
+        if (is_numeric($measurementKey)) {
+            $measurementIds[] = (int) $measurementKey;
+        }
+        if (is_array($measurement) && isset($measurement['id']) && is_numeric($measurement['id'])) {
+            $measurementIds[] = (int) $measurement['id'];
+        }
+    }
 
-    $measurements = is_array($measurements)
+    $measurementMasters = \App\Models\Measurement::whereIn('id', array_unique($measurementIds))
+        ->get()
+        ->keyBy('id');
 
-        ? array_values($measurements)
+    $measurements = [];
+    foreach ($rawMeasurements as $measurementKey => $measurement) {
+        if (!is_array($measurement)) {
+            $measurement = ['value' => $measurement];
+        }
 
-        : [];
+        $measurementId = is_numeric($measurementKey)
+            ? (int) $measurementKey
+            : (int) ($measurement['id'] ?? 0);
+        $master = $measurementId ? ($measurementMasters[$measurementId] ?? null) : null;
 
+        $measurements[] = [
+            'id' => $measurementId,
+            'field_name' => trim((string) ($master->field_name ?? ($measurement['field_name'] ?? ''))),
+            'name' => trim((string) ($measurement['name'] ?? ($master->display_name ?? ''))),
+            'value' => $measurement['value'] ?? '',
+        ];
+    }
+
+    $normalizeMeasurementName = function ($name) {
+        $name = trim(preg_replace('/\s+/u', ' ', (string) $name));
+        return mb_strtolower($name, 'UTF-8');
+    };
+
+    $bodyLooseKeyOrder = [
+        'full body',
+        'back plate loose',
+        'front plate loose',
+    ];
+
+    $bodyLooseColumnLabels = [
+        'full body' => 'Full Body',
+        'back plate loose' => 'Back Plate Loose',
+        'front plate loose' => 'Front Plate Loose',
+    ];
+
+    $bodyLooseAliases = [
+        'full body' => 'full body',
+        'fullbody' => 'full body',
+        'புல் பாடி' => 'full body',
+        'புல்பாடி' => 'full body',
+        'back plate loose' => 'back plate loose',
+        'backplateloose' => 'back plate loose',
+        'பின் தட்டு லூஸ்' => 'back plate loose',
+        'front plate loose' => 'front plate loose',
+        'frontplateloose' => 'front plate loose',
+        'முன் தட்டு லூஸ்' => 'front plate loose',
+        'body loose' => 'body loose',
+        'bodyloose' => 'body loose',
+    ];
+
+    $resolveBodyLooseKey = function ($measurement) use ($normalizeMeasurementName, $bodyLooseAliases) {
+        $candidates = [
+            $measurement['field_name'] ?? '',
+            $measurement['name'] ?? '',
+        ];
+
+        foreach ($candidates as $candidate) {
+            $normalized = $normalizeMeasurementName($candidate);
+            if ($normalized !== '' && isset($bodyLooseAliases[$normalized])) {
+                return $bodyLooseAliases[$normalized];
+            }
+
+            $compact = preg_replace('/\s+/u', '', $normalized);
+            if ($compact !== '' && isset($bodyLooseAliases[$compact])) {
+                return $bodyLooseAliases[$compact];
+            }
+        }
+
+        return null;
+    };
+
+    $parseMeasurementValues = function ($value) {
+        if (is_array($value)) {
+            $parts = [];
+            foreach (array_values($value) as $item) {
+                if (is_array($item)) {
+                    foreach ($item as $nested) {
+                        $parts[] = trim((string) $nested);
+                    }
+                } else {
+                    $parts[] = trim((string) $item);
+                }
+            }
+        } else {
+            $value = trim((string) $value);
+            if ($value === '') {
+                return [];
+            }
+
+            if (preg_match('/[,|]/', $value)) {
+                $parts = preg_split('/\s*[,|]\s*/', $value);
+            } else {
+                // Split on spaces, but keep mixed fractions such as "11 3/4" and "45 4/1/2".
+                preg_match_all('/\d+(?:\.\d+)?(?:\s+\d+\/\d+(?:\/\d+)?)?|[^\s]+/u', $value, $matches);
+                $parts = $matches[0] ?? [$value];
+            }
+        }
+
+        return array_values(array_filter(array_map('trim', $parts), function ($part) {
+            return $part !== '';
+        }));
+    };
+
+    $buildBodyLooseRowsFromColumns = function (array $columns) {
+        $rowCount = 0;
+        foreach ($columns as $columnValues) {
+            $rowCount = max($rowCount, count($columnValues));
+        }
+
+        if ($rowCount === 0) {
+            $rowCount = 1;
+        }
+
+        $rows = [];
+        for ($rowIndex = 0; $rowIndex < $rowCount; $rowIndex++) {
+            $row = [];
+            foreach ($columns as $columnValues) {
+                $row[] = $columnValues[$rowIndex] ?? '';
+            }
+            $rows[] = $row;
+        }
+
+        return $rows;
+    };
+
+    $measurementBlocks = [];
+    $regularBuffer = [];
+    $specialMeasurements = [];
+    $specialInserted = false;
+
+    foreach ($measurements as $measurement) {
+        $bodyLooseKey = $resolveBodyLooseKey($measurement);
+        if (in_array($bodyLooseKey, $bodyLooseKeyOrder, true)) {
+            $specialMeasurements[$bodyLooseKey] = $measurement;
+        }
+    }
+
+    $flushRegularBuffer = function () use (&$measurementBlocks, &$regularBuffer) {
+        if (empty($regularBuffer)) {
+            return;
+        }
+        foreach (array_chunk($regularBuffer, 4) as $regularRow) {
+            $measurementBlocks[] = ['type' => 'regular', 'items' => $regularRow];
+        }
+        $regularBuffer = [];
+    };
+
+    $insertBodyLooseBlock = function ($rows, $columns) use (&$measurementBlocks) {
+        $measurementBlocks[] = [
+            'type' => 'body_loose',
+            'name' => 'BODY LOOSE',
+            'columns' => $columns,
+            'rows' => $rows,
+        ];
+    };
+
+    foreach ($measurements as $measurement) {
+        $bodyLooseKey = $resolveBodyLooseKey($measurement);
+
+        if (in_array($bodyLooseKey, $bodyLooseKeyOrder, true)) {
+            if (!$specialInserted) {
+                $flushRegularBuffer();
+
+                $bodyLooseColumns = [];
+                foreach ($bodyLooseKeyOrder as $specialName) {
+                    $bodyLooseColumns[] = $bodyLooseColumnLabels[$specialName];
+                }
+
+                $columnValues = [];
+                foreach ($bodyLooseKeyOrder as $specialName) {
+                    $columnValues[] = isset($specialMeasurements[$specialName])
+                        ? $parseMeasurementValues($specialMeasurements[$specialName]['value'] ?? '')
+                        : [];
+                }
+
+                $insertBodyLooseBlock(
+                    $buildBodyLooseRowsFromColumns($columnValues),
+                    $bodyLooseColumns
+                );
+                $specialInserted = true;
+            }
+            continue;
+        }
+
+        if ($bodyLooseKey === 'body loose') {
+            $flushRegularBuffer();
+
+            $columnValues = [[], [], []];
+            $parsedValues = $parseMeasurementValues($measurement['value'] ?? '');
+            foreach ($parsedValues as $valueIndex => $parsedValue) {
+                $columnValues[$valueIndex % 3][] = $parsedValue;
+            }
+
+            $insertBodyLooseBlock(
+                $buildBodyLooseRowsFromColumns($columnValues),
+                array_values($bodyLooseColumnLabels)
+            );
+            continue;
+        }
+
+        $regularBuffer[] = $measurement;
+    }
+
+    $flushRegularBuffer();
 @endphp
+
+
+
+
 
 
 
@@ -605,11 +1384,23 @@ body {
 
 
 
+
+
+
+
     {{-- =====================================================
+
+
 
          HEADER
 
+
+
     ====================================================== --}}
+
+
+
+
 
 
 
@@ -617,27 +1408,55 @@ body {
 
 
 
+
+
+
+
         <div class="job-header-left">
+
+
+
+
 
 
 
             <span class="item-no">
 
+
+
                 {{ $item->item_no }}
+
+
 
             </span>
 
 
 
+
+
+
+
             <span class="separator">|</span>
+
+
+
+
 
 
 
             <span class="order-no">
 
+
+
                 Order: {{ $order->order_no }}
 
+
+
             </span>
+
+
+
+
 
 
 
@@ -645,15 +1464,31 @@ body {
 
 
 
+
+
+
+
             <span class="item-type">
 
+
+
                 {{ $item->type?->type ?? '-' }}
+
+
 
             </span>
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -663,43 +1498,86 @@ body {
 
 
 
+
+
+
+
+
+
     {{-- =====================================================
 
+
+
          CUSTOMER INFORMATION
+
+
 
     ====================================================== --}}
 
 
 
 
+
+
+
+
+
 <table class="info-table">
+
     <tr>
+
         <td class="info-label">Customer</td>
+
         <td class="info-value">
+
             {{ $order->customer?->name ?? '-' }}
+
         </td>
+
+
 
         <td class="info-label">Quantity</td>
+
         <td class="info-value">
+
             {{ $item->qty ?? 1 }}
+
         </td>
+
     </tr>
+
+
 
     <tr>
+
         <td class="info-label">Order Date</td>
+
         <td class="info-value">
+
             {{ $order->order_date
+
                 ? \Carbon\Carbon::parse($order->order_date)->format('d-m-Y')
+
                 : '-' }}
+
         </td>
 
+
+
         <td class="info-label">Delivery Date</td>
+
         <td class="info-value">
+
             {{ $order->delivery_date
+
                 ? \Carbon\Carbon::parse($order->delivery_date)->format('d-m-Y')
+
                 : '-' }}
+
         </td>
+
     </tr>
+
 </table>
 
 
@@ -707,21 +1585,46 @@ body {
 
 
 
+
+
+
+
+
+
+
     {{-- =====================================================
+
+
 
          MEASUREMENTS + NOTES
 
 
 
+
+
+
+
          IMPORTANT:
+
+
 
          There is NO fixed height.
 
+
+
          Measurement rows determine the height.
+
+
 
          Notes automatically stretches to that height.
 
+
+
     ====================================================== --}}
+
+
+
+
 
 
 
@@ -729,11 +1632,23 @@ body {
 
 
 
+
+
+
+
         {{-- =================================================
+
+
 
              LEFT: MEASUREMENTS
 
+
+
         ================================================== --}}
+
+
+
+
 
 
 
@@ -741,7 +1656,15 @@ body {
 
 
 
+
+
+
+
             <table class="measurement-table">
+
+
+
+
 
 
 
@@ -749,117 +1672,65 @@ body {
 
 
 
-                @if(count($measurements) > 0)
 
 
 
-                    @foreach(array_chunk($measurements, 4) as $measurementRow)
 
-
-
-                        <tr>
-
-
-
-                            @foreach($measurementRow as $measurement)
-
-
-
-                                <td>
-
-
-
-                                    <div class="measurement-name">
-
-                                        {{ $measurement['name'] ?? '-' }}
-
-                                    </div>
-
-
-
-                                    <div class="measurement-value">
-
-                                        {{ $measurement['value'] ?? '' }}
-
-                                    </div>
-
-
-
+                @if(count($measurementBlocks) > 0)
+                    @foreach($measurementBlocks as $block)
+                        @if($block['type'] === 'regular')
+                            <tr>
+                                @foreach($block['items'] as $measurement)
+                                    <td style="width: {{ 100 / 4 }}%;">
+                                        <div class="measurement-name">{{ $measurement['name'] ?? '-' }}</div>
+                                        <div class="measurement-value">{{ $measurement['value'] ?? '' }}</div>
+                                    </td>
+                                @endforeach
+                                @for($i = count($block['items']); $i < 4; $i++)
+                                    <td><div class="measurement-empty">&nbsp;</div></td>
+                                @endfor
+                            </tr>
+                        @else
+                            <tr class="body-loose-row">
+                                <td colspan="4" style="padding:0;">
+                                    <table class="body-loose-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="body-loose-title" colspan="3">{{ $block['name'] }}</th>
+                                            </tr>
+                                            <tr>
+                                                @foreach(($block['columns'] ?? ['Full Body', 'Back Plate Loose', 'Front Plate Loose']) as $columnLabel)
+                                                    <th class="body-loose-col-head">{{ $columnLabel }}</th>
+                                                @endforeach
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($block['rows'] as $bodyLooseRow)
+                                                @php
+                                                    if (!is_array($bodyLooseRow)) {
+                                                        $bodyLooseRow = preg_split('/\s*[,|]\s*/', (string) $bodyLooseRow);
+                                                    }
+                                                    $bodyLooseRow = array_slice(array_pad(array_values($bodyLooseRow), 3, ''), 0, 3);
+                                                @endphp
+                                                <tr>
+                                                    @foreach($bodyLooseRow as $bodyLooseValue)
+                                                        <td>{{ trim((string) $bodyLooseValue) }}</td>
+                                                    @endforeach
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </td>
-
-
-
-                            @endforeach
-
-
-
-
-
-                            @for(
-
-                                $i = count($measurementRow);
-
-                                $i < 4;
-
-                                $i++
-
-                            )
-
-
-
-                                <td>
-
-                                    <div class="measurement-empty">
-
-                                        &nbsp;
-
-                                    </div>
-
-                                </td>
-
-
-
-                            @endfor
-
-
-
-                        </tr>
-
-
-
+                            </tr>
+                        @endif
                     @endforeach
-
-
-
                 @else
-
-
-
-                    <tr>
-
-
-
-                        <td colspan="4">
-
-
-
-                            <div class="measurement-empty">
-
-                                No measurements available
-
-                            </div>
-
-
-
-                        </td>
-
-
-
-                    </tr>
-
-
-
+                    <tr><td colspan="4"><div class="measurement-empty">No measurements available</div></td></tr>
                 @endif
+
+
+
+
 
 
 
@@ -867,11 +1738,25 @@ body {
 
 
 
+
+
+
+
             </table>
 
 
 
+
+
+
+
         </div>
+
+
+
+
+
+
 
 
 
@@ -879,11 +1764,21 @@ body {
 
         {{-- =================================================
 
+
+
              RIGHT: NOTES
+
+
 
              Completely separate DIV.
 
+
+
         ================================================== --}}
+
+
+
+
 
 
 
@@ -891,11 +1786,23 @@ body {
 
 
 
+
+
+
+
             <div class="notes-heading">
+
+
 
                 Notes
 
+
+
             </div>
+
+
+
+
 
 
 
@@ -903,11 +1810,25 @@ body {
 
 
 
+
+
+
+
         </div>
 
 
 
+
+
+
+
     </div>
+
+
+
+
+
+
 
 
 
@@ -915,9 +1836,17 @@ body {
 
     {{-- =====================================================
 
+
+
          FOOTER
 
+
+
     ====================================================== --}}
+
+
+
+
 
 
 
@@ -925,19 +1854,39 @@ body {
 
 
 
+
+
+
+
         <span>
+
+
 
             {{ $order->order_no }} / {{ $item->item_no }}
 
+
+
         </span>
+
+
+
+
 
 
 
         <span>
 
+
+
             {{ $item->type?->type ?? '-' }}
 
+
+
         </span>
+
+
+
+
 
 
 
@@ -945,7 +1894,15 @@ body {
 
 
 
+
+
+
+
 </div>
+
+
+
+
 
 
 
@@ -953,6 +1910,12 @@ body {
 
 
 
+
+
+
+
 </body>
+
+
 
 </html>
