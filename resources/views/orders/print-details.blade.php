@@ -2364,7 +2364,7 @@ body {
 
             'field_name' => trim((string) ($master->field_name ?? ($measurement['field_name'] ?? ''))),
 
-            'name' => trim((string) ($measurement['name'] ?? ($master->display_name ?? ''))),
+            'name' => trim((string) ($master->display_name ?? ($measurement['display_name'] ?? ($measurement['name'] ?? '')))),
 
             'value' => $measurement['value'] ?? '',
 
@@ -3080,7 +3080,7 @@ body {
                                                 <tr>
                                                     @foreach($bodyLooseRow as $bodyLooseItem)
                                                         <td>
-                                                            <div class="measurement-name">{{ $bodyLooseItem['field_name'] ?? $bodyLooseItem['name'] ?? '-' }}</div>
+                                                            <div class="measurement-name">{{ $bodyLooseItem['name'] ?? '-' }}</div>
                                                             <div class="measurement-value">{{ $bodyLooseItem['value'] ?? '' }}</div>
                                                         </td>
                                                     @endforeach
