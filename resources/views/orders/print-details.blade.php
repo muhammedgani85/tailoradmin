@@ -1468,7 +1468,7 @@ body {
 
 .body-loose-table th,
 
-.body-loose-table td { width: 33.3333%; border-right: 1px solid #111111; border-bottom: 1px solid #111111; padding: 3px 2px; text-align: center; vertical-align: middle; }
+.body-loose-table td { width: 33.3333%; border-right: 1px solid #111111; border-bottom: 1px solid #111111; padding: 3px 2px; text-align: center; vertical-align: top; }
 
 .body-loose-table th { font-size: 10px; font-weight: 700; letter-spacing: 0.3px; }
 
@@ -2396,7 +2396,6 @@ body {
 
     $measurementBlocks = [];
     $regularBuffer = [];
-    $specialInserted = false;
 
     $flushRegularBuffer = function () use (&$measurementBlocks, &$regularBuffer) {
         if (!empty($regularBuffer)) {
@@ -2407,30 +2406,34 @@ body {
         }
     };
 
+    // Keep all ordinary measurements first. Collect BODY LOOSE fields separately
+    // and append their special box at the bottom of the measurement table.
     foreach ($measurements as $measurement) {
         $fieldKey = $normalizeFieldName($measurement['field_name'] ?? '');
+
         if (in_array($fieldKey, $bodyLooseFieldOrder, true)) {
-            if (!$specialInserted) {
-                $flushRegularBuffer();
-                $bodyLooseItems = [];
-                foreach ($bodyLooseFieldOrder as $specialFieldKey) {
-                    if (isset($specialMeasurements[$specialFieldKey])) {
-                        $bodyLooseItems[] = $specialMeasurements[$specialFieldKey];
-                    }
-                }
-                $measurementBlocks[] = [
-                    'type' => 'body_loose',
-                    'name' => 'Body Loose',
-                    'items' => $bodyLooseItems,
-                ];
-                $specialInserted = true;
-            }
             continue;
         }
+
         $regularBuffer[] = $measurement;
     }
 
     $flushRegularBuffer();
+
+    $bodyLooseItems = [];
+    foreach ($bodyLooseFieldOrder as $specialFieldKey) {
+        if (isset($specialMeasurements[$specialFieldKey])) {
+            $bodyLooseItems[] = $specialMeasurements[$specialFieldKey];
+        }
+    }
+
+    if (!empty($bodyLooseItems)) {
+        $measurementBlocks[] = [
+            'type' => 'body_loose',
+            'name' => 'Body Loose',
+            'items' => $bodyLooseItems,
+        ];
+    }
 @endphp
 
 
