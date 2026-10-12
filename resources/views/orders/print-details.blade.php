@@ -1429,7 +1429,7 @@ body {
 
 
     font-size: 13px;
-    font-weight: 500;
+    font-weight: bold;
 
 
 
