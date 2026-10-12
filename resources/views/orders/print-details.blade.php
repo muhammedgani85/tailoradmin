@@ -1092,9 +1092,9 @@ body {
 
 .measurement-side {
 
-    width: 75%;
+    width: 65%;
 
-    flex: 0 0 75%;
+    flex: 0 0 65%;
 
     min-width: 0;
 
@@ -1557,9 +1557,9 @@ body {
 
 .notes-side {
 
-    width: 25%;
+    width: 35%;
 
-    flex: 0 0 25%;
+    flex: 0 0 35%;
 
     min-width: 0;
 
