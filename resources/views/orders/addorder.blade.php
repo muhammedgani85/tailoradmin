@@ -105,7 +105,46 @@
 
 
 
-        <div class="flex items-center gap-2">
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start" style="margin-top: 20px;">
+
+    <!-- Left side: Notes textarea -->
+    <div>
+        <label for="notes" class="mb-2 block text-sm font-medium">
+            Notes
+        </label>
+
+        <textarea
+            name="notes"
+            id="notes"
+            rows="8"
+            class="input w-full"
+            placeholder="Enter notes here..."
+        ></textarea>
+    </div>
+
+    <!-- Right side: Correction notes -->
+    <div>
+        <label class="mb-2 block text-sm font-medium">
+            Correction Notes
+        </label>
+
+        <div id="correctionNotesList"
+             class="max-h-64 space-y-2 overflow-y-auto rounded-lg border border-gray-200 p-3 dark:border-gray-700">
+            <p class="text-sm text-gray-400">
+                Select a type to load correction notes.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+       <!--  <div class="flex items-center gap-2">
 
             <textarea name="notes" id="notes" class="input flex-1" style="width:850px !important;"></textarea>
 
@@ -118,7 +157,7 @@
 
             </button>
 
-        </div>
+        </div> -->
         <br />
         <div>
              <input type="checkbox" id="urgent" name="urgent" class="ml-2">&nbsp;<span style='color:red;'>Urgent</span>
@@ -948,6 +987,7 @@ $(document).on('click', '.type-btn', function(){
     } else {
         setType(newType, this);
     }
+    openCorrectionModal();
 
 });
 
@@ -1193,7 +1233,7 @@ function openCartModal(){
 
 
 // correction notes scripts
-function openCorrectionModal(){
+function openCorrectionModal_bkp(){
 
 
     let type_id = $('#selected_type_id').val();
@@ -1911,6 +1951,127 @@ window.printBlock = function(btn)
 flatpickr("#delivery_date", {
     dateFormat: "d-m-Y",
 });
+</script>
+
+
+<script>
+    function selectCorrectionNote(button) {
+        const notesTextarea = document.getElementById('notes');
+        const selectedNote = button.textContent.trim();
+
+        if (!notesTextarea || !selectedNote) return;
+
+        const existingNotes = notesTextarea.value.trim();
+
+        // Avoid adding the same note twice.
+        const notes = existingNotes
+            ? existingNotes.split('\n').map(note => note.trim())
+            : [];
+
+        if (notes.includes(selectedNote)) return;
+
+        notesTextarea.value = existingNotes
+            ? existingNotes + '\n' + selectedNote
+            : selectedNote;
+
+        notesTextarea.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+</script>
+
+<script>
+
+
+function openCorrectionModal() {
+
+    let type_id = $('#selected_type_id').val();
+
+    const $list = $('#correctionNotesList');
+
+    if (!type_id) {
+        $list.html(`
+            <p class="text-sm text-gray-400">
+                Please select a type first.
+            </p>
+        `);
+        return;
+    }
+
+    selectedCorrections = [];
+
+    $list.html(`
+        <p class="text-sm text-gray-500">Loading correction notes...</p>
+    `);
+
+   $.get('/types/' + type_id + '/corrections')
+        .done(function (res) {
+
+            let data = Array.isArray(res) ? res : (res.data || '');
+
+            if (!Array.isArray(data) || data.length === 0) {
+                $list.html(`
+                    <p class="py-3 text-center text-sm text-gray-400">
+                        No corrections found
+                    </p>
+                `);
+                return;
+            }
+
+            $list.empty();
+
+            data.forEach(function (c) {
+
+                const description = String(c.description ?? c.name ?? '').trim();
+
+                if (!description) return;
+
+                const $button = $('<button>', {
+                    type: 'button',
+                    class: 'w-full rounded-md border border-gray-200 px-3 py-2 ' +
+                           'text-left text-sm hover:bg-gray-50 ' +
+                           'dark:border-gray-700 dark:hover:bg-gray-800'
+                });
+
+                // Safely display the correction description.
+                $button.text(description);
+
+                // Click a correction to append it to the Notes textarea.
+                $button.on('click', function () {
+
+                    const $notes = $('#notes');
+                    const current = $notes.val().trim();
+
+                    const existingNotes = current
+                        ? current.split('\n').map(note => note.trim())
+                        : [];
+
+                    if (existingNotes.includes(description)) {
+                        return;
+                    }
+
+                    $notes.val(
+                        current ? current + '\n' + description : description
+                    );
+
+                    $notes.trigger('input').trigger('change');
+                });
+
+                $list.append($button);
+            });
+        })
+        .fail(function () {
+            $list.html(`
+                <p class="text-sm text-red-500">
+                    Failed to load correction notes.
+                </p>
+            `);
+        });
+}
+
+$('#selected_type_id').on('change', function () {
+    alert('Type changed, loading correction notes...');
+    openCorrectionModal();
+});
+
 </script>
 
     @endsection
