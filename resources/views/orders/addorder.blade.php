@@ -32,32 +32,39 @@
     </div>
 </div>
                 <div class="order-2 flex grow items-center gap-2 xl:order-3 xl:justify-end">
-                    <button data-id="1"
+                    <button data-id="1" title="Pant"
                         class="type-btn shadow-theme-xs flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                        <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/trouser-icon-svg-download-png-1995856.png?f=webp&w=256" />
                     </button>
 
-                    <button data-id="2"
+                    <button data-id="2" title="Half Shirt"
                         class="type-btn shadow-theme-xs flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                        <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/shirt-icon-svg-download-png-1595367.png?f=webp&w=256" />
                     </button>
 
-                    <button data-id="3"
+                    <button data-id="3" title="Full-Shirt"
                         class="type-btn shadow-theme-xs flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                          <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/long-sleeve-shirt-icon-svg-download-png-1595364.png?f=webp&w=256" />
                     </button>
 
-                    <button data-id="4"
+                    <button data-id="4" title="JIPPA"
                         class="type-btn shadow-theme-xs flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
-                        <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/shorts-icon-svg-download-png-1595376.png?f=webp&w=256" />
+
+                        <img
+    title="WAISTCOAT"
+    src="https://cdn-icons-png.flaticon.com/512/17633/17633058.png"
+    alt="WAISTCOAT"
+    width="40"
+    height="40"
+/>
                     </button>
 
-                     <button data-id="5"
+                     <button data-id="5" title="Blazer"
                         class="type-btn shadow-theme-xs flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                         <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/blazer-icon-svg-download-png-6931876.png?f=webp&w=256" />
                     </button>
 
-                    <button data-id="6"
+                    <button data-id="6" title="Kurta"
                          class="type-btn shadow-theme-xs flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
 
                         <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/kurta-icon-svg-download-png-1553110.png?f=webp&w=256" />
