@@ -137,11 +137,13 @@
         </label>
 
         <div id="correctionNotesList"
-             class="max-h-64 space-y-2 overflow-y-auto rounded-lg border border-gray-200 p-3 dark:border-gray-700">
-            <p class="text-sm text-gray-400">
-                Select a type to load correction notes.
-            </p>
-        </div>
+     class="h-44 space-y-2 overflow-y-auto overflow-x-hidden rounded-lg border border-gray-200 p-3 dark:border-gray-700">
+
+    <p class="text-sm text-gray-400">
+        Select a type to load correction notes.
+    </p>
+
+</div>
     </div>
 
 </div>
@@ -701,7 +703,15 @@ class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/
         <input type="hidden" id="customer_phone">
          <input type="hidden" id="customer_location" >
 
+
 <style>
+
+    #correctionNotesList {
+    height: 256px !important;
+    max-height: 256px !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+}
 .input {
     width: 100%;
     margin-top: 6px;
