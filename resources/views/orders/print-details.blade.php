@@ -2157,6 +2157,18 @@ body {
 
 
 
+
+/* Type 1 photo-style measurement print */
+.photo-measurement-layout { width:100%; border-collapse:collapse; table-layout:fixed; font-size:10px; }
+.photo-measurement-layout td, .photo-measurement-layout th { border:1px solid #222; padding:5px 4px; vertical-align:middle; }
+.photo-meta { display:flex; flex-wrap:wrap; gap:14px; font-size:11px; margin-bottom:5px; }
+.photo-measurement-label { min-height:28px; text-align:center; font-weight:600; }
+.photo-measurement-value { height:42px; font-size:16px; text-align:center; }
+.photo-sketch { height:100%; min-height:205px; text-align:center; vertical-align:middle; }
+.photo-sketch-line { border-bottom:1px solid #555; width:55%; margin:25px auto; }
+.photo-special-label { width:28%; font-weight:700; }
+.photo-special-value { font-size:16px; }
+
 </style>
 
 
@@ -2451,6 +2463,80 @@ body {
 
 
 
+@if((int) ($item->type?->id ?? 0) === 1)
+    <div class="a5-page">
+        <div class="photo-meta">
+            <span><strong>ஆர்டர் எண் :</strong> {{ $order->order_no }}</span>
+            <span><strong>ஆர்டர் தேதி :</strong> {{ $order->order_date ? \Carbon\Carbon::parse($order->order_date)->format('d-m-Y') : '-' }}</span>
+            <span><strong>டெலிவரி தேதி :</strong> {{ $order->delivery_date ? \Carbon\Carbon::parse($order->delivery_date)->format('d-m-Y') : '-' }}</span>
+            <span><strong>H குறிப்பு :</strong></span>
+        </div>
+        @php
+            $photoPrimary = array_slice($measurements, 0, 8);
+            $photoSpecial = [];
+            foreach ($measurements as $photoMeasurement) {
+                $key = mb_strtolower(trim((string) ($photoMeasurement['field_name'] ?? $photoMeasurement['name'] ?? '')));
+                $key = preg_replace('/[^a-z0-9]/', '', $key);
+                if (in_array($key, ['pk','zip','mo','b'], true)) $photoSpecial[$key] = $photoMeasurement;
+            }
+        @endphp
+        <table class="photo-measurement-layout">
+            <tbody>
+                <tr>
+                    <td colspan="5" style="padding:0; border:0;">
+                        <table class="photo-measurement-layout">
+                            <tbody>
+                                <tr>
+                                    @foreach(array_slice($photoPrimary, 0, 4) as $m)
+                                        <th class="photo-measurement-label">{{ $m['name'] ?? '-' }}</th>
+                                    @endforeach
+                                    @for($i = count(array_slice($photoPrimary, 0, 4)); $i < 4; $i++) <th>&nbsp;</th> @endfor
+                                </tr>
+                                <tr>
+                                    @foreach(array_slice($photoPrimary, 0, 4) as $m)
+                                        <td class="photo-measurement-value">{{ $m['value'] ?? '' }}</td>
+                                    @endforeach
+                                    @for($i = count(array_slice($photoPrimary, 0, 4)); $i < 4; $i++) <td>&nbsp;</td> @endfor
+                                </tr>
+                                <tr>
+                                    @foreach(array_slice($photoPrimary, 4, 4) as $m)
+                                        <th class="photo-measurement-label">{{ $m['name'] ?? '-' }}</th>
+                                    @endforeach
+                                    @for($i = count(array_slice($photoPrimary, 4, 4)); $i < 4; $i++) <th>&nbsp;</th> @endfor
+                                </tr>
+                                <tr>
+                                    @foreach(array_slice($photoPrimary, 4, 4) as $m)
+                                        <td class="photo-measurement-value">{{ $m['value'] ?? '' }}</td>
+                                    @endforeach
+                                    @for($i = count(array_slice($photoPrimary, 4, 4)); $i < 4; $i++) <td>&nbsp;</td> @endfor
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td colspan="2" style="padding:0;">
+                        <table class="photo-measurement-layout">
+                            <tbody>
+                                @foreach(['pk' => 'PK', 'zip' => 'ZIP', 'mo' => 'MO.', 'b' => 'B'] as $key => $label)
+                                    <tr>
+                                        <td class="photo-special-label">{{ $label }}</td>
+                                        <td class="photo-special-value">{{ $photoSpecial[$key]['value'] ?? '' }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="photo-sketch" colspan="3" style="vertical-align:top; text-align:left; padding:6px;">
+                        <div style="font-size:10px; font-weight:700; text-align:left; border-bottom:1px solid #777; padding-bottom:4px; margin-bottom:6px;">
+                            Notes / குறிப்பு
+                        </div>
+                        <div style="font-size:11px; line-height:1.45; white-space:pre-wrap; overflow-wrap:anywhere; text-align:left;">@if(!empty(trim((string) $item->notes))){{ trim((string) $item->notes) }}@else&nbsp;@endif</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size:10px; margin-top:4px;">{{ $item->type?->type ?? '-' }} &nbsp;&nbsp; {{ $order->customer?->name ?? '-' }}</div>
+    </div>
+@else
 <div class="a5-page">
 
 
@@ -2635,7 +2721,7 @@ body {
 
 
 
-                {{ $item->type?->type ?? '-' }}
+                {{ $item->type?->type ?? '-' }} {{ $item->type?->id }}
 
 
 
@@ -3061,7 +3147,8 @@ body {
 
                                     </td>
 
-                                @endforeach
+
+@endforeach
 
                                 @for($i = count($block['items']); $i < 4; $i++)
 
@@ -3464,6 +3551,9 @@ body {
 
 
 
+
+</div>
+@endif
 
 @endforeach
 
